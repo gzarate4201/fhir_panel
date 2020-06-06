@@ -7153,11 +7153,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/amejia/Downloads/asp_studio_v1.1/template_asp_startup/AspStudio/AspStudio.csproj",
+      "projectUniqueName": "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj",
       "projectName": "AspStudio",
-      "projectPath": "/Users/amejia/Downloads/asp_studio_v1.1/template_asp_startup/AspStudio/AspStudio.csproj",
+      "projectPath": "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj",
       "packagesPath": "/Users/amejia/.nuget/packages/",
-      "outputPath": "/Users/amejia/Downloads/asp_studio_v1.1/template_asp_startup/AspStudio/obj/",
+      "outputPath": "/Users/amejia/qa/Proy Temperatura/AspStudio/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/amejia/.config/NuGet/NuGet.Config"

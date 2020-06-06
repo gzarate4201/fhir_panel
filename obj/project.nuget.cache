@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UO2Q+aRZMcY+/3zls5Qc1IwqtFGEBmkGH5DIbDlf6faTAGX12qju6kpkdT66ndakZIcGKulelthu1ns9fa/pMg==",
+  "dgSpecHash": "aFgXmsJwjYVGzk1OdVIMMmhaLJfoRNzWL8wxkKPvdEBVsY6acgolDEU5eijBLyyGWBV+Vm7Jm36X/FWFanHEfg==",
   "success": true,
-  "projectFilePath": "/Users/amejia/Downloads/asp_studio_v1.1/template_asp_startup/AspStudio/AspStudio.csproj",
+  "projectFilePath": "/Users/amejia/qa/Proy Temperatura/AspStudio/AspStudio.csproj",
   "expectedPackageFiles": [
     "/Users/amejia/.nuget/packages/dotnetty.buffers/0.6.0/dotnetty.buffers.0.6.0.nupkg.sha512",
     "/Users/amejia/.nuget/packages/dotnetty.codecs/0.6.0/dotnetty.codecs.0.6.0.nupkg.sha512",
