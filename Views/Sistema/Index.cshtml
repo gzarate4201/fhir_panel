@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Starter Page";
+}
+
+    <link href="@Url.Content("~/css/sistema.css")" rel="stylesheet" type="text/css" />
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">HOME</a></li>
+    
+</ul>
+
+<h1 class="page-header">
+    MQTT
+</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">MQTT</h4>
+        <form>
+            <div class="form-group">
+                <div class="settingsElement">
+                    <p class="switchText">Habilitar MQTT </p>
+                    <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">MQTT Broker</span></div><input type="text" class="form-control" />
+                <div class="input-group-append"></div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">MQTT Port  </span></div><input type="text" class="form-control" />
+                <div class="input-group-append"></div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">MQTT User     </span></div><input type="text" class="form-control" />
+                <div class="input-group-append"></div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">MQTT Password</span></div><input type="text" class="form-control" />
+                <div class="input-group-append"></div>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">MQTT Client Id</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"></div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </form>
+    </div>
+</div>

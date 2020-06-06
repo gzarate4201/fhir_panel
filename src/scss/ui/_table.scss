@@ -1,0 +1,76 @@
+.table {
+	& tbody {
+		& tr {
+			& td {
+				&.btn-col {
+					& .btn {
+						margin-top: rem(-3px);
+						margin-bottom: rem(-1px);
+					}
+				}
+				&.checkbox-col {
+					& .checkbox,
+					& .checkbox-inline {
+						margin: 0;
+					}
+				}
+				&.radio-col {
+					& .radio,
+					& .radio-inline {
+						margin: 0;
+					}
+				}
+				&.switcher-col {
+					& .switcher,
+					& .switcher-inline {
+						margin-top: rem(-4px);
+						margin-bottom: rem(-7px);
+					}
+				}
+				&.form-col {
+					& .form-control {
+						margin-top: rem(-8px);
+						margin-bottom: rem(-8px);
+					}
+				}
+				&.img-col {
+					& img {
+						margin-top: rem(-6px);
+						margin-bottom: rem(-6px);
+						display: block;
+						border-radius: $border-radius;
+						max-height: rem(60px);
+						max-width: rem(120px);
+						
+						&.img-lg {
+							max-height: rem(120px);
+							max-width: rem(240px);
+							border-radius: $border-radius-lg;
+						}
+						&.img-sm {
+							max-height: rem(30px);
+							max-width: rem(60px);
+							border-radius: $border-radius-sm;
+						}
+					}
+				}
+			}
+		}
+	}
+	&.table-card {
+		& thead,
+		& tbody {
+			& > tr {
+				& td,
+				& th {
+					&:first-child {
+						padding-left: $card-spacer-x;
+					}
+					&:last-child {
+						padding-right: $card-spacer-x;
+					}
+				}
+			}
+		}
+	}
+}

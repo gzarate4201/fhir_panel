@@ -1,0 +1,24 @@
+.colorpicker {
+	& .colorpicker-saturation,
+	& .colorpicker-alpha-color, 
+	& .colorpicker-hue,
+	& .colorpicker-bar,
+	& .colorpicker-bar div {
+		border: none;
+		box-shadow: none;
+		border-radius: $border-radius-sm;
+	}
+	& .colorpicker-bar div {
+		@include display-flex();
+		@include flex-align(center);
+		@include flex-justify-content(center);
+	}
+	& .colorpicker-alpha, 
+	& .colorpicker-hue {
+		& .colorpicker-guide {
+			border: none;
+			background: $white;
+			box-shadow: 0 rem(1px) rem(6px) rgba($gray-900, .75);
+		}
+	}
+}

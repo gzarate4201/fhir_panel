@@ -1,0 +1,50 @@
+.bootstrap-select {
+	&.show {
+		& .btn.dropdown-toggle {
+			@include transition(all .15s ease-in-out);
+		
+			border-color: $input-focus-border-color !important;
+			box-shadow: $input-btn-focus-box-shadow !important;
+			outline: none !important;
+		}
+	}
+	& .btn.dropdown-toggle {
+		&:focus {
+			outline: none !important;
+		}
+	}
+	& .dropdown-item {
+		outline: none !important;
+		
+		&:active {
+			background: $gray-100;
+			color: inherit;
+		}
+		&.active {
+			background: $component-active-bg;
+			color: $white;
+			
+			&:hover,
+			&:focus {
+				color: $white;
+			}
+		}
+	}
+	& .dropdown-menu {
+		& .bs-ok-default {
+			top: rem(7px);
+			
+			@include fontawesome();
+		
+			&:after {
+				content: '\f00c';
+				border: none;
+				width: rem(20px);
+				text-align: center;
+				color: $component-active-bg;
+				
+				@include transform(none);
+			}
+		}
+	}
+}

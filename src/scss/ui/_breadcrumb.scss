@@ -1,0 +1,8 @@
+.breadcrumb {
+	font-weight: bold;
+	font-size: 90%;
+	padding: 0;
+	background: none;
+	
+	@include border-radius(0);
+}

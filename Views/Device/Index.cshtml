@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Device Page";
+}
+
+<link href="@Url.Content("~/css/devices.css")" rel="stylesheet" type="text/css" />
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">DISPOSITIVOS</a></li>
+</ul>
+<div class="container">
+    <div class="row">
+
+        <!-- Device Bind /unbind -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">BIND /UNBIND</h4>
+                <form>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">IP Address</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-success" id="bind" type="submit">BIND</button>
+                        <button class="btn btn-danger" id="unbind" type="submit">UN-BIND</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!--    Device Basic Configuration -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">CONFIGURACION BASICA</h4>
+                <form>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nombre Dispositivo</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Fecha y Hora servidor </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" class="" name="onoffswitch" /> Sincronizar Hora dispositivo <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+                    <div class="row" style ="margin-top:20px;">
+                        <button class="btn btn-success" id="basic_conifg" >ACTUALIZAR</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!--    Device Network Configuration -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">DATOS DE RED</h4>
+                <form>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"> Direccion IP</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Mascara de red</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Puerta de red</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Servidor DDNS1</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Servidor DDNS2</span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" class="" name="onoffswitch" /> Utilizar DHCP <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <button class="btn btn-success" id="network">ACTUALIZAR</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!--    Device Remote Configuration -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">BRILLO / VOLUMEN / LUZ</h4>
+                <form>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input type="text" class="form-control" />
+                        <div class="input-group-append"></div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <div class="settingsElement">
+                            <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" class="" name="onoffswitch" /> Luz suplementaria <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <button class="btn btn-success" id="settings">ACTUALIZAR</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script>
+    $('#bind').on('click', function () {
+        alert('Binding');
+    })
+</script>
+

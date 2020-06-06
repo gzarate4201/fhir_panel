@@ -1,0 +1,32 @@
+.widget-reminder {
+	& .widget-reminder-item {
+		position: relative;
+		@include display-flex();
+	}
+	& .widget-reminder-header + .widget-reminder-item,
+	& .widget-reminder-item + .widget-reminder-header,
+	& .widget-reminder-item + .widget-reminder-item {
+		border-top: 1px solid $gray-200;
+	}
+	& .widget-reminder-time,
+	& .widget-reminder-content {
+		padding: rem(15px);
+	}
+	& .widget-reminder-content {
+		@include flex(1);
+	}
+	& .widget-reminder-time {
+		width: rem(80px);
+		text-align: right;
+		font-size: $font-size-base - rem(1px);
+	}
+	& .widget-reminder-divider {
+		width: rem(3px);
+		background: $gray-200;
+	}
+	& + .card-header,
+	& + .card-footer,
+	& + .card-body {
+		border-top: 1px solid $gray-200;
+	}
+}

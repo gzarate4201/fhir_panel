@@ -1,0 +1,302 @@
+/*
+   01. Color system 
+   02. Body setting
+   03. Font & Headings
+   04. Border-radius
+   05. Grid
+   06. Border Color
+   07. Component
+   08. Forms
+   09. Buttons
+   10. Card
+   11. List Group
+   12. Dropdown
+   13. Pagination
+   14. Tooltip & Popover
+   15. Close
+   16. Tables
+   17. Modal
+   18. Toasts
+   20. App - Sidebar
+   21. App - Sidebar Minify Float Menu
+   22. App - Content
+   23. App - Page Header
+*/
+
+
+// 01 Color system 
+
+$gray-100:     #ebeef4 !default;
+$gray-200:     #dae0ec !default;
+$gray-300:     #c9d2e3 !default;
+$gray-400:     #a8b6d1 !default;
+$gray-500:     #869ac0 !default;
+$gray-600:     #657eae !default;
+$gray-700:     #4d6593 !default;
+$gray-800:     #3c4e71 !default;
+$gray-900:     #212837 !default;
+$blue:         #1f6bff !default;
+$indigo:       #640DF3 !default;
+$purple:       #5b2e91 !default;
+$pink:         #FF2D55 !default;
+$red:          #FF3B30 !default;
+$orange:       #FF9500 !default;
+$yellow:       #FFCC00 !default;
+$green:        #1ABD36 !default;
+$teal:         #0cd096 !default;
+$cyan:         #30beff !default;
+$white:        #FFFFFF !default;
+$black:        #000000 !default;
+$dark:         $gray-900 !default;
+$warning:      $orange !default;
+$primary:      $blue !default;
+$secondary:    $gray-300 !default;
+$text-muted:   $gray-500 !default;
+$theme-colors: (
+	"dark": $gray-900,
+	"black": $black,
+	"white": $white,
+	"purple": $purple,
+	"indigo": $indigo,
+	"pink": $pink,
+	"yellow": $yellow,
+	"teal": $teal,
+	"muted": $gray-500,
+	"gray-100": $gray-100,
+	"gray-200": $gray-200,
+	"gray-300": $gray-300,
+	"gray-400": $gray-400,
+	"gray-500": $gray-500,
+	"gray-600": $gray-600,
+	"gray-700": $gray-700,
+	"gray-800": $gray-800,
+	"gray-900": $gray-900
+);
+
+
+// 02. Body setting
+
+$body-bg:                $gray-100 !default;
+$body-color:             $gray-900 !default;
+
+
+// 03. Font & Headings
+
+$font-size-base:         0.875rem !default;
+$headings-font-weight:   600 !default;
+
+
+// 04. Border-radius
+
+$border-radius:           6px !default;
+$border-radius-lg:        9px !default;
+$border-radius-sm:        3px !default;
+
+
+// 05. Grid
+
+$grid-gutter-width: 16px !default;
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1660px,
+  xxxl: 1900px
+);
+
+
+// 06. Border Color
+
+$border-color: $gray-200 !default;
+$hr-border-color: rgba($gray-800, .15) !default;
+
+
+// 07. Component
+
+$component-active-bg: $primary !default;
+
+
+// 08. Forms
+
+$input-color: $gray-800;
+$input-placeholder-color:  $gray-500;
+$input-border-color:       $gray-300;
+$input-focus-border-color: lighten($component-active-bg, 10%) !default;
+$custom-control-label-disabled-color: $gray-300 !default;
+$custom-select-disabled-color: $gray-300 !default;
+
+
+// 09. Buttons
+
+$btn-box-shadow: '' !default;
+
+
+// 10. Card
+
+$card-inverse-bg: lighten($black, 10%) !default;
+$card-default-bg: darken($white, 5%) !default;
+$card-border-radius: $border-radius-lg !default;
+$card-border-color: rgba($gray-600, .25) !default;
+$card-cap-bg: rgba($gray-200, .25) !default;
+
+
+// 11. List Group
+
+$list-group-border-color: rgba($gray-700, .2) !default;
+
+
+// 12. Dropdown
+
+$dropdown-border-width:    0 !default;
+$dropdown-box-shadow:      0 8px 16px rgba($gray-500,.45) !default;
+$dropdown-item-padding-y:  6px !default;
+$dropdown-item-padding-x:  20px !default;
+$dropdown-link-hover-bg:   lighten($gray-900, 78%) !default;
+
+
+// 13. Pagination
+
+$pagination-color: $gray-900;
+$pagination-hover-bg: $gray-100 !default;
+$pagination-hover-color: $gray-900 !default;
+
+
+// 14. Tooltip & Popover
+
+$tooltip-font-size:      0.75rem !default;
+$popover-font-size:      0.75rem !default;
+$popover-border-color:   rgba($gray-800, .2) !default;
+
+
+// 15. Close
+
+$close-color:  $gray-500 !default;
+
+
+// 16. Tables
+
+$table-cell-padding:          .65rem !default;
+$table-cell-padding-sm:       .3rem !default;
+$table-color:                 $body-color !default;
+$table-bg:                    null !default;
+$table-accent-bg:             rgba($gray-700, .1) !default;
+$table-hover-color:           $table-color !default;
+$table-hover-bg:              rgba($gray-700, .075) !default;
+$table-active-bg:             $table-hover-bg !default;
+$table-border-color:          $border-color !default;
+$table-head-bg:               $gray-200 !default;
+$table-head-color:            $gray-700 !default;
+$table-dark-color:            $white !default;
+$table-dark-bg:               $gray-900 !default;
+$table-dark-accent-bg:        rgba($gray-700, .25) !default;
+$table-dark-hover-color:      $table-dark-color !default;
+$table-dark-hover-bg:         rgba($gray-700, .2) !default;
+$table-dark-border-color:     lighten($table-dark-bg, 10%) !default;
+$table-striped-order:         odd !default;
+$table-bg-level:              -9 !default;
+$table-border-level:          -6 !default;
+
+
+// 17. Modal
+
+$modal-content-border-color:        rgba($gray-700, .25) !default;
+$modal-backdrop-bg:                 $gray-900 !default;
+$modal-content-box-shadow-xs:       0 .25rem .5rem rgba($gray-900, .5) !default;
+$modal-content-box-shadow-sm-up:    0 .5rem 1rem rgba($gray-900, .5) !default;
+$modal-cover-bg:                    $white !default;
+$modal-cover-bg-opacity:            1.0 !default;
+
+
+// 18. Toasts
+
+$toast-max-width:                   350px !default;
+$toast-padding-x:                   .75rem !default;
+$toast-padding-y:                   .25rem !default;
+$toast-font-size:                   .875rem !default;
+$toast-color:                       null !default;
+$toast-background-color:            rgba($white, .85) !default;
+$toast-border-width:                1px !default;
+$toast-border-color:                rgba($gray-800, .15) !default;
+$toast-border-radius:               .25rem !default;
+$toast-box-shadow:                  0 .25rem .75rem rgba($gray-800, .1) !default;
+$toast-header-color:                $gray-900 !default;
+$toast-header-background-color:     rgba($white, .85) !default;
+$toast-header-border-color:         rgba($gray-800, .15) !default;
+$toasts-container-zindex:           1030 !default;
+
+
+// 19. App - Header
+
+$app-header-height:        60px !default;
+$app-header-box-shadow:    0 6px 6px rgba($primary,.1) !default;
+$app-header-zindex:        1030 !default;
+
+
+// 20. App - Sidebar
+
+$app-sidebar-width:                        240px !default;
+$app-sidebar-minify-width:                 65px !default;
+$app-sidebar-border-color:                 $gray-200 !default;
+$app-sidebar-zindex:                       1020 !default;
+$app-sidebar-content-padding-x:            0 !default;
+$app-sidebar-content-padding-y:            10px !default;
+$app-sidebar-content-mobile-bg:            $white !default;
+$app-sidebar-menu-header-margin-x:         20px !default;
+$app-sidebar-menu-header-margin-y:         8px !default;
+$app-sidebar-menu-header-font-weight:      600 !default;
+$app-sidebar-menu-header-font-size:        $font-size-base * 0.90 !default;
+$app-sidebar-menu-header-color:            $gray-600 !default;
+$app-sidebar-menu-item-padding-x:          10px !default;
+$app-sidebar-menu-item-padding-y:          0 !default;
+$app-sidebar-menu-link-padding-x:          10px !default;
+$app-sidebar-menu-link-padding-y:          6px !default;
+$app-sidebar-menu-link-line-height:        20px !default;
+$app-sidebar-menu-link-color:              $gray-800 !default;
+$app-sidebar-menu-link-icon-color:         $gray-800 !default;
+$app-sidebar-menu-link-hover-bg:           rgba($gray-300,.5) !default;
+$app-sidebar-menu-link-active-color:       $primary!default;
+$app-sidebar-menu-link-active-bg:          transparent !default;
+$app-sidebar-menu-link-active-font-weight: 600 !default;
+$app-sidebar-submenu-padding-left:         20px !default;
+$app-sidebar-submenu-padding-bottom:       10px !default;
+$app-sidebar-submenu-menu-link-padding-x:  10px !default;
+$app-sidebar-submenu-menu-link-padding-y:  4px !default;
+$app-sidebar-mobile-backdrop-zindex:       1000 !default;
+$app-sidebar-mobile-backdrop-bg:           rgba($gray-900, .5) !default;
+$app-sidebar-minify-menu-item-padding-x:   12px;
+$app-sidebar-minify-menu-item-padding-y:   3px;
+$app-sidebar-minify-menu-cart-color:       $gray-600;
+$app-sidebar-minify-menu-header-margin-x:  5px;
+
+
+// 21. App - Sidebar Minify Float Menu
+
+$app-float-submenu-bg:                        $white !default;
+$app-float-submenu-padding-x:                 0 !default;
+$app-float-submenu-padding-y:                 10px !default;
+$app-float-submenu-zindex:                    1030 !default;
+$app-float-submenu-sm-zindex:                 $app-header-zindex + 100 !default;
+$app-float-submenu-box-shadow:                $dropdown-box-shadow !default;
+$app-float-submenu-caret-color:               $gray-500 !default;
+$app-float-submenu-link-color:                $gray-900 !default;
+$app-float-submenu-link-hover-active-color:   $primary !default;
+$app-float-submenu-link-padding-x:            20px !default;
+$app-float-submenu-link-padding-y:            5px !default;
+$app-float-submenu-link-line-height:          20px !default;
+$app-float-submenu-submenu-padding-left:      15px !default;
+
+
+// 22. App - Content
+
+$app-content-padding-x:     50px !default;
+$app-content-padding-y:     30px !default;
+$app-content-sm-padding-x:  20px !default;
+$app-content-sm-padding-y:  20px !default;
+
+
+// 23. App - Page Header
+
+$page-header-font-size: 1.75rem;
+$page-header-spacer-y:  1rem;

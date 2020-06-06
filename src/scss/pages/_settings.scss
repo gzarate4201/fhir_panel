@@ -1,0 +1,55 @@
+.setting-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	
+	
+	& > li {
+		@include display-flex();
+		background: #fff;
+		
+		@include media-breakpoint-down(md) {
+			display: block;
+		}
+		
+		& + li {
+			border-top: 1px solid darken($white, 15%);
+		}
+		&.setting-title { 
+			background: darken($white, 5%);
+			color: $black;
+			padding: rem(8px) rem(15px);
+			font-weight: bold;
+			font-size: rem(12px);
+			position: relative;
+		}
+		& .field,
+		& .value,
+		& .action {
+			padding: rem(15px) rem(15px);
+			
+			& + div {
+				border-left: 1px solid darken($white, 15%);
+				
+				@include media-breakpoint-down(md) {
+					border-left: none;
+					padding-top: 0;
+				}
+			}
+		}
+		& .value {
+			@include flex(1);
+			font-size: 14px;
+			font-weight: 600;
+		}
+		& .field {
+			width: rem(200px);
+			font-size: 14px;
+			
+			@include media-breakpoint-down(md) {
+				width: auto;
+				text-decoration: underline;
+			}
+		}
+	}
+}

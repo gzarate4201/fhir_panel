@@ -1,0 +1,102 @@
+.apexcharts-canvas {
+	& .apexcharts-tooltip {
+		font-size: rem(13px);
+		
+		@include box-shadow($dropdown-box-shadow);
+		
+		& * {
+			font-family: inherit !important;
+		}
+		&.apexcharts-theme-light {
+			border: none;
+			
+			& .apexcharts-tooltip-title {
+				background: $white;
+				border-color: $gray-100;
+				color: $gray-900;
+				text-transform: uppercase;
+			}
+		}
+		& .apexcharts-tooltip-title {
+			font-family: inherit !important;
+			font-weight: $headings-font-weight;
+			padding: rem(5px) rem(10px);
+			margin: 0;
+		}
+		& .apexcharts-tooltip-series-group {
+			padding: rem(10px);
+			
+			& .apexcharts-tooltip-marker {
+				width: rem(10px);
+				height: rem(10);
+			}
+			& .apexcharts-tooltip-text {
+				& .apexcharts-tooltip-y-group {
+					padding: 0;
+				}
+			}
+			& + .apexcharts-tooltip-series-group {
+				padding-top: 0;
+			}
+		}
+	}
+	& .apexcharts-xaxistooltip {
+		& * {
+			font-family: inherit !important;
+		}
+		&.apexcharts-theme-light {
+			color: $gray-900;
+			background: $gray-100;
+			border-color: $gray-300;
+			
+			&.apexcharts-xaxistooltip-bottom {
+				&:before {
+					border-bottom-color: $gray-300;
+				}
+				&:after {
+					border-bottom-color: $gray-100;
+				}
+			}
+			&.apexcharts-xaxistooltip-top {
+				&:before {
+					border-top-color: $gray-300;
+				}
+				&:after {
+					border-top-color: $gray-100;
+				}
+			}
+		}
+	}
+	& .apexcharts-yaxistooltip {
+		& * {
+			font-family: inherit !important;
+		}
+		&.apexcharts-theme-light {
+			color: $gray-900;
+			background: $gray-100;
+			border-color: $gray-300;
+			
+			&.apexcharts-yaxistooltip-right {
+				&:before {
+					border-right-color: $gray-300;
+				}
+				&:after {
+					border-right-color: $gray-100;
+				}
+			}
+			&.apexcharts-yaxistooltip-left {
+				&:before {
+					border-left-color: $gray-300;
+				}
+				&:after {
+					border-left-color: $gray-100;
+				}
+			}
+		}
+	}
+	& .apexcharts-legend-marker {
+		width: rem(10px) !important;
+		height: rem(10px) !important;
+		margin-right: rem(5px);
+	}
+}

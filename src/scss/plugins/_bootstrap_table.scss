@@ -1,0 +1,44 @@
+.bootstrap-table {
+	& .dropdown-toggle {
+		& .caret {
+			display: none;
+		}
+	}
+	& .fixed-table-container {
+		& .table {
+			& thead {
+				& th {
+					& .sortable {
+						position: relative;
+						background-image: none !important;
+						
+						&:after {
+							content: '';
+							position: absolute;
+							right: rem(10px);
+							@include fontawesome();
+						}
+						&.both {
+							&:after {
+								content: '\f0dc';
+								color: $gray-300;
+							}
+						}
+						&.asc {
+							&:after {
+								content: '\f0de';
+								color: $primary;
+							}
+						}
+						&.desc {
+							&:after {
+								content: '\f0dd';
+								color: $primary;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

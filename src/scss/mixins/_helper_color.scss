@@ -1,0 +1,23 @@
+@mixin helper-color($color, $value) {
+  .text-#{$color} {
+  	color: $value !important;
+  }
+  .bg-#{$color} {
+  	background-color: $value;
+  }
+  .bg-gradient-#{$color} {
+		background: $value !important;
+		background: -moz-linear-gradient(top, lighten($value, 10%), darken($value, 5%)) !important;
+		background: -webkit-linear-gradient(top, lighten($value, 10%), darken($value, 5%)) !important;
+		background: linear-gradient(to bottom, lighten($value, 10%), darken($value, 5%)) !important;
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='lighten($value, 10%)', endColorstr='darken($value, 5%)',GradientType=0 ) !important;
+  }
+  @for $i from 1 through 9 {
+  	.bg-#{$color}-transparent-#{$i} {
+  		background: rgba($value, ($i/10)) !important;
+  	}
+  	.text-#{$color}-transparent-#{$i} {
+  		color: rgba($value, ($i/10)) !important;
+  	}
+  }
+}

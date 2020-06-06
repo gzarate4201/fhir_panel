@@ -1,0 +1,30 @@
+.modal {
+	& .modal-dialog{
+		&.modal-full {
+			max-width: 100%;
+			width: 100%;
+			
+			& .modal-content {
+				border-radius: 0;
+			}
+		}
+	}
+	&.modal-cover {
+		background: rgba($modal-cover-bg, $modal-cover-bg-opacity);
+		
+		& .modal-dialog {
+			min-height: 100%;
+			margin-top: 0;
+			margin-bottom: 0;
+			
+			@include display-flex();
+			@include flex-align(center);
+		}
+		& .modal-content,
+		& .modal-header,
+		& .modal-footer {
+			background: none;
+			border: none;
+		}
+	}
+}

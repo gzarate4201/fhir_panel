@@ -1,0 +1,19 @@
+@mixin helper-size($className) {
+	.#{$className}-full {
+		#{$className}: 100%;
+	}
+	@for $i from 1 through 9 {
+		$classInt: $i * 10;
+		
+		.#{$className}-#{$classInt} {
+			#{$className}: $classInt + px !important;
+		}
+	}
+	@for $i from 2 through 12 {
+		$classInt: $i * 50;
+		
+		.#{$className}-#{$classInt} {
+			#{$className}: $classInt + px !important;
+		}
+	}
+}

@@ -1,0 +1,279 @@
+.app-header {
+	border: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	padding: 0;
+	z-index: $app-header-zindex;
+	height: $app-header-height;
+	background: $white;
+	
+	@include display-flex();
+	@include flex-wrap();
+	@include flex-align(center);
+	@include flex-justify-content(space-between);
+	@include transition(box-shadow .2s linear);
+	@include box-shadow($app-header-box-shadow);
+	@include media-breakpoint-down(md) {
+		padding: 0 10px;
+	}
+	
+	& .brand {
+		width: $app-sidebar-width;
+		height: $app-header-height;
+		
+		@include display-flex();
+		@include flex-align(center);
+		@include media-breakpoint-down(md) {
+			width: auto;
+		}
+		@include media-breakpoint-down(sm) {
+			display: none;
+		}
+		
+		& img {
+			max-height: 100%;
+			max-width: 100%;
+		}
+		& .brand-logo {
+			font-weight: bold;
+			color: $gray-900;
+			font-size: 20px;
+			text-decoration: none;
+			height: $app-header-height;
+			width: 100%;
+			padding: 20px 0;
+			
+			@include display-flex();
+			@include flex-align(center);
+			
+			& .logo {
+				display: block;
+				height: 26px;
+				width: 26px;
+				border: 2px solid $primary;
+				margin-right: 8px;
+				position: relative;
+				
+				@include border-radius(16px);
+				
+				&:before {
+					content: '';
+					position: absolute;
+					right: 50%;
+					top: 50%;
+					margin-top: -5px;
+					margin-right: -5px;
+					width: 10px;
+					height: 10px;
+					background: mix($black, $primary, 15%);
+					
+					@include border-radius(6px);
+				}
+			}
+		}
+		& i {
+			font-size: 26px;
+			margin-right: 10px;
+		}
+	}
+	& .mobile-toggler {
+		margin-right: auto;
+		display: none;
+		
+		@include media-breakpoint-down(md) {
+			display: block;
+			margin-right: 10px;
+		}
+		@include media-breakpoint-down(sm) {
+			margin-right: 0;
+		}
+	}
+	& .desktop-toggler {
+		height: $app-header-height;
+		width: rem(65px);
+		
+		@include display-flex();
+		@include flex-align(center);
+		@include flex-justify-content(center);
+		@include media-breakpoint-down(md) {
+			display: none;
+		}
+		
+		& .menu-toggler {
+			width: 65px;
+			height: $app-header-height;
+			padding: 0 20px;
+			
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+	}
+	& .menu-toggler {
+		position: relative;
+		border: none;
+		background: none;
+		width: 45px;
+		display: block;
+		outline: none;
+		padding: 0 10px;
+		margin: 0;
+		height: $app-header-height;
+		
+		& .bar {
+			display: block;
+			background: $dark;
+			height: 2px;
+			
+			@include border-radius(3px);
+			
+			& + .bar {
+				margin-top: 4px;
+			}
+		}
+	}
+	& .menu {
+		@include flex(1);
+		@include display-flex();
+		@include flex-align(center);
+		
+		& .menu-search {
+			margin: 0 auto 0 50px;
+			position: relative;	
+			max-width: 760px;
+			
+			@include flex(1);
+			@include media-breakpoint-down(md) {
+				margin-left: 30px;
+				margin-right: 10px;
+			}
+			@include media-breakpoint-down(sm) {
+				margin-left: 15px;
+				margin-right: 10px;
+			}
+			
+			& .menu-search-icon {
+				position: absolute;
+				left: 0px;
+				width: 46px;
+				top: 0;
+				bottom: 0;
+				font-size: 16px;
+				
+				@include display-flex();
+				@include flex-align(center);
+				@include flex-justify-content(center);
+				@include media-breakpoint-down(sm) {
+					width: 40px;
+				}
+			}
+			& .menu-search-input {
+				& .form-control {
+					background: $gray-100;
+					border-color: transparent;
+					padding-left: 46px;
+					height: 40px;
+					font-size: rem(16px);
+					
+					@include placeholder($gray-400);
+					@include media-breakpoint-down(sm) {
+						padding-left: 36px;
+					}
+					
+					&:focus {
+						@include box-shadow(0 0 0 2px rgba($primary, 1));	
+					}
+				}
+			}
+		}
+		& .menu-item {
+			position: relative;
+			
+			& .menu-link {
+				height: $app-header-height;
+				padding: 20px;
+				text-decoration: none;
+				color: $dark;
+				
+				@include display-flex();
+				@include flex-align(center);
+				@include media-breakpoint-down(sm) {
+					padding: 15px;
+				}
+				
+				&:hover,
+				&:focus {
+					color: $black;
+				}
+			}
+			& .menu-icon {
+				font-size: 20px;
+			}
+			& .menu-label {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				background: $primary;
+				color: $white;
+				font-weight: bold;
+				font-size: 12px;
+				padding: 0 6px;
+				min-width: 20px;
+				height: 20px;
+				
+				@include display-flex();
+				@include flex-align(center);
+				@include flex-justify-content(center);
+				@include border-radius(30px);
+				@include media-breakpoint-down(sm) {
+					right: 5px;
+				}
+			}
+			& .menu-text {
+				font-weight: 600;
+				
+				@include media-breakpoint-down(sm) {
+					display: none;
+				}
+			}
+			& .menu-img,
+			& .menu-img-text {
+				height: 36px;
+				width: 36px;
+				position: relative;
+				
+				@include display-flex();
+				@include flex-align(center);
+				@include flex-justify-content(center);
+				
+				&.online {
+					&:before {
+						content: '';
+						position: absolute;
+						width: 8px;
+						height: 8px;
+						right: 2px;
+						bottom: 2px;
+						background: $green;
+						
+						@include border-radius(8px);
+					}
+				}
+				
+				& + .menu-text {
+					margin-left: 8px;
+				}
+			}
+			& .menu-img-text {
+				background: $gray-100;
+				color: $dark;
+				font-size: $font-size-lg;
+				font-weight: bold;
+				
+				@include border-radius(36px);
+			}
+		}
+	}
+}

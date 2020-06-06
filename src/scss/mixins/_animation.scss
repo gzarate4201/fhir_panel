@@ -1,0 +1,7 @@
+@mixin animation($setting) {
+	-webkit-animation: $setting;
+	-moz-animation: $setting;
+	-ms-animation: $setting;
+	-o-animation: $setting;
+	animation: $setting;
+}

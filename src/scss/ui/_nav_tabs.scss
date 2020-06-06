@@ -1,0 +1,30 @@
+.nav {
+	&.nav-tabs {
+		&.nav-tabs-v2 {
+			& > .nav-item {
+				& > .nav-link {
+					border: none;
+					border-bottom: 3px solid transparent;
+					color: $gray-700;
+					padding: $nav-link-padding-x 0;
+					
+					&:hover {
+						border-bottom-color: $gray-300;
+						color: $gray-900;
+					}
+					&.active {
+						border-bottom-color: $primary;
+						color: $gray-900;
+					}
+				}
+				&.show {
+					& > .nav-link {
+						background: none;
+						border-bottom-color: $gray-300;
+						color: $gray-900;
+					}
+				}
+			}
+		}
+	}
+}

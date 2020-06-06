@@ -1,0 +1,64 @@
+.calendar {
+	min-height: 100%;
+	background: $white;
+	
+	@include display-flex();
+	
+	& .calendar-body {
+		@include flex(1);
+		
+		& + .calendar-sidebar {
+			border-left: 1px solid $gray-200;
+		}
+		
+		& .fc {
+			& .fc-head-container  {
+				& th {
+					border-bottom-width: 0;
+				}
+			}
+			& table {
+				border: none !important;
+			
+				& thead,
+				& tbody {
+					& tr {
+						& th,
+						& td {
+							&:first-child {
+								border-left-width: 0 !important;
+							}
+							&:last-child {
+								border-right-width: 0 !important;
+							}
+						}
+					}
+				}
+				& .fc-head-container  {
+					border: none;
+				}
+			}
+		}
+	}
+	& .calendar-sidebar {
+		width: rem(220px);
+		padding: rem(16px);
+		
+		@include media-breakpoint-down(md) {
+			display: none;
+		}
+		
+		& + .calendar-body {
+			border-left: 1px solid $gray-200;
+		}
+		& .calendar-sidebar-title {
+			font-weight: 600;
+			padding: 0 0 rem(10px) 0;
+			min-height: rem(55px);
+			font-size: rem(13px);
+			
+			@include display-flex();
+			@include flex-align(flex-end);
+		}
+	}
+}

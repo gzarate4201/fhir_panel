@@ -1,0 +1,58 @@
+body .bootstrap-tagsinput {
+	box-shadow: none !important;
+	border-color: $input-border-color !important;
+	color: $gray-900 !important;
+	position: relative !important;
+	padding: ($input-padding-y - rem(3px)) $input-padding-x !important;
+	line-height: rem(21px) !important;
+	
+	@include border-radius($border-radius !important);
+	@include transition(all .15s ease-in-out);
+	@include display-flex();
+	@include flex-wrap();
+  
+  & input {
+  	margin: rem(2px) 0;
+  	height: rem(23px);
+  }
+	& .tag {
+		font-size: $font-size-base - rem(1px) !important;
+		font-weight: 500;
+		padding: rem(2px) rem(10px) !important;
+		margin-right: 4px !important;
+		margin-top: rem(1px) !important;
+		margin-bottom: rem(1px) !important;
+		
+		@include display-flex();
+		@include flex-align(center);
+		@include flex-justify-content(center);
+		@include border-radius(20px);
+		
+		&.label-info {
+			background: $gray-200 !important;
+			color: $gray-800;
+			
+			& [data-role="remove"] {
+				color: $gray-500;
+				
+				&:hover {
+					color: rgba($gray-900, 0.5);
+				}
+			}
+		}
+		& [data-role="remove"] {
+			font-size: $font-size-base - rem(4px);
+			color: rgba($white, 0.5);
+			
+			@include fontawesome();
+			
+			&:after {
+				content: '\f00d' !important;
+			}
+			&:hover {
+				box-shadow: none !important;
+				color: rgba($white, 0.75);
+			}
+		}
+	}
+}

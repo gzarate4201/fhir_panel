@@ -1,0 +1,17 @@
+﻿.card_device {
+    width: 250px;
+    margin: 20px;
+    padding: 20px;
+    border: 2px;
+    border-style: solid;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.card_device .card_title {
+    text-align: center;
+}
+
+.input_group {
+    margin: 10px;
+}

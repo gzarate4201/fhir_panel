@@ -1,0 +1,31 @@
+.app-footer {
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin-left: $app-sidebar-width;
+	line-height: rem(20px);
+	padding: rem(20px) $app-content-padding-x;
+	border-top: 1px solid $gray-200;
+	background: $body-bg;
+	font-weight: 500;
+	
+	@include media-breakpoint-down(md) {
+		margin-left: 0 !important;
+		padding-left: $app-content-sm-padding-x;
+		padding-right: $app-content-sm-padding-x;
+	}
+}
+.app-content-full-width .app-footer {
+	margin-left: 0;
+}
+.app-sidebar-minified .app-footer {
+	margin-left: $app-sidebar-minify-width;
+}
+.app-footer-fixed {
+	& .app-content {
+		padding-bottom: rem(60px);
+	}
+	& .app-footer {
+		position: fixed;
+	}
+}

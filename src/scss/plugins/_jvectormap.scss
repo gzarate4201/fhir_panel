@@ -1,0 +1,77 @@
+.jvectormap-container {
+	position: relative;
+	
+	& .jvectormap-zoomin, 
+	& .jvectormap-zoomout, 
+	& .jvectormap-goback {
+		left: $card-spacer-x;
+		width: rem(20px);
+		height: rem(20px);
+		padding: 0 0 rem(2px);
+		border-radius: $border-radius;
+		box-sizing: border-box;
+		font-size: rem(16px);
+		background: $white;
+		color: $body-color;
+		font-weight: 500;
+		
+		@include box-shadow($dropdown-box-shadow);
+		@include display-flex();
+		@include flex-align(center);
+		@include flex-justify-content(center);
+		
+		&:hover {
+			color: $component-active-bg;
+		}
+	}
+	& .jvectormap-zoomin {
+		top: $card-spacer-x;
+	}
+	& .jvectormap-zoomout {
+		top: $card-spacer-x + rem(25px);
+	}
+	& .jvectormap-legend {
+		background: $white;
+		color: $body-color;
+		
+		@include box-shadow($dropdown-box-shadow);
+		@include border-radius($border-radius);
+	}
+	& .jvectormap-legend-title {
+		font-size: $font-size-base - rem(2px);
+		margin-bottom: rem(3px);
+	}
+	& .jvectormap-legend-cnt-v {
+		& .jvectormap-legend {
+			padding: rem(10px);
+			margin: $card-spacer-x $card-spacer-x 0 0;
+			
+			& .jvectormap-legend-tick {
+				@include display-flex();
+				@include flex-align(center);
+				
+				& + .jvectormap-legend-tick {
+					margin-top: 2px;
+				}
+			}
+			& .jvectormap-legend-tick-sample {
+				width: rem(18px);
+				height: rem(18px);
+				
+				@include border-radius($border-radius-sm);
+			}
+			& .jvectormap-legend-tick-text {
+				padding-left: rem(5px);
+			}
+		}
+	}
+}
+.jvectormap-tip {
+	background: $gray-900 !important;
+	padding: rem(4px) rem(8px) !important;
+	border: none !important;
+	font-family: inherit !important;
+	font-size: rem(12px) !important;
+	
+	@include border-radius($border-radius !important);
+}

@@ -1,0 +1,82 @@
+.widget-chat {
+	margin: 0;
+	padding: 0;
+	
+	& .widget-chat-item {
+		@include display-flex();
+		@include flex-align(flex-end);
+		
+		& + .widget-chat-item {
+			margin-top: rem(15px);
+		}
+		& > div + div {
+			padding-left: rem(10px);
+		}
+	}
+	& .widget-chat-date {
+		font-size: $font-size-base - rem(2px);
+		font-weight: 600;
+		color: $gray-900;
+		padding: rem(10px) rem(10px);
+		text-align: center;
+	}
+	& .widget-chat-content {
+		@include flex(1);
+	}
+	& .widget-chat-name,
+	& .widget-chat-status {
+		font-size: $font-size-base - rem(3px);
+		font-weight: 500;
+		color: $gray-600;
+		line-height: 1.25rem;
+	}
+	& .widget-chat-media {
+		width: rem(28px);
+		
+		& img {
+			max-width: 100%;
+			display: block;
+			
+			@include border-radius(28px);
+		}
+	}
+	& .widget-chat-message {
+		background: $white;
+		padding: rem(8px) rem(15px);
+		display: inline-block;
+		position: relative;
+		border-radius: rem(20px);
+		
+		& + .widget-chat-message {
+			margin-top: rem(5px);
+		}
+		&.last {
+			&:before {
+				content: '';
+				border: rem(5px) solid transparent;
+				border-bottom-color: $white;
+				border-right-color: $white;
+				position: absolute;
+				left: rem(-4px);
+				bottom: rem(6px);
+			}
+		}
+	}
+	& .reply {
+		& .widget-chat-content {
+			text-align: right;
+		}
+		& .widget-chat-message {
+			background: $component-active-bg;
+			color: $component-active-color;
+			
+			&.last:before {
+				border-color: transparent;
+				border-bottom-color: $component-active-bg;
+				border-left-color: $component-active-bg;
+				left: auto;
+				right: rem(-4px);
+			}
+		}
+	}
+}

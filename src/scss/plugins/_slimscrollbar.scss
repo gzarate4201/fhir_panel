@@ -1,0 +1,20 @@
+.slimScrollBar {
+	background: none !important;
+	width: rem(8px) !important;
+	right: 0 !important;
+	
+	&:before {
+		content: '';
+		position: absolute;
+		top: rem(2px);
+		left: 0;
+		right: rem(2px);
+		bottom: rem(2px);
+		background: $gray-800;
+		
+		@include border-radius(10px);
+	}
+}
+.app-sidebar .slimScrollBar:before {
+	display: none;
+}

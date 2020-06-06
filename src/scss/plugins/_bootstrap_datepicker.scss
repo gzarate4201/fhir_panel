@@ -1,0 +1,181 @@
+.datepicker {
+	&.datepicker-dropdown {
+		width: rem(320px);
+		padding: rem(10px) rem(15px) rem(15px);
+		z-index: $zindex-dropdown !important;
+		
+		&:before,
+		&:after {
+			display: none;
+		}
+	}
+	& .datepicker-switch,
+	& .prev,
+	& .next {
+		padding: rem(10px);
+		min-width: rem(40px);
+		
+		&:hover {
+			background: none !important;
+			color: $primary;
+		}
+	}
+	& .next,
+	& .prev {
+		overflow: hidden;
+		text-indent: -100px;
+		max-width: rem(40px);
+		
+		&:before {
+			font-family: Font Awesome\ 5 Free,Font Awesome\ 5 Pro,FontAwesome !important;
+			font-weight: 900;
+			font-style: normal;
+			font-variant: normal;
+			text-rendering: auto;
+			position: absolute;
+			width: rem(40px);
+			text-indent: 0;
+			margin-top: rem(2px);
+		}
+	}
+	& .next {
+		&:before {
+			content: '\f061';
+			right: 0;
+    }
+  }
+  & .prev {
+		&:before {
+			content: '\f060';
+			left: 0;
+    }
+	}
+	& .datepicker-switch {
+		font-weight: 500;
+		font-size: rem(16px);
+		color: $gray-900;
+		width: 100% !important;
+	}
+	& .datepicker-switch,
+	& .next,
+	& .prev {
+		padding: rem(5px);
+	}
+	& .datepicker-days,
+	& .datepicker-months,
+	& .datepicker-years {
+		position: relative;
+	}
+	& .datepicker-days {
+		& table {
+			width: 100%;
+			
+			& thead {
+				& tr {
+					& th {
+						&.dow {
+							color: $gray-900;
+							font-size: rem(12px);
+							font-weight: 600;
+							border-radius: 0;
+							padding: rem(10px) 0 rem(10px) 0;
+						}
+					}
+				}
+			}
+			& tbody {
+				& tr {
+					& td {
+						padding: rem(10px) rem(0);
+						border-radius: 0;
+						font-weight: 500;
+						font-size: rem(13px);
+						border: 1px solid $gray-200;
+						color: $gray-900;
+						width: 14%;
+						
+						&.old {
+							color: $gray-300;
+						}
+						&:hover,
+						&.focused,
+						&.range {
+							background: lighten($gray-100, 2%) !important;
+						}
+						&.active,
+						&.selected {
+							background: $component-active-bg !important;
+							border-color: $component-active-bg !important;
+							color: $white;
+							text-shadow: none;
+							position: relative;
+							
+							&:before,
+							&:after {
+								content: '';
+								position: absolute;
+								left: -1px;
+								top: 0;
+								bottom: -1px;
+								background: $component-active-bg;
+								width: 1px;
+							}
+							&:after {
+								bottom: auto;
+								right: -1px;
+								top: -1px;
+								width: auto;
+								height: 1px;
+							}
+						}
+					}
+				}
+				& tr {
+					& td {
+						&:first-child {
+						
+						}
+					}
+				}
+			}
+		}
+	}
+	& .datepicker-months,
+	& .datepicker-years {
+		& table {
+			& tbody {
+				& tr {
+					& td {
+						padding-top: rem(10px);
+						
+						& span {
+							width: 25%;
+							margin: 0;
+							border-radius: 0;
+							border: 1px solid $gray-200;
+							font-weight: 600;
+							font-size: rem(13px);
+							margin: 0 -1px -1px 0;
+							color: $gray-900;
+							
+							&:hover,
+							&.focused {
+								background: lighten($gray-100, 2%) !important;
+							}
+							&.focused {
+								color: $primary;
+							}
+							&.active {
+								border-color: $component-active-bg;
+								position: relative;
+								background: $component-active-bg !important;
+								color: $white !important;
+								text-shadow: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

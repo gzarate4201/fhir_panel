@@ -1,0 +1,26 @@
+.note-editor {
+	&.note-frame {
+		& .note-toolbar {
+			padding: ($card-spacer-y - rem(5px)) $card-spacer-x $card-spacer-y;
+		}
+		& .note-editing-area {
+			& .note-editable {
+				padding: $card-spacer-y $card-spacer-x !important;
+			}
+		}
+	}
+}
+.card {
+	& > .note-editor {
+		&.note-frame {
+			border: none;
+		}
+	}
+	& > form {
+		& > .note-editor {
+			&.note-frame {
+				border: none;
+			}
+		}
+	}
+}

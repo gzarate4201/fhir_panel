@@ -1,0 +1,121 @@
+﻿.card_visitor {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    border: 2px;
+    border-style: solid;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.register-photo {
+    background: #f1f7fc;
+    padding: 80px 0;
+}
+
+.register-photo .form-container {
+    display: table;
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+.register-photo .image-holder {
+    display: table-cell;
+    width: auto;
+    height:90%;
+    background: url(avatar_1.jpeg);
+    background-size: cover;
+}
+
+@media (max-width:991px) {
+    .register-photo form {
+        padding: 40px;
+    }
+}
+
+.register-photo form h2 {
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.h2, h2 {
+    font-size: 2rem;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.register-photo form {
+    display: table-cell;
+    width: 400px;
+    background-color: #ffffff;
+    padding: 40px 60px;
+    color: #505e6c;
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .form-control {
+        transition: none;
+    }
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.register-photo {
+    background: #f1f7fc;
+    padding: 80px 0;
+}
+
+
+
+.register-photo .form-container {
+    display: table;
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+.register-photo .image-holder {
+    display: table-cell;
+    width: auto;
+    background: url(meeting.jpg);
+    background-size: cover;
+}
+
+
+
+

@@ -1,0 +1,146 @@
+﻿body {
+}
+
+.card {
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 2px;
+    border-style: solid;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.input-group-text {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-bottom: 10;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+
+
+.settingsElement {
+    height: 45px;
+    vertical-align: middle;
+    padding: 5px;
+    margin: 3px;
+}
+
+.switchText {
+    height: 100%;
+    /*width: auto;*/
+    float: left;
+    align-items: center;
+    display: inline-flex;
+    /*vertical-align: middle;*/
+    margin: 0px;
+}
+
+.onoffswitch {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    float: right;
+}
+
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+button, input {
+    overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+
+
+.onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+
+.onoffswitch-switch {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    background: #FF0000;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 46px;
+    border: 2px solid #E3E3E3;
+    border-radius: 36px;
+    transition: all 0.3s ease-in 0s;
+}
+
+
+
+.onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #E3E3E3;
+    border-radius: 36px;
+}
+
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #A3A3A3;
+    color: #666666;
+    text-align: right;
+}
+
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 15px;
+    background-color: #A3A3A3;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 16px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+

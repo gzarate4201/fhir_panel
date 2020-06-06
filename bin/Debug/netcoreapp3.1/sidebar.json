@@ -1,0 +1,44 @@
+﻿{
+  "sidebarMenu": [
+    {
+      "text": "Navigation",
+      "is_header": true
+    },
+    {
+      "controller": "Device",
+      "action": "Index",
+      "icon": "fa fa-tablet",
+      "text": "Dispositivos"
+    },
+    {
+      "controller": "Personal",
+      "action": "Index",
+      "icon": "fa fa-users",
+      "text": "Personal"
+    },
+    {
+      "controller": "Visitante",
+      "action": "Index",
+      "icon": "fa fa-user",
+      "text": "Visitante"
+    },
+    {
+      "controller": "Reporte",
+      "action": "Index",
+      "icon": "fa fa-table",
+      "text": "Reportes"
+    },
+    {
+      "controller": "Sistema",
+      "action": "Index",
+      "icon": "fa fa-home",
+      "text": "Sistema"
+    },
+    {
+      "controller": "Terminal",
+      "action": "Index",
+      "icon": "fa fa-cog",
+      "text": "Terminal"
+    }
+  ]
+}

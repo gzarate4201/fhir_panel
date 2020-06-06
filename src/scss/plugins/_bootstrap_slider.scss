@@ -1,0 +1,64 @@
+.app {
+  .slider {
+    &.slider-horizontal {
+      height: rem(24px);
+      width: 100%;
+    
+      & .slider-track {
+        height: rem(6px);
+        margin-top: rem(-3px);
+      }
+    }
+    &.slider-vertical {
+      margin: 0 auto;
+      display: block;
+      
+      & .slider-track {
+        width: rem(6px);
+        left: 50%;
+        margin-left: rem(-3px);
+      }
+    }
+    &.slider-disabled {
+      & .slider-track {
+        opacity: 0.5;
+      }
+      & .slider-handle {
+        background: $white;
+        cursor: not-allowed;
+      }
+    }
+    & .slider-track {
+      box-shadow: none;
+      background: $gray-200;
+      
+      @include border-radius($border-radius);
+      
+      & .slider-selection {
+        background: $component-active-bg;
+        box-shadow: none;
+      }
+    }
+    & .slider-handle {
+      background: $white;
+      box-shadow: 0 rem(1px) rem(6px) rgba($gray-900, .25);
+    }
+    & .tooltip {
+      &.in {
+        opacity: 1;
+      }
+      &.top {
+        margin-top: rem(-30px);
+      }
+      &.bottom {
+        margin-top: rem(25px);
+      }
+      &.left {
+        margin-left: rem(-30px);
+      }
+      &.right {
+        margin-left: rem(5px);
+      }
+    }
+  }
+}

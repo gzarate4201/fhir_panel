@@ -1,0 +1,316 @@
+.app-sidebar {
+	position: fixed;
+	top: $app-header-height;
+	left: 0;
+	bottom: 0;
+	width: $app-sidebar-width;
+	border-right: 1px solid $app-sidebar-border-color;
+	z-index: $app-sidebar-zindex;
+	
+	@include display-flex();
+	@include flex-direction-column();
+	@include media-breakpoint-down(md) {
+    top: 0;
+    left: -$app-sidebar-width;
+		border-right: none;
+    z-index: $app-header-zindex + 100;
+	}
+	
+	& .app-sidebar-content {
+		padding: $app-sidebar-content-padding-y $app-sidebar-content-padding-x;
+		@include flex(1);
+		
+		@include media-breakpoint-down(md) {
+			background: $app-sidebar-content-mobile-bg;
+			position: relative;
+			z-index: $app-sidebar-mobile-backdrop-zindex + 10;
+			width: $app-sidebar-width;
+		}
+	}
+	& .app-sidebar-mobile-backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: $app-sidebar-mobile-backdrop-zindex;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: 0;
+		margin: 0;
+		outline: none;
+		display: none;
+	}
+	& .menu {
+		min-height: 100%;
+		
+		@include display-flex();
+		@include flex-direction-column();
+		
+		& .menu-item {
+			padding: $app-sidebar-menu-item-padding-y $app-sidebar-menu-item-padding-x;
+			
+			& .menu-icon {
+				width: rem(20px);
+				height: rem(20px);
+				font-size: $font-size-base + 0.125rem;
+				color: $app-sidebar-menu-link-icon-color;
+				position: relative;
+				
+				@include display-flex();
+				@include flex-align(center);
+				@include flex-justify-content(center);
+			
+				& + .menu-text {
+					margin-left: rem(10px);
+				}
+				& .menu-icon-label {
+					position: absolute;
+					right: rem(-5px);
+					top: rem(-5px);
+					font-size: rem(9px);
+					font-weight: 600;
+					height: auto;
+					background: $orange;
+					background: linear-gradient(to bottom, $orange, $pink);
+					color: $white;
+					padding: rem(1px) 0 rem(2px);
+					line-height: 1;
+					min-width: rem(14px);
+					min-height: rem(14px);
+					
+					@include border-radius(7px);
+					@include display-flex();
+					@include flex-align(center);
+					@include flex-justify-content(center);
+				}
+			}
+			& .menu-caret {
+				opacity: 0.75;
+			}
+			& .menu-text {
+				@include flex(1);
+			}
+			& .menu-link {
+				padding: $app-sidebar-menu-link-padding-y $app-sidebar-menu-link-padding-x;
+				line-height: $app-sidebar-menu-link-line-height;
+				text-decoration: none;
+				color: $app-sidebar-menu-link-color;
+			
+				@include display-flex();
+				@include flex-align(center);
+				@include border-radius($border-radius);
+				
+				&:hover {
+					background: $app-sidebar-menu-link-hover-bg;
+				}
+			}
+			& .menu-submenu {
+				display: none;
+				padding-left: $app-sidebar-submenu-padding-left;
+				padding-bottom: $app-sidebar-submenu-padding-bottom;
+				
+				& .menu-item {
+					padding-right: 0;
+					
+					& .menu-link {
+						padding: $app-sidebar-submenu-menu-link-padding-y $app-sidebar-submenu-menu-link-padding-x;
+					}
+				}
+			}
+			&.active {
+				&:not(.has-sub) > .menu-link {
+					color: $app-sidebar-menu-link-active-color;
+					font-weight: $app-sidebar-menu-link-active-font-weight;
+					background: $app-sidebar-menu-link-active-bg;
+					
+					& .menu-icon {
+						color: $app-sidebar-menu-link-active-color;
+					}
+				}
+				& > .menu-submenu {
+					display: block;
+				}
+			}
+		}
+		& .menu-divider {
+			margin: 8px 0;
+			height: 1px;
+		}
+		& .menu-header {
+			margin: $app-sidebar-menu-header-margin-y $app-sidebar-menu-header-margin-x;
+			font-size: $app-sidebar-menu-header-font-size;
+			font-weight: $app-sidebar-menu-header-font-weight;
+			color: $app-sidebar-menu-header-color;
+		}
+	}
+}
+.app-full-width {
+	.app-sidebar {
+		left: -$app-sidebar-width;
+		z-index: 1020;
+		@include transition(all .2s ease);
+	}
+}
+
+@include keyframe(appSidebarMobileSlideIn) {
+	from {
+		left: -$app-sidebar-width;
+	}
+	to {
+		left: 0;
+	}
+}
+@include keyframe(appSidebarMobileSlideOut) {
+	from {
+		left: 0;
+	}
+	to {
+		left: -$app-sidebar-width;
+	}
+}
+@include keyframe(appSidebarMobileBackdrop) {
+	from {
+		background: transparent;
+	}
+	to {
+		background: $app-sidebar-mobile-backdrop-bg;
+	}
+}
+@include keyframe(appSidebarMobileRemoveBackdrop) {
+	from {
+		background: $app-sidebar-mobile-backdrop-bg;
+	}
+	to {
+		background: transparent;
+	}
+}
+
+.app-sidebar-mobile-toggled {
+	& .app-sidebar {
+		left: 0;
+		
+		@include animation(appSidebarMobileSlideIn .1s ease);
+	}
+	& .app-sidebar-mobile-backdrop {
+		display: block;
+		background: $app-sidebar-mobile-backdrop-bg;
+		
+		@include animation(appSidebarMobileBackdrop .2s ease);
+	}
+}
+.app-sidebar-mobile-closed {
+	& .app-sidebar {
+		left: -$app-sidebar-width;
+		
+		@include animation(appSidebarMobileSlideOut .1s ease);
+	}
+	& .app-sidebar-mobile-backdrop {
+		display: block;
+		background: none;
+		
+		@include animation(appSidebarMobileRemoveBackdrop .2s ease);
+	}
+}
+.app-sidebar-minified {
+	& .app-sidebar {
+		width: $app-sidebar-minify-width;
+		
+		& .menu-item {
+			position: relative;
+			padding: $app-sidebar-minify-menu-item-padding-y $app-sidebar-minify-menu-item-padding-x;
+			
+			& .menu-link {
+				position: relative;
+				
+				& .menu-icon {
+					margin-left: auto;
+					margin-right: auto;
+				}
+				& .menu-caret {
+					color: $app-sidebar-minify-menu-cart-color;
+				}
+			}
+		}
+		& .menu-text,
+		& .slimScrollBar,
+		& .menu-submenu {
+			display: none !important;
+		}
+		& .menu-header {
+			margin-left: $app-sidebar-minify-menu-header-margin-x;
+			margin-right: $app-sidebar-minify-menu-header-margin-x;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		& .menu-caret {
+			position: absolute;
+			right: 3px;
+			top: 50%;
+			margin-top: -9px;
+			@include transform(rotate(-90deg));
+		}
+		& .hide-on-minified {
+			display: none;
+		}
+	}
+	& .app-content {
+		margin-left: $app-sidebar-minify-width;
+		
+		@include media-breakpoint-down(md) {
+			margin-left: 0;
+		}
+	}
+}
+.app-float-submenu {
+	position: fixed;
+	width: $app-sidebar-width;
+	background: $app-float-submenu-bg;
+	margin: 0;
+	padding: $app-float-submenu-padding-y $app-float-submenu-padding-x;
+	list-style-type: none;
+	z-index: $app-float-submenu-zindex;
+	
+	@include border-radius($border-radius);
+	@include box-shadow($app-float-submenu-box-shadow);
+	@include media-breakpoint-down(md) {
+		z-index: $app-float-submenu-sm-zindex;
+	}
+	
+	& a {
+		@include display-flex();
+		@include flex-align(center);
+		color: $app-float-submenu-link-color;
+		padding: $app-float-submenu-link-padding-y $app-float-submenu-link-padding-x;
+		line-height: $app-float-submenu-link-line-height;
+	}
+	& .active > a,
+	& a:hover,
+	& a:focus,
+	& a:active {
+		color: $app-float-submenu-link-hover-active-color;
+		text-decoration: none;
+		
+		& .menu-caret {
+			color: $app-float-submenu-link-hover-active-color;
+		}
+	}
+	& .menu-submenu {
+		display: none;
+		padding-left: $app-float-submenu-submenu-padding-left;
+	}
+	& .menu-icon,
+	& .menu-text,
+	& .menu-caret {
+		@include display-inline-flex();
+	}
+	& .menu-caret {
+		color: $app-float-submenu-caret-color;
+	}
+	& .menu-text {
+		@include flex(1);
+	}
+}

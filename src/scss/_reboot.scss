@@ -1,0 +1,23 @@
+body, html, #app {
+	@include media-breakpoint-up(lg) {
+		height: 100%;
+	}
+}
+.custom-select,
+.custom-range {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.custom-range {
+  &::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+  }
+  &::-moz-range-thumb {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+  }
+}

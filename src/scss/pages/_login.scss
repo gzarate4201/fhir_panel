@@ -1,0 +1,18 @@
+.login {
+	min-height: 100%;
+	padding: rem(60px);
+	
+	@include display-flex();
+	@include flex-align(center);
+	@include media-breakpoint-down(md) {
+		padding: rem(20px);
+	}
+	
+	& .login-content {
+		max-width: rem(360px);
+		margin: 0 auto;
+		position: relative;
+		
+		@include flex(1);
+	}
+}

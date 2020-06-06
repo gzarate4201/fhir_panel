@@ -1,0 +1,46 @@
+.pace {
+	-webkit-pointer-events: none;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	
+	& .pace-progress {
+		position: fixed;
+		z-index: 2000;
+		top: 0;
+		right: 100%;
+		width: 100%;
+		height: rem(2px);
+		background: $gray-800;
+	}
+	& .pace-progress-inner {
+		display: block;
+		position: absolute;
+		right: 0;
+		width: rem(100px);
+		height: 100%;
+		opacity: 1.0;
+		
+		@include box-shadow(0 0 rem(10px) $gray-800);
+	}
+	& .pace-activity {
+		display: block;
+		position: fixed;
+		z-index: 2000;
+		top: $app-header-height + 15px;
+		right: rem(15px);
+		width: rem(18px);
+		height: rem(18px);
+		border: solid rem(2px) transparent;
+		border-top-color: $gray-800;
+		border-left-color: $gray-800;
+	}
+	&.pace-inactive {
+		display: none;
+	}
+}
+@include keyframe(pace-spinner) {
+	0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
