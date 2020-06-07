@@ -28,9 +28,34 @@ namespace AspStudio.Controllers
             return View();
         }
 
+        /*
+         dbContext.Usuarios.Where(c=>c.Nombre.Contains("a")) // traer todos los registros cuyo nombre sea A
+
+            // insertar un registro
+     var usuario = new Usuario()
+                {
+                     Nombre = "Juan",
+                     Login = "juanperez",
+                     Password = "123"
+                };
+
+                dbContext.Usuarios.Add(std);
+                cbContext.SaveChanges();
+
+                En la clase Data/ApplicationDbContext se deben agregar los modelos para que se guarden la base de datos
+                para usuario se adiciono
+
+            public DbSet<Usuario> Usuarios { get; set; }
+            en la clase Usuario encuentran como marcar los nombres de las tablas y las columnas
+
+
+         */
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginInfo)
         {
+           
+
             if (dbContext.Usuarios.Count(p => p.Login.Equals(loginInfo.Login) && p.Password.Equals(loginInfo.Password)) > 0)
             {
                 Usuario usuario = dbContext.Usuarios.FirstOrDefault(p => p.Login.Equals(loginInfo.Login) && p.Password.Equals(loginInfo.Password));
