@@ -625,3 +625,4 @@
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/System.Net.Mqtt.Server.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/System.Reactive.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/System.Reactive.xml
+/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Device/testPost.cshtml.g.cs

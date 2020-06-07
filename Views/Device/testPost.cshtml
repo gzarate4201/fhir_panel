@@ -1,0 +1,14 @@
+<h2>Conexion MQTT</h2>
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+<div class="error">@ViewBag.Error</div>
+}
+<form method="POST">
+<label for="topic">Topic:</label>
+<input type="topic" name="topic"  value="@(ViewBag.topic!=null ? ViewBag.topic : string.Empty)"/>
+<br />
+<label for="msg">Message:</label>
+<input type="msg" name="msg" />
+<br />
+<input type="submit" value="enviar"/>
+</form>
