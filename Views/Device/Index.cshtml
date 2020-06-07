@@ -277,6 +277,7 @@
 
     function bindMqtt() {
         var dev_id = $('#bind_device_id').val();
+        var dev_tag = $('#bind_tag').val();
         console.log(dev_id);
 
         $.ajax({
@@ -285,13 +286,15 @@
             dataType: "json",
             data:{
                 topic:"SubscribeTest",
-                msg: JSON.stringify({
-                    mqtt_cmd: 1,
-                    mqtt_operate_id: 0,
-                    device_id: dev_id,
-                    tag: "Platform Define",
-                    bind_ctrl: 1
-                }),
+                msg: JSON.stringify(
+                    {
+                        mqtt_cmd: 1,
+                        mqtt_operate_id: 0,
+                        device_id: dev_id,
+                        tag: dev_tag,
+                        bind_ctrl: 1
+                    }
+                ),
             },
             async: false,
             success: function(data) {
