@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Device Page";
 }
-
+<link href="@Url.Content("~/css/visitante.css")" rel="stylesheet" type="text/css" />
 <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
     <li class="breadcrumb-item active">PERSONAL</li>
@@ -11,3 +11,106 @@
     Vista de personal
 
 </h1>
+<div class="card_visitor">
+
+    <div class="register-photo">
+
+        <div class="form-container">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image-holder">
+                        <div id="container">
+                           
+                                <video autoplay="true" id="videoElement" > <canvas></canvas></video>
+                            
+                        </div>
+                        <div class="controller" style="text-align:center; margin-top:20px;">
+                            <button class="btn btn-success" id="snap">Capture</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form method="post">
+                        <h2 class="text-center">Datos personales.</h2>
+                        <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Nombre" /></div>
+                        <div class="form-group"><input class="form-control" type="text" name="lastname" placeholder="Apellido" /></div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Genero </button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" role="presentation" href="#">Femenino</a>
+                                <a class="dropdown-item" role="presentation" href="#">Masculino</a>
+                            </div>
+                        </div>
+                        <div class="form-group"><input class="form-control" type="text" name="phone" placeholder="Celular" /></div>
+
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Registrar</button></div>
+                    </form>
+                </div>
+            </div>
+            
+
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    var video = document.querySelector("#videoElement");
+    const snap = document.getElementById("snap");
+
+    if (navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+        video.srcObject = stream;
+        })
+        .catch(function (err0r) {
+        console.log("Something went wrong!");
+        });
+    }
+
+    var context = canvas.getContext('2d');
+    snap.addEventListener("click", function () {
+        context.drawImage(video, 0, 0, 640, 480);
+    });
+</script>
+
+@* 
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snap = document.getElementById("snap");
+    const errorMsgElement = document.querySelector('span#errorMsg');
+
+    const constraints = {
+        audio: true,
+        video: {
+            width: 720, height: 340
+        }
+    };
+
+    // Access webcam
+    async function init() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(stream);
+        } catch (e) {
+            errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+        }
+    }
+
+    // Success
+    function handleSuccess(stream) {
+        window.stream = stream;
+        video.srcObject = stream;
+    }
+
+    // Load init
+    init();
+
+    // Draw image
+    var context = canvas.getContext('2d');
+    snap.addEventListener("click", function () {
+        context.drawImage(video, 0, 0, 640, 480);
+    });
+</script> *@

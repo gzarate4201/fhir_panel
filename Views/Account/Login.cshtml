@@ -1,0 +1,37 @@
+﻿@model AspStudio.Models.LoginModel
+
+@{
+    Layout = "_Simple";
+    ViewData["Title"] = "Login";
+}
+
+
+    <div style="vertical-align:middle;text-align:center;height:100%">
+        <br />
+        <img src="~/img/logo.png" style="height:128px" />
+        <h1>FHIR</h1>
+        <hr />
+
+
+        <div style="text-align:center;width:100%;" >
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div class="col-md-5" style="width: auto;height: auto;margin: 0 auto;padding: 10px;position: relative;">
+                    <div class="row">
+                        <div class="col-md-5">Login</div>
+                        <div class="col-md-5">@Html.TextBoxFor(p => p.Login)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">Password</div>
+                        <div class="col-md-5">@Html.PasswordFor(p => p.Password)</div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-10">
+                            <button type="button" class="btn btn-info" onclick="submit()">Ingresar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="mensajeError" class="text-danger">@ViewBag.Mensaje</div>
+    </div>
