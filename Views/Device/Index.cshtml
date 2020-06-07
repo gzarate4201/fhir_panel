@@ -20,7 +20,7 @@
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div><input type="text" class="form-control" id="bind_device_id" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
@@ -28,7 +28,7 @@
                         <div class="input-group-append"></div>
                     </div>
                     <div class="row" style="margin-top:20px;justify-content:center">
-                        <button class="btn btn-success" id="publishTest" type="submit">BIND</button>
+                        <button class="btn btn-success" id="bind" type="submit">BIND</button>
                         <button class="btn btn-danger" id="unbind" type="submit">UN-BIND</button>
                     </div>
 
@@ -273,22 +273,25 @@
     });
 
 
-    $('#publishTest').on('click', publishTest());
+    $('#bind').on('click', bindMqtt());
 
-    function publishTest() {
+    function bindMqtt() {
+        var dev_id = $('#bind_device_id').val();
+        console.log(dev_id);
 
         $.ajax({
             type: "GET",
-            url: '@Url.Action("publishTest", "Device")' + '?msg=' + 'Hola Mundo',
+            url: '@Url.Action("publishMQTT", "Device", "PublishTest", "Hola2")',
+            dataType: "json",
+            data:{
+                device_id: dev_id,
+            },
             async: false,
             success: function(data) {
                 if (data == null || data.data == null) {
-                    @* ErrorMessage("", "Error"); *@
                     console.log("Error")
                 } else {
                     console.log("Ok")
-                        
-                        @* SuccessMessage("Done", "Done", "Done"); *@
                 }
             },
             error: function() {
