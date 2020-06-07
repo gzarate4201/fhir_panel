@@ -94,30 +94,9 @@ namespace AspStudio.Controllers
         }
 
 
-
-        [HttpPost]
-        public async void publishMQTT(MqttModel model) {
-            var configuration = new MqttConfiguration {
-                BufferSize = 128 * 1024,
-                Port = 1883,
-                KeepAliveSecs = 10,
-                WaitTimeoutSecs = 2,
-                MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-                AllowWildcardsInTopicFilters = true 
-            };
-            var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-            var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
-            var message1 = new MqttApplicationMessage(model.topic, Encoding.UTF8.GetBytes(model.msg)); 
-
-            await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
-            await client.DisconnectAsync();
-
-        }
-
-
         [HttpGet]
         [HttpPost]
-        public async void testPost(MqttCon mqtt) {
+        public async void publishMQTT(MqttCon mqtt) {
             if (string.IsNullOrEmpty(mqtt.topic) ||
                 string.IsNullOrEmpty(mqtt.msg))
             {
@@ -139,9 +118,7 @@ namespace AspStudio.Controllers
 
                 await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
                 await client.DisconnectAsync();
-            }
-
-            
+            }      
 
         }
 

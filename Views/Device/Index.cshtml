@@ -284,7 +284,8 @@
             url: '@Url.Action("publishMQTT", "Device")',
             dataType: "json",
             data:{
-                device_id: dev_id,
+                topic:"publishTest",
+                msg: "{"mqtt_cmd": 1,"mqtt_operate_id": 10, "device_id": "7101389947741", "tag": "platfrom define", "bind_ctrl": 1}",
             },
             async: false,
             success: function(data) {
