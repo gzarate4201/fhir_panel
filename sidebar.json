@@ -33,12 +33,6 @@
       "action": "Index",
       "icon": "fa fa-home",
       "text": "Sistema"
-    },
-    {
-      "controller": "Terminal",
-      "action": "Index",
-      "icon": "fa fa-cog",
-      "text": "Terminal"
     }
   ]
 }

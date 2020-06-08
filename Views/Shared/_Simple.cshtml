@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sirona</title>
+    <title>@ViewData["Title"] - Sistema administración dispositivos</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -20,17 +20,23 @@
 </head>
 <body>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
+        @* <partial name="_CookieConsentPartial" /> *@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Sirona - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @* <footer class="border-top footer text-muted">
+        <div id="footer" class="app-footer" style="padding:40px; margin-top:-50px;">
+            <img src="~/img/qa-ingenieros-logo.jpg" style="height:128px" />
+            <small>&copy; 2020 - QA Ingenieros Ltda, Bogotá, Colombia <a href="mailto:info@qaingenieros.com">info@qaingenieros.com</a></small>
+            
+            <div class="float-right">
+                DRACO MQTT V 0.1
+            </div>
         </div>
-    </footer>
+    </footer> *@
+     <partial name="_Footer" />
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

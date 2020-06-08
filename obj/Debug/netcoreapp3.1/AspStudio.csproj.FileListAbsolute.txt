@@ -606,17 +606,9 @@
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/runtimes/win/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/AspStudio.MvcApplicationPartsAssemblyInfo.cs
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/AspStudio.StaticWebAssets.xml
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Identity.UI.Views.V3.dll
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Identity.UI.Views.V4.dll
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Identity.UI.dll
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.Extensions.FileProviders.Abstractions.dll
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.Extensions.FileProviders.Embedded.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Areas/Identity/Pages/_ViewStart.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_LoginPartial.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Account/Login.cshtml.g.cs
-/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Account/LoginPersonas.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_Simple.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_CookieConsentPartial.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Reporte/Index.cshtml.g.cs
@@ -626,3 +618,4 @@
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/System.Reactive.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/System.Reactive.xml
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Device/testPost.cshtml.g.cs
+/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Design.dll
