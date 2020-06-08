@@ -102,23 +102,47 @@ namespace AspStudio.Controllers
             {
                 Console.WriteLine("Debe contener Topic y Message");
             } else {
-                Console.WriteLine(mqtt.topic);
-                Console.WriteLine(mqtt.msg);
-                var configuration = new MqttConfiguration {
-                    BufferSize = 128 * 1024,
-                    Port = 1883,
-                    KeepAliveSecs = 10,
-                    WaitTimeoutSecs = 2,
-                    MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-                    AllowWildcardsInTopicFilters = true 
-                };
-                var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-                var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
-                var message1 = new MqttApplicationMessage(mqtt.topic, Encoding.UTF8.GetBytes(mqtt.msg)); 
+                try{
+                    Console.WriteLine(mqtt.topic);
+                    Console.WriteLine(mqtt.msg);
+                    var configuration = new MqttConfiguration {
+                        BufferSize = 128 * 1024,
+                        Port = 1883,
+                        KeepAliveSecs = 10,
+                        WaitTimeoutSecs = 2,
+                        MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
+                        AllowWildcardsInTopicFilters = true 
+                    };
+                    var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
+                    var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
+                    var message1 = new MqttApplicationMessage(mqtt.topic, Encoding.UTF8.GetBytes(mqtt.msg)); 
 
-                await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
-                await client.DisconnectAsync();
-            }      
+                    await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
+                    await client.DisconnectAsync();
+                }
+                catch (TimeoutException timeEx)
+                {
+                    Console.WriteLine("Time out failed....");
+                    Console.WriteLine(timeEx.ToString());
+                }
+                catch (MqttConnectionException connectionEx)
+                {
+                    Console.WriteLine("MQTT connection failed....");
+                    Console.WriteLine(connectionEx.ToString());
+                }
+                catch (MqttClientException clientEx)
+                {
+                    Console.WriteLine("MQTT client failed....");
+                    Console.WriteLine(clientEx.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Standard Exception failed....");
+                    Console.WriteLine(ex.ToString());
+                }
+                
+            }
+      
 
         }
 

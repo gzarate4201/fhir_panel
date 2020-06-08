@@ -260,6 +260,9 @@
 
 
 <script>
+
+    var dev_token = "";
+
     $('#bind').on('click', function () {
         alert('Binding');
     });
@@ -274,6 +277,7 @@
 
 
     $('#bind').on('click', bindMqtt());
+    $('#unbind').on('click', unBindMqtt());
 
     function bindMqtt() {
         var dev_id = $('#bind_device_id').val();
@@ -293,6 +297,44 @@
                         device_id: dev_id,
                         tag: dev_tag,
                         bind_ctrl: 1
+                    }
+                ),
+            },
+            async: false,
+            success: function(data) {
+                if (data == null || data.data == null) {
+                    console.log("Error");
+                    dev_token = "1514348271";
+                } else {
+                    console.log("Ok")
+                }
+            },
+            error: function() {
+                console.log("Error Ajax");
+            }
+        });
+    }
+
+    function unBindMqtt() {
+        var dev_id = $('#bind_device_id').val();
+        var dev_tag = $('#bind_tag').val();
+        
+        console.log(dev_id);
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: JSON.stringify(
+                    {
+                        mqtt_cmd: 1,
+                        mqtt_operate_id: 10,
+                        device_token: dev_token,
+                        device_id: dev_id,
+                        tag: dev_tag,
+                        bind_ctrl: 0
                     }
                 ),
             },
