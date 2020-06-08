@@ -13,7 +13,5 @@ namespace AspStudio.Models
 
         [Required]
         public string Password { get; set; }
-
-        public int EmpresaId { get; set; }
     }
 }
