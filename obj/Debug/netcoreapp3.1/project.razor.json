@@ -20551,11 +20551,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/Views/Account/LoginPersonas.cshtml",
-      "TargetPath": "Views\\Account\\LoginPersonas.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/Views/Reporte/Index.cshtml",
       "TargetPath": "Views\\Reporte\\Index.cshtml",
       "FileKind": "mvc"
