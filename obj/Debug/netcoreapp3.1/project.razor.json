@@ -20576,6 +20576,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/Views/Shared/_rightDebug.cshtml",
+      "TargetPath": "Views\\Shared\\_rightDebug.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/Views/Sistema/Index.cshtml",
       "TargetPath": "Views\\Sistema\\Index.cshtml",
       "FileKind": "mvc"
