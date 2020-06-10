@@ -118,9 +118,17 @@
 #mqtt_send {
 	padding:10px;
 	margin:10px;
-	background-color: #81aF81;
+	/* background-color: #81aF81; */
 	border:	1px solid black;
 	border-radius: 5px;
 	font-size: 50%;
     /* min-height: 40%; */
 }
+
+.wordwrap { 
+	white-space: pre-wrap;      /* CSS3 */   
+	white-space: -moz-pre-wrap; /* Firefox */    
+	white-space: -pre-wrap;     /* Opera <7 */   
+	white-space: -o-pre-wrap;   /* Opera 7 */    
+	word-wrap: break-word;      /* IE */
+ }

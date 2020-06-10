@@ -5,6 +5,8 @@ using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using SignalRChat.Hubs;
 
 namespace Mqtt.Client.AspNetCore.Services
 {
@@ -12,7 +14,8 @@ namespace Mqtt.Client.AspNetCore.Services
     {
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
-
+        public IHubContext<ChatHub> _Hub;
+        
         public MqttClientService(IMqttClientOptions options)
         {
             this.options = options;
@@ -27,13 +30,17 @@ namespace Mqtt.Client.AspNetCore.Services
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
 
-        public Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
+        public  Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
+            
             System.Console.WriteLine("Mensaje recibido");
             System.Console.WriteLine(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            // await Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
+            // await _Hub.Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
             return Task.FromResult(0);
         }
 
+        // Subscribirse al Topic que envia la tableta
         public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("connected");
