@@ -21,6 +21,7 @@
     <PackageReference Include="MQTTnet" Version="3.0.12-rc1"/>
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.12-rc1"/>
     <PackageReference Include="OdeToCode.UseNodeModules" Version="3.0.0"/>
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1"/>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Device\"/>

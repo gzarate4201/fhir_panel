@@ -1,3 +1,4 @@
+// Clase que me permite inyectarla en otras clases
 namespace Mqtt.Client.AspNetCore.Services
 {
     public class MqttService

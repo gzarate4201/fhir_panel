@@ -11,7 +11,7 @@
         <div class="row" id="mqtt_send" style="height:30%; border-left:1px">
             <div class="col-md-12">
                 <h5 style="text-align:center;"> Datos de salida Mqtt</h5>
-                <div class="mqtt_send">
+                <div class="mqtt_send wordwrap">
                     
                 </div>
             </div>
@@ -32,10 +32,9 @@
             <div class="row">
 
                 <!-- Device Bind /unbind -->
-                <div class="card col-md-4">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">BIND /UNBIND</h4>
-                        <form>
 
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">IP Address 1</span></div><input type="text" class="form-control" id="bind_ip_add"/>
@@ -54,8 +53,6 @@
                                 <button class="btn btn-danger" id="unbind" type="">UN-BIND</button>
                             </div>
 
-
-                        </form>
                     </div>
                 </div>
 
@@ -63,7 +60,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">CONFIGURACION BASICA </h4>
-                        <form>
+                        
 
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">Nombre Dispositivo</span></div><input type="text" class="form-control" id="device_name"/>
@@ -87,7 +84,7 @@
                                 <button class="btn btn-success" id="basic_config" style="text-align:center">ACTUALIZAR</button>
                             </div>
 
-                        </form>
+                        
                     </div>
                 </div>
 
@@ -95,7 +92,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">DATOS DE RED</h4>
-                        <form>
+                        
 
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text"> Direccion IP</span></div><input type="text" class="form-control" />
@@ -127,7 +124,7 @@
                                 <button class="btn btn-success" id="network" style="text-align:center">ACTUALIZAR</button>
                             </div>
 
-                        </form>
+                        
                     </div>
                 </div>
 
@@ -135,7 +132,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">BRILLO / VOLUMEN / LUZ</h4>
-                        <form>
+                        
 
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input type="text" class="form-control" />
@@ -156,7 +153,7 @@
                                 <button class="btn btn-success" id="settings" style="text-align:center">ACTUALIZAR</button>
                             </div>
 
-                        </form>
+                        
                     </div>
                 </div>
 
@@ -164,7 +161,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">TEMPERATURA</h4>
-                        <form>
+                        
 
                             <div class="form-group">
                                 <div class="settingsElement">
@@ -206,7 +203,7 @@
                             <div class="row" style="margin-top:20px;justify-content:center">
                                 <button class="btn btn-success" id="temperature" style="text-align:center">ACTUALIZAR</button>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>
 
@@ -214,7 +211,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">INGRESO DE USUARIOS A LA BASE DE DATOS</h4>
-                        <form>
+                        
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text"> Nombre del lote </span></div><input type="text" class="form-control" />
                                 <div class="input-group-append"></div>
@@ -254,7 +251,7 @@
                             <div class="row" style="margin-top:20px;justify-content:center">
                                 <button class="btn btn-success" id="adds_user" style="align-self:center" >ACTUALIZAR</button>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>    
                     
@@ -262,7 +259,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">BORRADO EN LA BASE DE DATOS</h4>
-                        <form>
+                        
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input type="text" class="form-control" />
                                 <div class="input-group-append"><button class="btn btn-success" id="delete_batch" style="width:150px;">BORRAR LOTE</button></div>
@@ -275,7 +272,7 @@
                             <div class="row" style="justify-content: center">
                                 <button class="btn btn-danger" id="delete_all" style="text-align:center; margin-top:40px">BORRAR TODAS LAS FOTOS</button>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>     
             </div>
@@ -287,11 +284,13 @@
 <div class="clear"></div>
     
 
-
-
-
+    
+<!-- Carga las librerias de MQTT js -->
+<script src="~/js/mqtt.js"></script>
 
 <script>
+
+    
 
     var device_tkn = "1514348271";
 
@@ -350,7 +349,7 @@
                 )
             },
             error: function() {
-                console.log("Error Ajax");
+                console.log("Error sending Bind");
             }
         });
     }

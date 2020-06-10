@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SignalRChat.Hubs;
 
 // Se incluye la parte de MQTT
 using Mqtt.Client.AspNetCore.Extensions;
@@ -81,6 +82,9 @@ namespace studio
             //services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // Servicio de mensajeria entre server y client
+            services.AddSignalR();
+
             // Instancia los servicios de Mqtt
             services.AddMqttClientHostedService();
             // services.AddSingleton<ExtarnalService>();
@@ -116,6 +120,7 @@ namespace studio
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
