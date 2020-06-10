@@ -82,6 +82,18 @@ namespace studio
             //services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // Habilitar CORS
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowAnyOrigin()
+                        .AllowCredentials();
+                }));
+
+            
+
             // Servicio de mensajeria entre server y client
             services.AddSignalR();
 
@@ -120,7 +132,7 @@ namespace studio
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}");
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ChatHub>("/note");
             });
         }
     }
