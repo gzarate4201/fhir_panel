@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.SignalR;
 using SignalRChat.Hubs;
 
 
+
+
 // Modelo que contiene las variables de un mensaje MQTT
 // Para ser usadas dentro de un llamado HttpPost o HttpGet
 namespace AspStudio.Controllers

@@ -9,6 +9,7 @@ namespace AspStudio.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Device> Devices {get; set;}
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

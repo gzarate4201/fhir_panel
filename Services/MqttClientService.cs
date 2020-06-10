@@ -1,25 +1,120 @@
 ﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
+// Librerias para manejo de MQTT
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
-using System.Threading;
 
+// Librerias para manejo de tareas asincronicas
+using System.Threading;
 using System.Threading.Tasks;
+
+// Librerias para manejo de Notificaciones Cliente - Servidor
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
-
 using SignalRChat.Hubs;
+
+// Modeles para Base de datos
+using AspStudio.Models;
+using AspStudio.Data;
 
 
 namespace Mqtt.Client.AspNetCore.Services
 {
+    public class MqttObj {
+        public string topic {get; set;}
+        public string msg {get; set;}
+    }
+
+    public class deviceObj {
+        public int code {get; set;}
+        public string msg {get; set;}
+        public string device_id {get; set;}
+        public Int64 dev_cur_pts {get; set;}
+        public string tag {get; set;}
+    }
+
+    public class deviceDataObj {
+        public string device_token {get; set;}
+    }
+
+    public class deviceDataBasicObj {
+        public string dev_pwd {get; set;}
+        public string dev_name {get; set;}
+    }
+
+    public class deviceDataNetConfObj {
+        
+        public string ip_addr {get; set;}
+        public string net_mask {get; set;}
+        public string gateway {get; set;}
+        public string DDNS1 {get; set;}
+        public string DDNS2 {get; set;}
+        public int DHCP {get; set;}
+    }
+
+    public class deviceDataFaceRecObj {
+        
+        public int dec_face_num_cur {get; set;}
+        public int dec_interval_cur {get; set;}
+        public int dec_face_num_min {get; set;}
+        public int dec_face_num_max {get; set;}
+        public int dec_interval_min {get; set;}
+        public int dec_interval_max {get; set;}
+    }
+
+    public class deviceDataVerInfoObj {
+        
+        public string dev_model {get; set;}
+        public string firmware_ver {get; set;}
+        public string firmware_date {get; set;}
+    }
+
+    public class deviceDataFunParObj {
+        
+        public bool temp_dec_en {get; set;}
+        public bool stranger_pass_en {get; set;}
+        public bool make_check_en {get; set;}
+        public float alarm_temp {get; set;}
+        public float temp_comp {get; set;}
+        public int record_save_time {get; set;}
+
+        public bool save_record {get; set;}
+        public bool save_jpeg {get; set;}
+
+    }
+
+    public class deviceDataMqttProObj {
+        
+        public bool enable {get; set;}
+        public bool retain {get; set;}
+        public int pqos {get; set;}
+        public int sqos {get; set;}
+        public int port {get; set;}
+        public string server {get; set;}
+        public string username {get; set;}
+        public string passwd {get; set;}
+        public string topic2pulish {get; set;}
+        public string topic2subscribe {get; set;}
+        public int heartbeat {get; set;}
+        
+
+    }
+
     public class MqttClientService : IMqttClientService
     {
+        // Instancias para manejo de la libreria de MQTTnet
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
-        public IHubContext<ChatHub> _Hub;
+
+        // Instancias para manejo de la conexion a BD
+        private readonly ApplicationDbContext dbContext;
+
 
         HubConnection connection;
         
@@ -50,8 +145,8 @@ namespace Mqtt.Client.AspNetCore.Services
         {
             
             System.Console.WriteLine("Mensaje recibido");
-
-            System.Console.WriteLine(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            HandleRecivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            // System.Console.WriteLine(eventArgs.ApplicationMessage.ConvertPayloadToString());
             // await Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
             try {
                 System.Console.WriteLine("Conectando al Hub");
@@ -68,6 +163,24 @@ namespace Mqtt.Client.AspNetCore.Services
             }
             
         
+        }
+
+        public  void HandleRecivedMessagePayload(string JsonMsg) {
+            try {
+                // var mensaje =  JsonSerializer.Deserialize<deviceObj>(JsonMsg);
+                var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
+
+                var code = mensaje.code;
+                var device_id = mensaje.device_id;
+                var cur_pts = mensaje.dev_cur_pts;
+                var tag = mensaje.tag;
+                
+
+                System.Console.WriteLine(mensaje);
+            } catch (Exception e) {
+                System.Console.WriteLine("Error : " + e.Message);
+            }
+            
         }
 
         // Subscribirse al Topic que envia la tableta
