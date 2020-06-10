@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using AspStudio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,7 +83,8 @@ namespace studio
 
             // Instancia los servicios de Mqtt
             services.AddMqttClientHostedService();
-            services.AddSingleton<ExtarnalService>();
+            // services.AddSingleton<ExtarnalService>();
+            services.AddSingleton<MqttService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,12 +101,15 @@ namespace studio
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseNodeModules();
 
             app.UseEndpoints(endpoints =>
             {
