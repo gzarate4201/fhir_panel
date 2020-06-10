@@ -167,15 +167,20 @@ namespace Mqtt.Client.AspNetCore.Services
 
         public  void HandleRecivedMessagePayload(string JsonMsg) {
             try {
-                // var mensaje =  JsonSerializer.Deserialize<deviceObj>(JsonMsg);
+                // Se convierte la cadena del JsonMsg en un objeto dinamico para identificar el tipo de respuesta
+                // De acuerdo al contenido se realizan acciones
                 var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
 
+                // Determinar las variables comunes a todos los mensajes
                 var code = mensaje.code;
                 var device_id = mensaje.device_id;
                 var cur_pts = mensaje.dev_cur_pts;
                 var tag = mensaje.tag;
-                
 
+                // Debug de las variables principales
+                System.Console.WriteLine(code, device_id, cur_pts, tag);
+
+                // Se imprime el objeto por consola
                 System.Console.WriteLine(mensaje);
             } catch (Exception e) {
                 System.Console.WriteLine("Error : " + e.Message);
