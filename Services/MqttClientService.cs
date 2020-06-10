@@ -145,9 +145,11 @@ namespace Mqtt.Client.AspNetCore.Services
         {
             
             System.Console.WriteLine("Mensaje recibido");
-            HandleRecivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
-            // System.Console.WriteLine(eventArgs.ApplicationMessage.ConvertPayloadToString());
-            // await Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
+
+            // De acuerdo al mensaje recibido se ejecuta alguna accion 
+            HandleReceivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
+
+            // Envio por SignalR paraa comunicacion con el Cliente
             try {
                 System.Console.WriteLine("Conectando al Hub");
                 await connection.StartAsync();
@@ -165,20 +167,23 @@ namespace Mqtt.Client.AspNetCore.Services
         
         }
 
-        public  void HandleRecivedMessagePayload(string JsonMsg) {
+        public  void HandleReceivedMessagePayload(string JsonMsg) {
             try {
                 // Se convierte la cadena del JsonMsg en un objeto dinamico para identificar el tipo de respuesta
                 // De acuerdo al contenido se realizan acciones
                 var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
 
-                // Determinar las variables comunes a todos los mensajes
-                var code = mensaje.code;
-                var device_id = mensaje.device_id;
-                var cur_pts = mensaje.dev_cur_pts;
-                var tag = mensaje.tag;
+                // // Determinar las variables comunes a todos los mensajes
+                // var code = mensaje.code;
+                // var device_id = mensaje.device_id;
+                // var cur_pts = mensaje.dev_cur_pts;
+                // var tag = mensaje.tag;
 
-                // Debug de las variables principales
-                System.Console.WriteLine(code, device_id, cur_pts, tag);
+
+                // De acuerdo al valor de datas, asignar los datos a un objeto
+                
+                // // Debug de las variables principales
+                // System.Console.WriteLine(code, device_id, cur_pts, tag);
 
                 // Se imprime el objeto por consola
                 System.Console.WriteLine(mensaje);
