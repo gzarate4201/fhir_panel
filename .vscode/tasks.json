@@ -3,8 +3,8 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
-            "type": "process",
+            "command": "/usr/local/share/dotnet/dotnet",
+            "type": "shell",
             "args": [
                 "build",
                 "${workspaceFolder}/AspStudio.csproj",
@@ -15,8 +15,8 @@
         },
         {
             "label": "publish",
-            "command": "dotnet",
-            "type": "process",
+            "command": "/usr/local/share/dotnet/dotnet",
+            "type": "shell",
             "args": [
                 "publish",
                 "${workspaceFolder}/AspStudio.csproj",
@@ -27,8 +27,8 @@
         },
         {
             "label": "watch",
-            "command": "dotnet",
-            "type": "process",
+            "command": "/usr/local/share/dotnet/dotnet",
+            "type": "shell",
             "args": [
                 "watch",
                 "run",
