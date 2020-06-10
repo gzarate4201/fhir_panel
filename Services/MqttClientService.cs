@@ -1,12 +1,17 @@
-﻿using MQTTnet;
+﻿using System;
+using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using System.Threading;
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
+
 using SignalRChat.Hubs;
+
 
 namespace Mqtt.Client.AspNetCore.Services
 {
@@ -15,14 +20,25 @@ namespace Mqtt.Client.AspNetCore.Services
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
         public IHubContext<ChatHub> _Hub;
+
+        HubConnection connection;
         
         public MqttClientService(IMqttClientOptions options)
         {
             this.options = options;
             mqttClient = new MqttFactory().CreateMqttClient();
             ConfigureMqttClient();
+            ConfigureHub();
         }
 
+        private async void ConfigureHub() 
+        {
+            connection = new HubConnectionBuilder()
+                .WithUrl("http://localhost:5000/note")
+                .Build();
+            // Thread.Sleep(10000);
+            
+        }
         private void ConfigureMqttClient()
         {
             mqttClient.ConnectedHandler = this;
@@ -30,14 +46,28 @@ namespace Mqtt.Client.AspNetCore.Services
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
 
-        public  Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
+        public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
             
             System.Console.WriteLine("Mensaje recibido");
+
             System.Console.WriteLine(eventArgs.ApplicationMessage.ConvertPayloadToString());
             // await Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
-            // await _Hub.Clients.All.SendAsync("ReceiveMessage", eventArgs.ApplicationMessage.Topic,eventArgs.ApplicationMessage.ConvertPayloadToString());
-            return Task.FromResult(0);
+            try {
+                System.Console.WriteLine("Conectando al Hub");
+                await connection.StartAsync();
+                System.Console.WriteLine("Enviando al Hub");
+                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, eventArgs.ApplicationMessage.ConvertPayloadToString());
+                System.Console.WriteLine("DesConectando del Hub");
+                await connection.StopAsync();
+                System.Console.WriteLine("Mensaje enviado por el Hub");
+            } catch (System.Exception e)
+            {
+                System.Console.WriteLine("Error sending Hub Message" + e.Message + e.StackTrace );
+                // throw new System.NotImplementedException();
+            }
+            
+        
         }
 
         // Subscribirse al Topic que envia la tableta
