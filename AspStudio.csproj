@@ -20,6 +20,7 @@
     <PackageReference Include="System.Net.Mqtt.Server" Version="0.6.3-beta"/>
     <PackageReference Include="MQTTnet" Version="3.0.12-rc1"/>
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.12-rc1"/>
+    <PackageReference Include="OdeToCode.UseNodeModules" Version="3.0.0"/>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Device\"/>
