@@ -93,7 +93,7 @@
 }
 #content_devices {
 	float: left;
-	width: 70%;
+	width: 85%;
 	overflow: scroll;
 	height: 100vh;
 }
@@ -101,15 +101,26 @@
 
 #right {
 	float: right;
-	background-color: #01DF01;
-	width: 40%;
+	border-left: 1px solid grey;
+	width: 30%;
 	height: 100vh;
 	/* position: fixed; */
 	clear: both;
+	font-size: 80%;
 }
 
 #mqtt_receive {
 	background-color: #81aF81;
 	border:	2px solid black;
+    /* min-height: 40%; */
+}
+
+#mqtt_send {
+	padding:10px;
+	margin:10px;
+	background-color: #81aF81;
+	border:	1px solid black;
+	border-radius: 5px;
+	font-size: 50%;
     /* min-height: 40%; */
 }

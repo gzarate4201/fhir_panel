@@ -10,7 +10,7 @@
     <div align="top" id="right" title="right pane" >
         <div class="row" id="mqtt_send" style="height:30%; border-left:1px">
             <div class="col-md-12">
-                <h2 style="text-align:center;"> Datos de salida Mqtt</h2>
+                <h5 style="text-align:center;"> Datos de salida Mqtt</h5>
                 <div class="mqtt_send">
                     
                 </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="row" style="height:70%; border-left:1px">
             <div class="col-md-12">
-                <h2  style="text-align:center;"> Datos de entrada Mqtt</h2>
+                <h5  style="text-align:center;"> Datos de entrada Mqtt</h5>
                 <div id="mqtt_receive">
 
                 </div>
@@ -332,7 +332,6 @@
                 bind_ctrl: 1
             };
         jsonMsg = JSON.stringify(jsonMsg);
-        
         console.log(jsonMsg);
         $.ajax({
             type: "GET",
@@ -344,11 +343,11 @@
             },
             async: false,
             success: function(data) {
-                if (data == null || data.data == null) {
-                    console.log("Error")
-                } else {
-                    console.log("Ok")
-                }
+                
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";  
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
             },
             error: function() {
                 console.log("Error Ajax");

@@ -620,3 +620,5 @@
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Device/testPost.cshtml.g.cs
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Design.dll
 /Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_rightDebug.cshtml.g.cs
+/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/MQTTnet.dll
+/Users/amejia/qa/Proy Temperatura/fhir_panel/AspStudio/bin/Debug/netcoreapp3.1/MQTTnet.Extensions.ManagedClient.dll
