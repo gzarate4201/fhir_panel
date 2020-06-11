@@ -198,7 +198,9 @@ namespace Mqtt.Client.AspNetCore.Services
                 // Se imprime el objeto por consola
                 System.Console.WriteLine("El mensaje recibido es: ");
                 System.Console.WriteLine(mensaje);
+
                 System.Console.WriteLine("Identificando respuesta:");
+
                 if (mensaje.code == -1)
                 {
                     System.Console.WriteLine("Error de comando, el dispositivo entregó código de error ");
@@ -210,6 +212,7 @@ namespace Mqtt.Client.AspNetCore.Services
                     if(mensaje.msg == "get param success")
                     {
                         System.Console.WriteLine("Los parámetros del device son los siguientes: ");
+
                         System.Console.WriteLine("Parámetros básicos: ");
                         System.Console.WriteLine("Nombre dispositivo: ");
                         System.Console.WriteLine(mensaje.datas.basic_parameters.dev_name);
@@ -295,6 +298,7 @@ namespace Mqtt.Client.AspNetCore.Services
                     }
 
                     // Respuesta a la orden Bind
+
                     if (mensaje.msg == "mqtt bind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo enlazado correctamente.");
@@ -354,6 +358,7 @@ namespace Mqtt.Client.AspNetCore.Services
                         
                         
                     }
+
                 }
                 
             } catch (Exception e) {
