@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/Users/amejia/.dotnet/store/|arch|/|tfm|",
-      "/Users/amejia/.nuget/packages"
-    ]
-  }
-}

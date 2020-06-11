@@ -3,11 +3,24 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net.Mqtt;
+// using System.Net.Mqtt;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Connecting;
+using MQTTnet.Client.Disconnecting;
+using MQTTnet.Client.Options;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using AspStudio.Models;
+using Microsoft.AspNetCore.SignalR;
+using SignalRChat.Hubs;
 
+
+
+
+// Modelo que contiene las variables de un mensaje MQTT
+// Para ser usadas dentro de un llamado HttpPost o HttpGet
 namespace AspStudio.Controllers
 {
     public class MqttCon {
@@ -20,8 +33,12 @@ namespace AspStudio.Controllers
     public class DeviceController : Controller
     {
 
+        // Inyecta la instancia de MQTTnet (mqttClient) que fue creada como
+        // servicio inyectable en StartUp.cs
+        static IMqttClient mqttClient = new MqttFactory().CreateMqttClient();
 
         private readonly ILogger<DeviceController> _logger;
+
 
         public DeviceController(ILogger<DeviceController> logger)
         {
@@ -30,118 +47,50 @@ namespace AspStudio.Controllers
 
         public IActionResult Index()
         {
-            
-
             return View();
         }
 
-        // public async void connectMQTT(object sender, EventArgs e) {
-            
-        //     var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-        //     var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
+        [HttpPost]
+        [HttpGet]
+        public async Task<JsonResult> publishMQTT(MqttCon mqtt) {
 
-        //     return(client);
-        // }
+            // Inicializar respuesta 
+            string result = string.Empty;
 
-        // public async void subscribeAll() {
-        //     var configuration = new MqttConfiguration {
-        //         BufferSize = 128 * 1024,
-        //         Port = 1883,
-        //         KeepAliveSecs = 10,
-        //         WaitTimeoutSecs = 2,
-        //         MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-        //         AllowWildcardsInTopicFilters = true 
-        //     };
-        //     var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-        //     await client.SubscribeAsync("SubscribeTest", MqttQualityOfService.AtMostOnce);
-        //     await client.DisconnectAsync();
-        // }
+            // Debug
+            Console.WriteLine(mqtt.topic);
+            Console.WriteLine(mqtt.msg);
 
-        // public async void publish(String message, String topic) {
-        //     var configuration = new MqttConfiguration {
-        //         BufferSize = 128 * 1024,
-        //         Port = 1883,
-        //         KeepAliveSecs = 10,
-        //         WaitTimeoutSecs = 2,
-        //         MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-        //         AllowWildcardsInTopicFilters = true 
-        //     };
-        //     var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-        //     var message1 = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(message)); 
-        //     await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
-        //     await client.DisconnectAsync();
+            // Parametros para la configuracion del cliente MQTT.
+            var options = new MqttClientOptionsBuilder()
+                .WithClientId("Client123456789")
+                .WithTcpServer("iot02.qaingenieros.com")
+                .WithCleanSession()
+                .Build();
 
-        // }
+            // Consruye el mensaje MQTT
+            var msg = new MqttApplicationMessageBuilder()
+                .WithTopic(mqtt.topic)
+                .WithPayload(mqtt.msg)
+                .WithExactlyOnceQoS()
+                .WithRetainFlag()
+                .Build();
 
-        // public async void publishTest() {
-        //     var configuration = new MqttConfiguration {
-        //         BufferSize = 128 * 1024,
-        //         Port = 1883,
-        //         KeepAliveSecs = 10,
-        //         WaitTimeoutSecs = 2,
-        //         MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-        //         AllowWildcardsInTopicFilters = true 
-        //     };
-        //     var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-        //     var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
-        //     var message1 = new MqttApplicationMessage("PublishTest", Encoding.UTF8.GetBytes("Hola Mundo")); 
-        //     await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
-        //     await client.DisconnectAsync();
+            // Console.WriteLine(msg.ConvertPayloadToString());
+            // Establece conexion con el Broker
+            await mqttClient.ConnectAsync(options);
+            // Envia mensaje MQTT
+            mqttClient.PublishAsync(msg).Wait();
 
-        // }
+            // Cierra la conexion
+            await mqttClient.DisconnectAsync();
 
+            // Retorna Json indicando que fue exitoso
+            return Json(new {success=true});
 
-        // [HttpGet]
-        // [HttpPost]
-        // public async void publishMQTT(MqttCon mqtt) {
-        //     if (string.IsNullOrEmpty(mqtt.topic) ||
-        //         string.IsNullOrEmpty(mqtt.msg))
-        //     {
-        //         Console.WriteLine("Debe contener Topic y Message");
-        //     } else {
-        //         try{
-        //             Console.WriteLine(mqtt.topic);
-        //             Console.WriteLine(mqtt.msg);
-        //             var configuration = new MqttConfiguration {
-        //                 BufferSize = 128 * 1024,
-        //                 Port = 1883,
-        //                 KeepAliveSecs = 10,
-        //                 WaitTimeoutSecs = 2,
-        //                 MaximumQualityOfService = MqttQualityOfService.AtMostOnce,	
-        //                 AllowWildcardsInTopicFilters = true 
-        //             };
-        //             var client = await MqttClient.CreateAsync("iot02.qaingenieros.com", configuration);
-        //             var sessionState = await client.ConnectAsync (new MqttClientCredentials(clientId: "foo"));
-        //             var message1 = new MqttApplicationMessage(mqtt.topic, Encoding.UTF8.GetBytes(mqtt.msg)); 
+        }
 
-        //             await client.PublishAsync(message1, MqttQualityOfService.AtMostOnce); //QoS0
-        //             await client.DisconnectAsync();
-        //         }
-        //         catch (TimeoutException timeEx)
-        //         {
-        //             Console.WriteLine("Time out failed....");
-        //             Console.WriteLine(timeEx.ToString());
-        //         }
-        //         catch (MqttConnectionException connectionEx)
-        //         {
-        //             Console.WriteLine("MQTT connection failed....");
-        //             Console.WriteLine(connectionEx.ToString());
-        //         }
-        //         catch (MqttClientException clientEx)
-        //         {
-        //             Console.WriteLine("MQTT client failed....");
-        //             Console.WriteLine(clientEx.ToString());
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             Console.WriteLine("Standard Exception failed....");
-        //             Console.WriteLine(ex.ToString());
-        //         }
-                
-        //     }
-      
-
-        // }
+        
 
     }
 }

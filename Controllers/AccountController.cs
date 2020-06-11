@@ -32,7 +32,7 @@ namespace AspStudio.Controllers
          dbContext.Usuarios.Where(c=>c.Nombre.Contains("a")) // traer todos los registros cuyo nombre sea A
 
             // insertar un registro
-     var usuario = new Usuario()
+            var usuario = new Usuario()
                 {
                      Nombre = "Juan",
                      Login = "juanperez",

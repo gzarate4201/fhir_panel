@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using AspStudio.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SignalRChat.Hubs;
 
 // Se incluye la parte de MQTT
 using Mqtt.Client.AspNetCore.Extensions;
@@ -80,9 +82,25 @@ namespace studio
             //services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // Habilitar CORS
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowAnyOrigin()
+                        .AllowCredentials();
+                }));
+
+            
+
+            // Servicio de mensajeria entre server y client
+            services.AddSignalR();
+
             // Instancia los servicios de Mqtt
             services.AddMqttClientHostedService();
-            services.AddSingleton<ExtarnalService>();
+            // services.AddSingleton<ExtarnalService>();
+            services.AddSingleton<MqttService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,6 +117,7 @@ namespace studio
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -106,11 +125,14 @@ namespace studio
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseNodeModules();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}");
+                endpoints.MapHub<ChatHub>("/note");
             });
         }
     }

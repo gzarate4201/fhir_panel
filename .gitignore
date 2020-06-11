@@ -24,9 +24,9 @@ _UpgradeReport_Files/
 ###############
 bin/
 obj/
-bin/Debug
-obj/Debug
 TestResults/
+node_modules/
+
 ###################
 # Web publish log #
 ###################
