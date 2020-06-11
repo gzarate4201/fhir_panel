@@ -48,7 +48,7 @@ namespace AspStudio.Models
         public string DDNS2 { get; set; }
 
         [Column("DHCP")]
-        public string DHCP { get; set; }
+        public short DHCP { get; set; }
 
         [Column("dec_face_num_cur")]
         public string DecFaceNumCur { get; set; }
@@ -78,13 +78,13 @@ namespace AspStudio.Models
         public string FwrDate { get; set; }
 
         [Column("temp_dec_en")]
-        public string TempDecEn { get; set; }
+        public short TempDecEn { get; set; }
 
         [Column("stranger_pass_en")]
-        public string StrPassEn { get; set; }
+        public short StrPassEn { get; set; }
 
         [Column("make_check_en")]
-        public string MkeChkEn { get; set; }
+        public short MkeChkEn { get; set; }
 
         [Column("alarm_temp")]
         public string AlarmTemp { get; set; }
@@ -96,16 +96,16 @@ namespace AspStudio.Models
         public string RcrdTimeSv { get; set; }
 
         [Column("save_record")]
-        public string SvRec { get; set; }
+        public short SvRec { get; set; }
 
-        [Column("save_jpg")]
-        public string SvJpg { get; set; }
+        [Column("save_jpeg")]
+        public short SvJpg { get; set; }
 
         [Column("mqtt_enable")]
-        public string MqttEn { get; set; }
+        public short MqttEn { get; set; }
 
         [Column("mqtt_retain")]
-        public string MqttRet { get; set; }
+        public short MqttRet { get; set; }
 
         [Column("pqos")]
         public string PQos { get; set; }
@@ -113,7 +113,7 @@ namespace AspStudio.Models
         [Column("sqos")]
         public string SQos { get; set; }
 
-        [Column("maqtt_port")]
+        [Column("mqtt_port")]
         public string MqttPrt { get; set; }
 
         [Column("mqtt_server")]
@@ -122,7 +122,7 @@ namespace AspStudio.Models
         [Column("mqtt_username")]
         public string MqttUsr { get; set; }
 
-        [Column("maqtt_password")]
+        [Column("mqtt_password")]
         public string MqttPwd { get; set; }
 
         [Column("topic2publish")]

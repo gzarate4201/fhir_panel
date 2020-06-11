@@ -175,7 +175,13 @@ namespace Mqtt.Client.AspNetCore.Services
             
         
         }
-
+        /// <summary>
+        /// Esta función realiza la extracción de los parámetros recibidos enviados por el dispositivo
+        /// 
+        /// </summary>
+        /// <param name="JsonMsg">
+        /// El parámetro es el JSON enviado por el dispositivo, capturado por MQTTClient y notificado al ForeGround por el servicio SignalR.
+        /// </param>
         public  void HandleReceivedMessagePayload(string JsonMsg) {
             DateTime localDate = DateTime.Now;
             try {
@@ -294,7 +300,55 @@ namespace Mqtt.Client.AspNetCore.Services
                         System.Console.WriteLine("Tópico para suscripción: ");
                         System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
                         System.Console.WriteLine("HeartBeat: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);                     
+                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);
+
+                        // Creación del objeto device para ser ingresado a la base de datos
+                        // Se hace la recolección de parámetros de la trama recibida. 
+                        var device = new Device()
+                        {
+                            Id = 0,
+                            DevId = "1",
+                            DevTag = "2",
+                            DevTkn = "3",
+                            DevPwd = mensaje.datas.basic_parameters.dev_pwd,
+                            DevName = mensaje.datas.basic_parameters.dev_name,
+                            IpAddr = mensaje.datas.network_config.ip_addr,
+                            NetMsk = mensaje.datas.network_config.net_mask,
+                            NetGw = mensaje.datas.network_config.gateway,
+                            DDNS1 = mensaje.datas.network_config.DDNS1,
+                            DDNS2 = mensaje.datas.network_config.DDNS2,
+                            DHCP = mensaje.datas.network_config.DHCP,
+                            DecFaceNumCur = mensaje.datas.face_recognition_cfg.dec_face_num_cur,
+                            DecIntCur = mensaje.datas.face_recognition_cfg.dec_interval_cur,
+                            DecFaceNumMin = mensaje.datas.face_recognition_cfg.dec_face_num_min,
+                            DecFaceNumMax = mensaje.datas.face_recognition_cfg.dec_face_num_max,
+                            DecIntMin = mensaje.datas.face_recognition_cfg.dec_interval_min,
+                            DecIntMax = mensaje.datas.face_recognition_cfg.dec_interval_max,
+                            DevMdl = mensaje.datas.version_info.dev_model,
+                            FwrVer = mensaje.datas.version_info.firmware_ver,
+                            FwrDate = mensaje.datas.version_info.firmware_ver,
+                            TempDecEn = mensaje.datas.fun_param.temp_dec_en,
+                            StrPassEn = mensaje.datas.fun_param.stranger_pass_en,
+                            MkeChkEn = mensaje.datas.fun_param.make_check_en,
+                            AlarmTemp = mensaje.datas.fun_param.alarm_temp,
+                            TempComp = mensaje.datas.fun_param.temp_comp,
+                            RcrdTimeSv = mensaje.datas.fun_param.record_save_time,
+                            SvRec = mensaje.datas.fun_param.save_record,
+                            SvJpg = mensaje.datas.fun_param.save_jpeg,
+                            MqttEn = mensaje.datas.mqtt_protocol_set.enable,
+                            MqttRet = mensaje.datas.mqtt_protocol_set.retain,
+                            PQos = mensaje.datas.mqtt_protocol_set.pqos,
+                            SQos = mensaje.datas.mqtt_protocol_set.sqos,
+                            MqttPrt = mensaje.datas.mqtt_protocol_set.port,
+                            MqttSrv = mensaje.datas.mqtt_protocol_set.server,
+                            MqttUsr = mensaje.datas.mqtt_protocol_set.username,
+                            MqttPwd = mensaje.datas.mqtt_protocol_set.passwd,
+                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2publish,
+                            Topic2Sub = mensaje.datas.mqtt_protocol_set.topic2subscribe,
+                            HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat
+                        };
+
+                        StoreDevice(device);
                     }
 
                     // Respuesta a la orden Bind
@@ -404,6 +458,31 @@ namespace Mqtt.Client.AspNetCore.Services
                 }
             }
             
+        }
+        public void StoreDevice(Device dev)
+        {
+
+            using (var scope = _scopeFactory.CreateScope())
+            {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    dbContext.Devices.Add(dev);
+                    dbContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                }
+            }
+
         }
 
         // Subscribirse al Topic que envia la tableta
