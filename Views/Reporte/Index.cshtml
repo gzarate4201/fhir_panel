@@ -22,8 +22,8 @@
                 <h5>Consulta por páginas</h5>
                 <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input type="text" class="form-control" />
-                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">REALIZAR CONSULTA</button></div>
+                    <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input  autocomplete="off" type="text" class="form-control" id="page" />
+                    <div class="input-group-append"><button class="btn btn-success" id="query_pages" style="width:165px;">REALIZAR CONSULTA</button></div>
                 </div>
                 <br>
                 <div class="row">
@@ -32,8 +32,8 @@
                 <h5>Consulta por lote</h5>
                 <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input type="text" class="form-control" />
-                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">CONSULTAR LOTE</button></div>
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch"/>
+                    <div class="input-group-append"><button class="btn btn-success" id="query_batch" style="width:165px;">CONSULTAR LOTE</button></div>
                 </div>
                 <br>
                 <div class="row">
@@ -42,14 +42,223 @@
                 <h5>Consulta por usuario</h5>
                 <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input type="text" class="form-control" />
-                    <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:165px;">CONSULTAR USUARIO</button></div>
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user"/>
+                    <div class="input-group-append"><button class="btn btn-success" id="query_user" style="width:165px;">CONSULTAR USUARIO</button></div>
                 </div>
                 <div class="row">
                 </div>
             </form>
         </div>
     </div>
+    <!-- Carga las librerias de MQTT js -->
+    <!--  <script src="~/js/mqtt.js"></script> -->
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script>
+
+    var device_tkn = "1514348271";
+
+    $('#query_pages').on('click',queryPages);
+    $('#query_batch').on('click', queryBatch);
+    $('#query_user').on('click', queryUser);
+
+    /* device basic configuration example
+    {
+        "mqtt_cmd":1,
+        "mqtt_operate_id":1,
+        "device_token":"1057628122",
+        "device_id":"7101389947744",
+        "tag":"platfrom define",
+        "basic_config":
+        {
+            "dev_name":"12315456445864",
+            "dev_pwd":"YWRtaW4=",
+            "sync_server_pts_en":true,
+            "server_cur_pts":"2020/05/18 11:07"
+        }
+    }
+
+    */
+
+    function queryPages() {
+        var dev_id = "";
+        var dev_tag = "";
+        var pages = $('#page').val()
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:4,
+				page: pages
+        }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying pages");
+            }
+        });
+    }
+
+    /* device basic configuration example
+    {
+            "mqtt_cmd": 1,
+            "mqtt_operate_id": 7,
+            "device_token": "1514348271",
+            "device_id": "7101389947744",
+            "tag": "platfrom define",
+            "piclib_manage": 5,
+            "param": {
+                "lib": [
+                    {
+                        "lib_id": "8"
+                    },
+                    {
+                        "lib_id": "9"
+                    }
+                ]
+            }
+        }
+
+    */
+
+        function queryBatch() {
+        var dev_id = "";
+        var dev_tag = "";
+        var batchs = $('#batch').val()
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:5,
+                param: {
+
+                    lib: {
+                        lib_id: batchs
+                    }
+
+                }
+            }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying batchs");
+            }
+        });
+        }
+
+    /* query individual or multiple user face database information
+  {
+				"mqtt_cmd":1,
+				"mqtt_operate_id":7,
+				"device_token":"1057628122",
+				"device_id":"7101389947744",
+				"tag":"platfrom define",
+				"piclib_manage":6,
+				"param":{
+					"users":[
+						{
+							"user_id":"1"
+						},
+						{
+							"user_id":"2"
+						}
+					]
+				}
+			}
+
+
+    */
+
+        function queryBatch() {
+        var dev_id = "";
+        var dev_tag = "";
+        var users = $('#user').val()
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:6,
+                param:
+                {
+                    users:
+                    {
+                        user_id: users
+                     }
+
+                }
+            }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying users");
+            }
+        });
+        }
+    </script>
 
 </div>
 
