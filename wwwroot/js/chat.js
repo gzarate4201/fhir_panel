@@ -15,7 +15,16 @@ connection.start().then(function () {
 
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var mensaje = JSON.parse(message);
+    mensaje = JSON.parse(message);
+
+    // Determina los valores para conexion de las otras tramas
+    if(mensaje.msg=="mqtt bind ctrl success") {
+        tag = mensaje.tag;
+        device_id = mensaje.device_id;
+        device_tkn = mensaje.datas.device_token;
+    }
+    
+
 
     console.log(mensaje);
     

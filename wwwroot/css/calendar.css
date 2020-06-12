@@ -1,0 +1,86 @@
+/*!
+ *
+ *    CalendarPopup - Simple and usefull DateTimePicker
+ *    Author: Chupurnov Valeriy
+ *    Version: v1.0.3
+ *    Url: https://xdsoft.net/jqplugins/calendarpopup/
+ *    License(s): https://xdsoft.net/jqplugins/calendarpopup/license/
+ *
+ */
+.calendar-popup-icon{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAEnCAYAAAB7QGniAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxQUEzMjZDOUY2NDExRTFBODg5ODVBNzA3Njg3MUEwIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxQUEzMjZEOUY2NDExRTFBODg5ODVBNzA3Njg3MUEwIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFBQTMyNkE5RjY0MTFFMUE4ODk4NUE3MDc2ODcxQTAiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFBQTMyNkI5RjY0MTFFMUE4ODk4NUE3MDc2ODcxQTAiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4kAY3TAAAER0lEQVR42uyZSUslMRDHq9sWXFG8iDu4XTyoDAgevCv4voTfYL6OoB4Ujx58gnjyJiJuoILgvu/7hmsm//iSST+7J8F5MzxnOiBJVf1etqqudEeHMUYo29vbbHd3ly4vL6mwsJDKy8upsrLSgc0BNDU1xTIyMqiuro5yc3Pp7u6OVlZW6PX1lVpaWhza2NhgMzMzjCvE39jYmGrPz88z2N3NzU2qr6+noFJTU0Owew8PD5Sdna0Mz8/PNDo6Ktrt7e0EuwcAjZycHGHo6OhQP7i/vxcdOGtra+zq6ooaGxs/DLewsED5+fnvq5ucnGRZWVlUXV1NeXl5dHt7S+vr62KE1tZWx5H7tLW19WGfqqqqfu6TqXxZiFiiYFMHBgbQJNSQZUFPLB6PU0FBAZWVlcGpwgt7e3sET8RiMXK4l9nq6io1NTUJP3EfOtxnDLvNQ4Vqa2vJnZiYwM6KYHNdV0wBNWToYXfhhuLi4sD5Qg+7i/jJzMwMhKCH3UusMHnFPllBb29vSokHQM4tFJJtx3F+QlAClMNABiBhX0/JkK+nMMg3p5eXF7FUCaEte/H1pM8puXbJoqQQwrhIO/qSZRt62F0sE6vTVyNB6GF38VifnZ359gU1ZOhhd9va2gihGhQJ0MPuIjzxi+XlZZEoUFBDhh52jCueCK5kfX194mlBDRkF9n87YfyBrFJUVIRTiSoqKpydnR3GTy06Pz8XWQVnBxsfH2fcFeLQQU+oIUMPu8gqSPJBWQV6lVVKSkoC5wv957MKgs2YVTzP+1pZ5enpSUFop3tW8fSsorvmc1nl5OTkXdDiCX/Qq6yCUJUbKHuBDL3KKsfHx7S4uEjX19cCQg0Z+iirvEPd3d1GyuFvEl8TwmuQEbq5uTFD/G3LDF1cXJghfqaZIR7sZmh/f98M8XM27SCriacOOjw8NENHR0dGyBsaGkq7h5NZdJWWEM/XZoif+2bo8fExRQmDf4enKGFYPeanp6dpB1lNPHUQf/tLTfb1BgcH//PX/z8AyQRbWlrqBELJGTgZDD0RdDDa8VRC1jtu9J11FERu+Ztf+dPT07gCZHqBDL38MHTxaX1wcADfSR8KWf8UFwe1bpA1d7Sw+05zHUwAfsjUkxfUA+REbNmvLoqC9IzM/v5+Njs7y/QrCsjQq8hsaGigpaUlmpubE12ihgy9Os2bm5sRM8IgawAJvX9Oeg86oO4wdEAfWg0X0IMaWvVos7ooCv6DO1b1xz8Iv+uyupbTAf6bb6GQBEIhHQiDrO7p7IaznrhpC6JQiSCi0PBIvsT+ZgJJhu2vQNKflDDQ7mmxHs44cZstiEIlgjg0PDz8gYrFYh+/yuLxOAsDfKcUeoyCLoL+UUhRIyMjou7s7PQxni7hv5GfvbB20h767S2I4umLQ729vaLR1dUVfE8nAVmSQaenpydwPB2MdtwSst5Mo1usHWwqPwQYAL68iqBHZNxhAAAAAElFTkSuQmCC) no-repeat}
+.calendar-popup-arrow{border-radius:4px;display:inline-block;font-size:1px;height:28px;vertical-align:top;width:19px;cursor:pointer;background-position:7px -183px;margin-left:-3px}
+.calendar-popup-arrow.calendar-popup-arrow_next{background-position:8px -205px}
+.calendar-popup-arrow:hover{background-color:#ededed;text-decoration:none}
+.calendar-popup-container{background-color:#fff;box-shadow:0 7px 21px rgba(83,92,105,.12),0 -1px 6px 0 rgba(83,92,105,.06);padding:10px;font:13px "Helvetica Neue",Helvetica,Arial,sans-serif;display:none}
+.calendar-popup-container,.calendar-popup-container *{box-sizing:content-box!important}
+.calendar-popup-container_active{z-index:4000;position:absolute;display:block}
+.calendar-popup-composer,.calendar-popup-composer *{box-sizing:content-box!important}
+.calendar-popup-composer.calendar-popup-composer_header{margin-top:-2px;padding-bottom:5px}
+.calendar-popup-composer.calendar-popup-composer_header_selectors{display:inline-block;text-align:center;width:165px}
+.calendar-popup-composer.calendar-popup-composer_inline{border:1px solid #ccc;padding:10px;display:inline-block;background-color:#fff}
+.calendar-popup-select{display:inline-block;position:relative}
+.calendar-popup-select .calendar-popup-select_header{background-position:right -223px;color:#000!important;border-radius:3px;cursor:pointer;font-size:16px;line-height:20px;text-decoration:none!important;margin:0 1px;padding:5px 15px 3px 7px;display:block}
+.calendar-popup-select .calendar-popup-select_header:hover{background-color:#ededed;text-decoration:none}
+.calendar-popup-select .calendar-popup-container{position:absolute;top:-5px;left:-2px}
+.calendar-popup-select .calendar-popup-container .calendar-popup-select_title{text-align:left;color:#000;font-size:16px;line-height:20px;padding-bottom:5px}
+.calendar-popup-select .calendar-popup-container .calendar-popup-composer_selecr_variants{color:#000;border-top:1px solid #e5e5e5;font-size:13px;padding:5px 0 0 2px}
+.calendar-popup-select .calendar-popup-container .calendar-popup-composer_selecr_variants a{text-align:left;display:block;border-radius:3px;cursor:pointer;margin:0 0 2px -5px;text-decoration:none!important;padding:2px 0 2px 4px;color:#000}
+.calendar-popup-select .calendar-popup-container .calendar-popup-composer_selecr_variants a.calendar-popup-select-option_active{color:#ca0707}
+.calendar-popup-select .calendar-popup-container .calendar-popup-composer_selecr_variants a:hover{background-color:#ededed}
+.calendar-popup-input input{outline:0;background:#fff;border:1px solid #b5b5b5;border-radius:2px;box-shadow:inset 2px 2px 1px #ededed;height:19px;margin-top:10px;font-size:16px;text-align:center;width:41px}
+.calendar-popup-form-input{padding-right:32px;height:30px;line-height:30px}
+.calendar-popup-spinner{display:inline-block;vertical-align:top}
+.calendar-popup-spinner span{display:inline-block;vertical-align:top}
+.calendar-popup-spinner span a{padding-left:5px;padding-top:4px;height:14px;display:block;width:15px}
+.calendar-popup-spinner span a i{background-position:4px -125px;display:block;height:13px;width:14px}
+.calendar-popup-spinner span a:hover i{background-position:4px -275px;background-color:#f2f2f2}
+.calendar-popup-spinner span a:last-child{padding-top:0}
+.calendar-popup-spinner span a:last-child i{background-position:4px -137px}
+.calendar-popup-spinner.calendar-popup-spinner_left span{margin-left:2px}
+.calendar-popup-spinner.calendar-popup-spinner_right span a{padding-left:1px;padding-right:5px}
+.calendar-popup-spinner .calendar-popup-spinner_separator{color:#aaa;display:inline-block;height:23px;font-size:14px;font-weight:700;text-align:center;padding-top:7px;vertical-align:top;width:8px;background-position:0 -246px}
+.calendar-popup-spinner input{outline:0;background:#fff;border:1px solid #d1d1d1;box-shadow:inset 1px 1px 0 #f7f7f7;display:inline-block;height:21px;margin-top:6px;font-size:15px;text-align:center;padding:0;vertical-align:top;width:28px}
+.calendar-popup-composer_calendar-popup-timepicker{min-width:182px;border-top:1px solid #f2f2f2;border-bottom:1px solid #f2f2f2;margin:-5px 0 0 0;position:relative;text-decoration:none}
+.calendar-popup-composer_calendar-popup-timepicker .calendar-popup-timepicker_toggler{cursor:pointer;font-size:11px;color:#b2b2b2!important;display:none;height:14px;line-height:14px;margin-right:3px;text-align:center;padding:1px 0 0;text-decoration:none}
+.calendar-popup-composer_calendar-popup-timepicker .calendar-popup-timepicker_toggler i{background-position:0 0;height:9px;display:inline-block;margin:2px 3px 0 0;vertical-align:top;width:9px}
+.calendar-popup-composer_calendar-popup-timepicker .calendar-popup-select_title{display:inline-block;color:#a6a6a6;font-size:11px;margin-top:10px;padding:0 0 0 5px;vertical-align:top;width:38px}
+.calendar-popup-composer_calendar-popup-timepicker.calendar-popup-timepicker_closed .calendar-popup-timepicker_toggler{display:block}
+.calendar-popup-composer_calendar-popup-timepicker.calendar-popup-timepicker_closed .calendar-popup-composer_calendar-popup-timepicker_wrap{display:none}
+.calendar-popup-close{display:block;font-size:1px;right:-8px;top:0;height:35px;position:absolute;width:20px}
+.calendar-popup-close i{background-position:4px -151px;display:block;height:15px;margin:10px 0 0 0;width:15px}
+.calendar-popup-close:hover i{background-position:4px -169px;background-color:#e8e8e8}
+.calendar-popup-composer_calendar-popup-buttons{padding:9px 0 8px;text-align:center}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button{margin-right:8px;text-align:right;cursor:pointer;text-decoration:none;display:inline-block;vertical-align:top}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button i.calendar-popup-button_text{background-position:0 -99px;background-repeat:repeat-x;color:#000;display:inline-block;height:19px;font-size:12px;line-height:16px;vertical-align:top;padding:4px 10px 0}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button i:first-child{background-position:0 -45px;display:inline-block;vertical-align:top;height:23px;width:4px}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button i:last-child{background-position:-5px -45px;display:inline-block;vertical-align:top;height:23px;width:4px}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button:hover i.calendar-popup-button_text{background-position:0 -74px}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button:hover i:first-child{background-position:0 -15px}
+.calendar-popup-composer_calendar-popup-buttons .calendar-popup-button:hover i:last-child{background-position:-5px -15px}
+.calendar-popup-month{font-family:Arial,sans-serif}
+.calendar-popup-month *{box-sizing:content-box}
+.calendar-popup-month .calendar-popup-month-days-wrapper{background-color:#eee;height:12px;line-height:12px;padding:1px 7px 0 8px;position:relative;margin:0 -5px 3px -7px;z-index:5}
+.calendar-popup-month .calendar-popup-month-days-wrapper span{display:inline-block;color:#a9a9a9;font-size:10px;height:13px;margin:0 3px 0 2px;padding-top:0;text-align:center;vertical-align:top;width:23px}
+.calendar-popup-month .calendar-popup-month-dates-wrapper{overflow:hidden;position:relative;padding-bottom:5px}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div{border-bottom:1px solid #f3f2ed;margin:0 -5px 0 -7px;padding:1px 7px 1px 8px;position:relative;z-index:5}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div:last-child{border:0}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a{display:inline-block;font-size:12px;line-height:15px;height:19px;margin:0 3px 0 2px;padding-top:4px;text-align:center;text-decoration:none;vertical-align:top;width:23px;cursor:pointer;color:#000}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a:hover{background-color:#eee;color:#000;text-decoration:none}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a.calendar-popup-month-dates_now{background-color:#ecf6ff;color:#000}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a.calendar-popup-month-dates_weekend{color:#d25050}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a.calendar-popup-month-dates_fade{color:#ccc}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a.calendar-popup-month-dates_active{background-color:#dce3ea;color:#000}
+.calendar-popup-month .calendar-popup-month-dates-wrapper .calendar-popup-month-dates-wrapper_layer>div a.calendar-popup-week-index{background-color:#f9f9f9;color:#c7c6c6}
+.calendar-popup-input-wrapper{min-height:35px;display:inline-block;vertical-align:middle;min-width:191px;max-width:none;margin:0 10px 0 0;width:auto;position:relative;border:1px solid #c6cdd3;border-radius:2px;padding:5px 5px 0;background:#fff}
+.calendar-popup-input-wrapper,.calendar-popup-input-wrapper *{box-sizing:content-box!important}
+.calendar-popup-input-wrapper span:after{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAArCAYAAABxTggPAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABABJREFUeNrMVltIVVkY/teefQw7XTQoy6CiiYmaGTBiii4WlEWKpmM3igQfepkmipjosZgieuqhoCC6UClIQlERGeWL0wXzZFo+dFNPxwyhxtHMtOScs+b79/m3rrM9pwu9tOA7/95rrf/7r3uto1Zv3lpKRIeAoivlx26RMbCWDXEJ+Oty2dEzlGBYwAFgHFAlCqZylawdoCTD5r1ANZAmJHmQWpT9QJfsSTiUWJtrkLyXNVd5BUKr11onJ0hAQqYyvyQjsIxntugz3lOAkfSZYYn1JRDXhKRb4PcmNiFBAuUcQdeXkLAHlUbCcjhmiXuFQVL5KYI/gWYzYTwMEl7blrSMybL7pcOibxyWgEs2NRwO/9j0+ImGnIr30TwHTAQKotHo6OaWVg25EO/zgd+AUaw8RRpKdXZ1N9cGGgmS23gO0MubuDrdPe86au7cI0huttlAG7DLft4aDN6tvU+wqtcU5lGKbZHP55t1sqyiRiE9EfSgIqU2rSkkv9+PdTv1xLmK06kjUih7wTyyagMNNBAOE+8Khl7SxrVFFGp76bRuxMmvUvxtPWsJUnHBKoJBxKyo78MA3b4XIAU2jVJQVJLCReG4oqIqs8Zno+Q9NmdpHcVmNbjZscc/KrbFVRp6jn+yFTazu1tKNn5V+U6dq4BhzR6ouIUHj5ro4tUqunq9mhPrzL3p/I/Kz1+I2xeRLrBMl5xv2DeCCnNXEnvW0/OOIpEI1dU3krKsBAeJjnWiufTLrJ+o5UWIolFN6elpFGh4SD9jzrbjCbSbRHIyPhRGqP0VPX7aTCuXZTtehNraqe5+A73v7af6xibDA+V6oIUtdmzV1T+k/v4+unzthhP7huLVtP73AkpLH0tzs36N80FOZUU/uKywuK4wL2HWi/Nz40PQsdLbJE2DhjLaRbmtNNhUQ8m2xJjkIDNjgkxpiUvFgtIx5YjzLIowqfRQF2ZmjP9ODpRvGoMNUF1zOwPib6DEc6HwoXIcOJizdHGn95ZSojxH7gY+vvqAf+TEmQ4sAlKBF0AuSJ7EEUCZr+9HwGSgHNiJTf8ank2COAysE5Ks5UsWvTWv94OuMhRLDMUGiOWY68DzBjxzvxUD+4AdZhI3y5W+3ZOfLPeyBQn7/AfwESj1VoETVoNNXYZ1N4kf3Dmsv5bcjElUxlce60Uid4PMNubfJOuDKZ75G8AeIB8IgGSmzE8a1gdY7BWiaeImGaGw9a180gFBoBV4iypMMD04K3U+AoW4AxKEYeAIHu8Ax+QKLPOGwK62A1yqSqm76UUmxEX5p8Z9sH9YK2PTDIibHAYwIBY7AFZeKJb5f0I+PHo6rJWFZIywl3pKxX97TgN7odzr/Rb+F2AAg1GomWfGU9YAAAAASUVORK5CYII=) no-repeat}
+.calendar-popup-input-wrapper>span{width:100%;height:38px;border:0;position:absolute;margin:-4px -5px 0;line-height:36px;background:#fff;font-size:15px;display:inline-block;vertical-align:middle;border-radius:2px}
+.calendar-popup-input-wrapper>span>.calendar-popup-placeholder-input,.calendar-popup-input-wrapper>span>input{height:30px;line-height:30px;font-size:15px;border:0;top:0;bottom:0;width:100%;box-sizing:border-box;margin:auto;padding:0 8px;background:rgba(0,0,0,0);z-index:2;outline:0;color:#535c69;position:absolute;overflow:hidden}
+.calendar-popup-input-wrapper>span>.calendar-popup-placeholder-input>i,.calendar-popup-input-wrapper>span>input>i{color:transparent}
+.calendar-popup-input-wrapper>span>span{position:absolute;top:0;right:0;bottom:0;margin:auto;z-index:2;background:#fff;cursor:pointer;display:none;vertical-align:middle;width:30px;height:30px}
+.calendar-popup-input-wrapper>span>span:after{content:'';background-position:0 0;width:10px;height:10px;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;opacity:.2}
+.calendar-popup-input-wrapper>span>span:hover:after{opacity:.4}
+.calendar-popup-input-wrapper>span:after{content:'';position:absolute;width:18px;height:15px;background-position:0 -12px;right:6px;top:0;bottom:0;margin:auto;z-index:1;opacity:.7}
+.calendar-popup-input-wrapper.calendar-popup-input-wrapper-not-empty>span>span{display:inline-block}
+
+

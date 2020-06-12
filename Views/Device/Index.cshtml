@@ -2,8 +2,17 @@
     ViewData["Title"] = "Device Page";
 }
 
+
 <link href="@Url.Content("~/css/devices.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/js/moment.js")"></script>
+
+
 <script type="text/javascript" src="@Url.Content("~/js/device.js")"></script>
+
+<script type="text/javascript" src="@Url.Content("~/js/calendar.min.js")"></script>
+<!-- Calendar picker -->
+<link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
+
 
 <div id="container">
 
@@ -71,10 +80,8 @@
                             <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_passwd" />
                             <div class="input-group-append"></div>
                         </div>
-
-                        <div class="input-group">                            
-                            <div class="input-group-prepend"><span class="input-group-text">Fecha y Hora servidor </span></div><input type="date" class="form-control" id="server_cur_pts" />
-                            <div class="input-group-append"></div>
+                        <div class="input-group">     
+                            Fecha y Hora Servidor &nbsp; <input type="text"  class="calendar" id="server_cur_pts" autocomplete="off"/>                
                         </div>
                         <div class="form-group">
                             <div class="settingsElement">
@@ -310,10 +317,17 @@
 <script>
 
     $(function () {
-        $('#datetimepicker1').datetimepicker();
+        var calendarInicio = new CalendarPopup('#server_cur_pts', {
+            format: 'YYYY-MM-DD HH:mm',
+            dayOfWeekStart: 1,
+            locale: 'es',
+        });
     });
 
-    var device_tkn = "1514348271";
+    var device_id;
+    var device_tkn;
+    var tag;
+    var mensaje;
 
    /* $(function () {
         //$("#server_cur_pts").datepicker();
@@ -340,14 +354,14 @@
 
     function bindMqtt() {
         var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
-        console.log(dev_id, dev_tag);
+        var tag = $('#bind_tag').val();
+        console.log(dev_id, tag);
         jsonMsg =
             {
                 mqtt_cmd: 1,
                 mqtt_operate_id: 0,
                 device_id:  $('#bind_device_id').val(),
-                tag: dev_tag,
+                tag: tag,
                 bind_ctrl: 1
             };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -386,16 +400,14 @@
     */
 
     function unbindMqtt() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
-        console.log(dev_id, dev_tag);
+
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 0,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             bind_ctrl: 0
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -441,21 +453,18 @@
     */
 
     function deviceConfig() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var name = $('#device_name').val();
         var pass = $('#device_pass').val();
         var time = $('#time_server').val();
         var sync = $('#sync_server').val();
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
 
             mqtt_cmd: 1,
             mqtt_operate_id: 1,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             basic_config:
             {
                 dev_name: name,
@@ -508,8 +517,6 @@
     */
 
     function networkConfig() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var ip = $('#ip').val();
         var mask = $('#mask').val();
         var gw = $('#gw').val();
@@ -528,8 +535,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 2,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             network_config:
             {
                 ip_addr: ip,
@@ -582,8 +589,6 @@
     */
 
     function remoteConfig() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var vol = $('#vol').val();
         var bright = $('#bright').val();
         var light;
@@ -593,14 +598,13 @@
         else {
             light = false;
         }
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 4,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             remote_config:
             {
                 volume: vol,
@@ -655,8 +659,6 @@
     */
 
     function tempConfig() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var temp, stranger, mask_check, video, photo;        
         var alarm = $('#alarm_temp').val();
         var tmp_comp = $('#temp_comp').val();
@@ -692,14 +694,14 @@
         else {
             photo = false;
         }
-        console.log(dev_id, dev_tag);
+        console.log(dev_id, tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 6,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             temperature_fun:
             {
                 temp_dec_en: temp,
@@ -773,8 +775,6 @@
     */
 
     function addsUser() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var batch_name = $('#batch_name').val();
         var batch_id = $('#batch_id').val();
         var address = $('#server_ip').val();
@@ -785,14 +785,13 @@
         var name_user = $('#user_name').val();
         var url = $('#picture').val();
 
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             piclib_manage: 0,
             param:
             {
@@ -856,17 +855,14 @@
     */
 
     function deleteUser() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var user = $('#user_delete').val();
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             piclib_manage: 3,
             param:
             {
@@ -921,17 +917,14 @@
     */
 
     function deleteBatch() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
         var batch = $('#batch_delete').val();
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             piclib_manage: 2,
             param:
             {
@@ -977,16 +970,13 @@
     */
 
     function deleteAll() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
-        console.log(dev_id, dev_tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: dev_tag,
+            device_id: device_id,
+            tag: tag,
             piclib_manage: 1
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -1025,14 +1015,11 @@
 
        */
      function getParameters() {
-        var dev_id = $('#bind_device_id').val();
-        var dev_tag = $('#bind_tag').val();
-        console.log(dev_id, dev_tag);
         jsonMsg =
             {
                 mqtt_cmd: 2,                
-                device_id: dev_id,
-                tag: dev_tag,
+                device_id: device_id,
+                tag: tag,
                 device_token: device_tkn
             };
         jsonMsg = JSON.stringify(jsonMsg);
