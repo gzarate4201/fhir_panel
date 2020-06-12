@@ -33,8 +33,6 @@
 	margin-right: auto;
 	margin-bottom: 50px;
 	margin-left: auto;
-	position: fixed;
-
 }
 
 #top-wrapper {
@@ -75,12 +73,9 @@
 }
 
 #content-wrapper {
-	float: none;
+	/* float: none; */
 	width: 80%;
-	background-color: #0080FF;
-	/* width: 80%; */
-	/* background-image: url(../graphics/transparent.png); */
-	/* margin-top: 200px; */
+	/* background-color: #0080FF; */
 	
 }
 
@@ -91,6 +86,17 @@
 	margin-right: 10px;
 	/* position: fixed; */
 }
+
+#right {
+	float: right;
+	border-left: 1px solid grey;
+	width: 30%;
+	height: 100vh;
+	/* position: fixed; */
+	/* clear: both; */
+	font-size: 80%;
+}
+
 #content_devices {
 	float: left;
 	width: 85%;
@@ -99,30 +105,24 @@
 	height: 100vh; 
 }
 
-
-#right {
-	float: right;
-	border-left: 1px solid grey;
-	width: 30%;
-	height: 100vh;
-	/* position: fixed; */
-	clear: both;
-	font-size: 80%;
-}
-
 #mqtt_receive {
-	background-color: #81aF81;
-	border:	2px solid black;
-    /* min-height: 40%; */
+	padding:10px;
+	margin-left:10px;
+	background-color: lightgrey;
+	border:	1px solid black;
+	border-radius: 5px;
+	color: black;
 }
 
 #mqtt_send {
 	padding:10px;
-	margin:10px;
-	/* background-color: #81aF81; */
+	margin-left:10px;
+	background-color: black;
 	border:	1px solid black;
 	border-radius: 5px;
 	font-size: 50%;
+	color: yellowgreen;
+
     /* min-height: 40%; */
 }
 
@@ -132,4 +132,9 @@
 	white-space: -pre-wrap;     /* Opera <7 */   
 	white-space: -o-pre-wrap;   /* Opera 7 */    
 	word-wrap: break-word;      /* IE */
+ }
+
+ .table td {
+	 border-top: 1px solid #dae0ec;
+	 padding: 1px;
  }
