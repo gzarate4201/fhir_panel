@@ -111,13 +111,12 @@ namespace Mqtt.Client.AspNetCore.Services
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
 
+        // Inyeccion clase para manejo de la conexion a BD
         private readonly IServiceScopeFactory _scopeFactory;
 
 
-        // Inyeccion clase para manejo de la conexion a BD
+       
         // private readonly ApplicationDbContext dbContext;
-
-        DateTime localDate = DateTime.Now;
         HubConnection connection;
         
         public MqttClientService(IMqttClientOptions options, IServiceScopeFactory scopeFactory )
@@ -184,6 +183,7 @@ namespace Mqtt.Client.AspNetCore.Services
         /// El parámetro es el JSON enviado por el dispositivo, capturado por MQTTClient y notificado al ForeGround por el servicio SignalR.
         /// </param>
         public  void HandleReceivedMessagePayload(string JsonMsg) {
+            DateTime localDate = DateTime.Now;
             try {
                 // Se convierte la cadena del JsonMsg en un objeto dinamico para identificar el tipo de respuesta
                 // De acuerdo al contenido se realizan acciones
@@ -402,12 +402,12 @@ namespace Mqtt.Client.AspNetCore.Services
                             MsgType = "1",
                             Similar = 98,
                             UserId = 77,
-                            Name = "Santiago Urueña",
-                            RegisterTime = localDate,
-                            Temperature = 36,
-                            Matched = 1,
-                            imageUrl = "/upload/images/77.jpg"
-                        };
+        ///                    Name = "Santiago Urueña",
+        ///                    RegisterTime = localDate,
+        ///                    Temperature = 36,
+        ///                    Matched = 1,
+        ///                    imageUrl = "/upload/images/77.jpg"
+    ///                    };
                         StorePerson(persona);
                         
                         
@@ -421,8 +421,26 @@ namespace Mqtt.Client.AspNetCore.Services
             
         }
 
+        /// <summary>
+        /// Genera la insercion de datos en la BD SQL Server a partir de la clase Person
+        /// </summary>
+        /// <param name="persona">
+        ///     Contiene los datos de la persona que fue detectada por la tableta
+        ///     Ejemplo:
+        ///     var persona = new Person()
+        ///                {
+        ///                    MsgType = "1",
+        ///                    Similar = 98,
+        ///                    UserId = 77,
+        ///                    Name = "Santiago Urueña",
+        ///                    RegisterTime = localDate,
+        ///                    Temperature = 36,
+        ///                    Matched = 1,
+        ///                    imageUrl = "/upload/images/77.jpg"
+        ///                };
+        /// </param>
         public void StorePerson(Person persona) {
-
+            
             using (var scope = _scopeFactory.CreateScope()) {
 
                 // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
