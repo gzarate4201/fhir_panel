@@ -402,12 +402,12 @@ namespace Mqtt.Client.AspNetCore.Services
                             MsgType = "1",
                             Similar = 98,
                             UserId = 77,
-        ///                    Name = "Santiago Urueña",
-        ///                    RegisterTime = localDate,
-        ///                    Temperature = 36,
-        ///                    Matched = 1,
-        ///                    imageUrl = "/upload/images/77.jpg"
-    ///                    };
+                            Name = "Santiago Urueña",
+                            RegisterTime = localDate,
+                            Temperature = 36,
+                            Matched = 1,
+                            imageUrl = "/upload/images/77.jpg"
+                        };
                         StorePerson(persona);
                         
                         
@@ -459,18 +459,23 @@ namespace Mqtt.Client.AspNetCore.Services
             }
             
         }
+
+
+        /// <summary>
+        /// el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+        /// scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+        /// de lo contrario da un error 
+        /// Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+        /// e instanciar un scope revisar en el constructor la instanciacion de _scopeFactory
+        /// </summary>
+        /// <param name="dev"></param>
         public void StoreDevice(Device dev)
         {
 
             using (var scope = _scopeFactory.CreateScope())
             {
 
-                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
-                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
-                // de lo contrario da un error 
-                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
-                // e instanciar un scope
-                // revisar en el constructor la instanciacion de _scopeFactory
+                
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 try
                 {

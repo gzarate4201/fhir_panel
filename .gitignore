@@ -26,6 +26,7 @@ bin/
 obj/
 TestResults/
 node_modules/
+publish/
 
 ###################
 # Web publish log #

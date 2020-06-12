@@ -129,8 +129,6 @@ namespace studio
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseNodeModules();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

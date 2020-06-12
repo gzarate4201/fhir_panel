@@ -20,7 +20,6 @@
     <PackageReference Include="System.Net.Mqtt.Server" Version="0.6.3-beta"/>
     <PackageReference Include="MQTTnet" Version="3.0.12-rc1"/>
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.12-rc1"/>
-    <PackageReference Include="OdeToCode.UseNodeModules" Version="3.0.0"/>
     <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1"/>
     <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.1"/>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.5"/>
