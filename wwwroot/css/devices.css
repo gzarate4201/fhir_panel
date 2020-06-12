@@ -21,7 +21,7 @@
     margin: 20px;
 }
 .input-group-text {
-    width: 200px;
+    width: auto;
     display: inline-block;
     padding: 5px;
 }
@@ -31,7 +31,7 @@
 	/* background-image: url(../graphics/wall.jpg); */
 	margin-top: 0;
 	margin-right: auto;
-	margin-bottom: 0px;
+	margin-bottom: 50px;
 	margin-left: auto;
 	position: fixed;
 
@@ -95,7 +95,8 @@
 	float: left;
 	width: 85%;
 	overflow: scroll;
-	height: 100vh;
+	padding-bottom:200px;
+	/* height: 100vh;*/ 
 }
 
 

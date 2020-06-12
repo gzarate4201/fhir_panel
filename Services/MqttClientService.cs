@@ -389,9 +389,9 @@ namespace Mqtt.Client.AspNetCore.Services
                     {
                         System.Console.WriteLine("Librerías de datos borrados correctamente");
                     }
-                    if (mensaje.msg == "delete lib piclib success")
+                    if (mensaje.msg == "delete users piclib success")
                     {
-                        System.Console.WriteLine("Librerías de datos borrados correctamente");
+                        System.Console.WriteLine("Usuarios borrados correctamente");
                     }
 
                     if (mensaje.msg == "Upload Person Info!") {
