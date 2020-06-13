@@ -134,6 +134,13 @@ namespace Mqtt.Client.AspNetCore.Services
             // Configuracion del servicio de mensajeria Cliente-Servidor
             ConfigureHub();
         }
+        /// <summary>
+        /// Esta función realiza la configuración pára realizar la comunicación entre el backend y el frontend
+        /// 
+        /// </summary>
+        /// <param name="">
+        /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+        /// </param>
 
         private void ConfigureHub() 
         {
@@ -143,12 +150,25 @@ namespace Mqtt.Client.AspNetCore.Services
             // Thread.Sleep(10000);
             
         }
+        /// <summary>
+        /// Esta función realiza la configuración del cliente MQTT asingándolo a la misma plataforma
+        /// 
+        /// </summary>
+        /// <param name="">
+        /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+        /// </param>
         private void ConfigureMqttClient()
         {
             mqttClient.ConnectedHandler = this;
             mqttClient.DisconnectedHandler = this;
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
+        /// <summary>
+        /// Esta función realiza el tratamiento del mensaje recibido por la aplicación para luego enviarla al cliente y así poder ser visualizado
+        /// </summary>
+        /// <param name="eventArgs">
+        /// El parámetro es el mensaje recibido por la plataforma, realizar el tratamiento de dicho mensaje y ser enviado al frontend
+        /// </param>
 
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
