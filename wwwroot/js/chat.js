@@ -42,10 +42,13 @@ connection.on("ReceiveMessage", function (user, message) {
     console.log('Mensaje recibido por Hub' + encodedMsg);
 });
 
+
+
 function showActualParameters(mensaje) {
     $("#actual_device_tag").html(mensaje.tag);
     $("#actual_device_time").html(mensaje.dev_cur_pts);
     $("#actual_device_name").html(mensaje.datas.basic_parameters.dev_name);
+    console.log(mensaje.datas.basic_parameters.dev_name);
     $("#actual_device_pass").html(mensaje.datas.basic_parameters.dev_pass);
     $("#actual_version").html(mensaje.datas.version_info.firmware_ver);
     $("#actual_firm_date").html(mensaje.datas.version_info.firmware_date);

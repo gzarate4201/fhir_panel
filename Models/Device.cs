@@ -23,13 +23,13 @@ namespace AspStudio.Models
         [Column("device_tag")]
         public string DevTag { get; set; }
 
-        [Column("device_token")]
+        [Column("device_tkn")]
         public string DevTkn { get; set; }
 
-        [Column("dev_pwd")]
+        [Column("device_pwd")]
         public string DevPwd { get; set; }
 
-        [Column("dev_name")]
+        [Column("device_name")]
         public string DevName { get; set; }
 
         [Column("ip_addr")]
@@ -48,7 +48,7 @@ namespace AspStudio.Models
         public string DDNS2 { get; set; }
 
         [Column("DHCP")]
-        public short DHCP { get; set; }
+        public bool DHCP { get; set; }
 
         [Column("dec_face_num_cur")]
         public string DecFaceNumCur { get; set; }
@@ -78,40 +78,40 @@ namespace AspStudio.Models
         public string FwrDate { get; set; }
 
         [Column("temp_dec_en")]
-        public short TempDecEn { get; set; }
+        public bool TempDecEn { get; set; }
 
         [Column("stranger_pass_en")]
-        public short StrPassEn { get; set; }
+        public bool StrPassEn { get; set; }
 
-        [Column("make_check_en")]
-        public short MkeChkEn { get; set; }
+        [Column("mask_check_en")]
+        public bool MkeChkEn { get; set; }
 
         [Column("alarm_temp")]
-        public string AlarmTemp { get; set; }
+        public float AlarmTemp { get; set; }
 
         [Column("temp_comp")]
-        public string TempComp { get; set; }
+        public float TempComp { get; set; }
 
         [Column("record_time_save")]
         public string RcrdTimeSv { get; set; }
 
         [Column("save_record")]
-        public short SvRec { get; set; }
+        public bool SvRec { get; set; }
 
         [Column("save_jpeg")]
-        public short SvJpg { get; set; }
+        public bool SvJpg { get; set; }
 
         [Column("mqtt_enable")]
-        public short MqttEn { get; set; }
+        public bool MqttEn { get; set; }
 
         [Column("mqtt_retain")]
-        public short MqttRet { get; set; }
+        public bool MqttRet { get; set; }
 
         [Column("pqos")]
-        public string PQos { get; set; }
+        public int PQos { get; set; }
 
         [Column("sqos")]
-        public string SQos { get; set; }
+        public int SQos { get; set; }
 
         [Column("mqtt_port")]
         public string MqttPrt { get; set; }
@@ -133,5 +133,8 @@ namespace AspStudio.Models
 
         [Column("heartbeat")]
         public string HeartBt { get; set; }
+
+        [Column("bound")]
+        public bool Bound { get; set; }
     }
 }

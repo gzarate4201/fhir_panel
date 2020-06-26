@@ -416,21 +416,21 @@ namespace Mqtt.Client.AspNetCore.Services
 
                     if (mensaje.msg == "Upload Person Info!") {
                         System.Console.WriteLine("Registro de persona en el Dispositivo");
-                        
+                        if(mensaje.datas.user_id == "") {
+                                mensaje.datas.user_id = 0;
+                            };
                         var persona = new Person()
-                        {
-                            MsgType = "1",
-                            Similar = 98,
-                            UserId = 77,
-                            Name = "Santiago Urueña",
+                        {                            
+                            MsgType = (Int32)mensaje.datas.msgType,
+                            Similar = (float)mensaje.datas.similar,
+                            UserId = (Int32)mensaje.datas.user_id,
+                            Name = mensaje.datas.name,
                             RegisterTime = localDate,
-                            Temperature = 36,
-                            Matched = 1,
-                            imageUrl = "/upload/images/77.jpg"
+                            Temperature = (float)mensaje.datas.temperature,
+                            Matched = (Int32)mensaje.datas.matched,
+                            Mask = (Int32)mensaje.datas.mask
                         };
                         StorePerson(persona);
-                        
-                        
                     }
 
                 }
