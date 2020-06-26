@@ -21,9 +21,10 @@
     margin: 20px;
 }
 .input-group-text {
-    width: auto;
+    width: 150px;
     display: inline-block;
     padding: 5px;
+
 }
 
 #container {
