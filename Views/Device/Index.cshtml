@@ -16,17 +16,17 @@
 
 <div id="container">
 
-    <div id="right" title="right pane" >
+    <div id="right" title="right pane">
         <div class="row" id="mqtt_receive" style=" border-left:1px">
-            <b  style="text-align:center;" style="height:10px;"> Dispositivo Actual</b>
+            <b style="text-align:center;height:10px;"> Dispositivo Actual</b>
             <div class="col-md-12 wordwrap" id="device_status" style="height:95%">
                 <table class="table table-responsive">
                     @* <thead>
-                        <tr>
-                            <th> Parametro </th>
-                            <th> Valor</th>
-                        </tr>
-                    </thead> *@
+                            <tr>
+                                <th> Parametro </th>
+                                <th> Valor</th>
+                            </tr>
+                        </thead> *@
                     <tbody>
                         <tr>
                             <td colspan="2">
@@ -39,7 +39,7 @@
                         <tr>
                             <td> Device_id</td>
                             <td id="actual_device_id"> </td>
-                            <td > Device_name</td>
+                            <td> Device_name</td>
                             <td id="actual_device_name"> </td>
                         </tr>
                         <tr>
@@ -51,14 +51,14 @@
                         <tr>
                             <td> Device_tag</td>
                             <td id="actual_device_tag"> </td>
-                            <td id="actual_version"> Firmware_ver</tdi>
+                            <td id="actual_version"> Firmware_ver</td>
                             <td> </td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td > </td>
+                            <td> </td>
                             <td> Firmware_date </td>
-                            <td id="actual_firm_date" > </td>
+                            <td id="actual_firm_date"> </td>
                         </tr>
 
                         <tr>
@@ -190,58 +190,70 @@
             </div>
         </div>
         @* <div class="row" id="mqtt_send" style="height:20%; border-left:1px">
-            <b style="text-align:center;"> Monitor de actividad </b>
-            <hr style="color:yellowgreen;">
-            <div class="col-md-12 wordwrap" id="activity_monitor" style="height:80%;">
-            
-            </div>
-        </div> *@
+                <b style="text-align:center;"> Monitor de actividad </b>
+                <hr style="color:yellowgreen;">
+                <div class="col-md-12 wordwrap" id="activity_monitor" style="height:80%;">
+
+                </div>
+            </div> *@
     </div>
 
     <div id="content-wrapper">
-        
+
         <div id="content_devices">
             <div class="row">
 
-            <div class="card-deck">
-                <div class="card">
-                    <i class="fa fa-plug fa-3x" style="  text-align: center;"></i>
-                    <div class="card-body d-flex flex-column">
-                    <h4 class="card-title" style="  text-align: center;">BIND /UNBIND</h4>
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div><input autocomplete="off" type="text" class="form-control" id="bind_device_id" />
-                        <div class="input-group-append"></div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input autocomplete="off" type="text" class="form-control" id="bind_tag" />
-                        <div class="input-group-append"></div>
-                    </div>
-                    <div class="row mt-auto" style="  margin-top: 20px;justify-content: center;">
-                        <button class="btn btn-success align-self-end mt-auto" id="bind" style="  margin-top: auto;">BIND</button>
-                        <button class="btn btn-danger align-self-end mt-auto" style="  margin-top: auto;" id="unbind">UN-BIND</button></div>
+                <div class="card-deck">
+                    <div class="card">
+                        <i class="fa fa-plug fa-3x" style="  text-align: center;"></i>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title" style="  text-align: center;">BIND /UNBIND</h4>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div>
+                                <select id="bind_device_id">
+                                    <option value="1">Device_id_1</option>
+                                    <option value="2">Device_id_2</option>
+                                    <option value="3">Device_id_3</option>
+                                </select> <div class="input-group-append"></div> <!-- <input autocomplete="off" type="text" class="form-control" id="bind_device_id" /> -->
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input autocomplete="off" type="text" class="form-control" id="bind_tag" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="row mt-auto" style="  margin-top: 20px;justify-content: center;">
+                                <button class="btn btn-success align-self-end mt-auto" id="bind" style="margin-top: auto;">BIND</button>
+                                <button class="btn btn-danger align-self-end mt-auto" style="margin-top: auto;" id="unbind">UN-BIND</button>
+                                <button class="btn btn-primary align-self-end mt-auto" style="margin-top: auto;" id="add_device" data-toggle="modal" data-target="#exampleModalCenter">ADD Device</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
                     <i class="fa fa-cog fa-3x" style="  text-align: center;"></i>
                     <div class="card-body d-flex flex-column">
                         <h4 class="card-title" style="  text-align: center;">CONF. BÁSICA </h4>
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Nombre Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_name" />
-                        <div class="input-group-append"></div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_passwd" />
-                        <div class="input-group-append"></div>
-                    </div>
-                    <div class="input-group">
-                        Fecha y Hora Servidor   <input type="text" class="calendar" id="server_cur_pts" autocomplete="off" /></div>
-                    <div class="form-group">
-                        <div class="settingsElement">
-                            <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" name="onoffswitch" /> Sincronizar Hora dispositivo <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">Nombre Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_name" />
+                            <div class="input-group-append"></div>
                         </div>
-                    </div>
-                    <div class="row mt-auto" style="  margin-top: 20px;justify-content: center;">
-                        <button class="btn btn-success" id="basic_config" style="  text-align: center;">ACTUALIZAR</button></div>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_passwd" />
+                            <div class="input-group-append"></div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"> Fecha y Hora Servidor </span>
+                            </div> <input type="text" class="calendar" id="server_cur_pts" autocomplete="off" />
+                            <div class="input-group-append"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="settingsElement">
+                                <div class="onoffswitch"><input type="checkbox" id="sync_server_pts_en" name="onoffswitch" /> Sincronizar Hora dispositivo <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                            </div>
+                        </div>
+                        <div class="row mt-auto" style="  margin-top: 20px;justify-content: center;">
+                            <button class="btn btn-success" id="basic_config" style="  text-align: center;">ACTUALIZAR</button>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
@@ -278,181 +290,177 @@
                         </div>
                     </div>
                 </div>
-            </div>             
+            </div>
+            <div class="row">
+                <div class="card-deck">
+                    <!--    Device Remote Configuration -->
+                    <div class="card">
+                        <span class="text-align:center" style="  text-align: center;">
+                            <i class="fa fa-sun-o fa-3x"></i>
+                            <i class="fa fa-volume-up fa-3x"></i>
+                        </span>
+
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title" style="  text-align: center;"> BRILLO / VOL </h4>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input autocomplete="off" type="text" class="form-control" id="vol" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input autocomplete="off" type="text" class="form-control" id="bright" />
+                                <div class="input-group-append"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class="onoffswitch"><input type="checkbox" id="light_en" class="" name="onoffswitch" /> Luz suplementaria <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                                </div>
+                            </div>
+
+                            <div class="row  mt-auto" style="margin-top:20px;justify-content:center">
+                                <button class="btn btn-success" id="device_remote_config" style="text-align:center">ACTUALIZAR</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!--    Device Temperature Control Parameter Configuration -->
+                    <div class="card">
+                        <i class="fa fa-thermometer-empty fa-3x" style="  text-align: center;"></i>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title" style="  text-align: center;"> TEMPERATURA </h4>
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class=""><input autocomplete="off" type="checkbox" id="temp_dec_en" class="" name="temp_dec_en" /> Toma de temperatura <label class="onoffswitch-label" for="myonoffswitch"></label></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class=""><input autocomplete="off" type="checkbox" id="stranger_pass_en" class="" name="stranger_pass_en" /> Acceso a extraños <label class="onoffswitch-label" for="myonoffswitch"></label></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class=""><input autocomplete="off" type="checkbox" id="mask_check_en" class="" name="mask_check_en" /> Detección de tapabocas <label class="onoffswitch-label" for="myonoffswitch"></label></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class=""><input autocomplete="off" type="checkbox" id="save_record" class="" name="save_record" /> Toma de videos <label class="onoffswitch-label" for="myonoffswitch"></label></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="settingsElement">
+                                    <div class=""><input autocomplete="off" type="checkbox" id="save_jpeg" class="" name="save_jpeg" /> Toma de instantáneas <label class="onoffswitch-label" for="myonoffswitch"></label></div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Temperatura de alarma </span></div><input type="text" class="form-control" id="alarm_temp" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Compensación temp</span></div><input type="text" class="form-control" id="temp_comp" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Tret imágenes </span></div><input type="text" class="form-control" id="record_save_time" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="row mt-auto" style="margin-top:20px;justify-content:center">
+                                <button class="btn btn-success" id="temperature" style="text-align:center">ACTUALIZAR</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--   Add single or multiple user photo database information -->
+                    <div class="card">
+                        <i class="fa fa-users fa-3x" style="  text-align: center;"></i>
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title" style="  text-align: center;"> INGRESO DE USUARIOS A LA BASE DE DATOS</h4>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"> Nombre del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch_name" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">ID del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_id" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">IP servidor de fotos</span></div><input autocomplete="off" type="text" class="form-control" id="server_ip" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Puerto del servidor</span></div><input autocomplete="off" type="text" class="form-control" id="server_port" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input autocomplete="off" type="date" class="form-control" id="active_time" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Fecha de salida</span></div><input autocomplete="off" type="date" class="form-control" id="end_time" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">ID del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_id" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Nombre de usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_name" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">URL de fotografía.</span></div><input autocomplete="off" type="text" class="form-control" id="picture" />
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="row mt-auto" style="margin-top:20px;justify-content:center">
+                                <button class="btn btn-success" id="adds_user" style="align-self:center">ACTUALIZAR</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="row">
-            <div class="card-deck">
-                <!--    Device Remote Configuration -->
-                <div class="card">
-                    <span class="text-align:center"  style="  text-align: center;">
-                        <i class="fa fa-sun-o fa-3x" ></i>
-                        <i class="fa fa-volume-up fa-3x"></i>
-                    </span>
-                    
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-title" style="  text-align: center;"> BRILLO / VOL </h4>
-            
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input autocomplete="off" type="text" class="form-control" id="vol" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input  autocomplete="off"type="text" class="form-control" id="bright" />
-                            <div class="input-group-append"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class="onoffswitch"><input type="checkbox" id="light_en" class="" name="onoffswitch" /> Luz suplementaria <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                <div class="card-deck">
+                    <!--   Get parameters device-->
+                    <div class="card">
+                        <div class="card-body  d-flex flex-column">
+                            <h4 class="card-title">CONSULTA DE TODOS LOS PARÁMETROS</h4>
+                            <div class="row mt-auto" style="justify-content: center">
+                                <button class="btn btn-danger" id="get_parameters" style="text-align:center">OBTENER PARÁMETROS</button>
                             </div>
                         </div>
-
-                        <div class="row  mt-auto" style="margin-top:20px;justify-content:center">
-                            <button class="btn btn-success" id="device_remote_config" style="text-align:center">ACTUALIZAR</button>
-                        </div>
-
-
                     </div>
-                </div>
 
-                <!--    Device Temperature Control Parameter Configuration -->
-                <div class="card">
-                    <i class="fa fa-thermometer-empty fa-3x" style="  text-align: center;"></i>
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-title" style="  text-align: center;"> TEMPERATURA </h4>
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class=""><input autocomplete="off" type="checkbox" id="temp_dec_en" class="" name="temp_dec_en" /> Toma de temperatura <label class="onoffswitch-label" for="myonoffswitch"></label></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class=""><input autocomplete="off" type="checkbox" id="stranger_pass_en" class="" name="stranger_pass_en" /> Acceso a extraños <label class="onoffswitch-label" for="myonoffswitch"></label></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class=""><input autocomplete="off" type="checkbox" id="mask_check_en" class="" name="mask_check_en" /> Detección de tapabocas <label class="onoffswitch-label" for="myonoffswitch"></label></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class=""><input autocomplete="off" type="checkbox" id="save_record" class="" name="save_record" /> Toma de videos <label class="onoffswitch-label" for="myonoffswitch"></label></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="settingsElement">
-                                <div class=""><input  autocomplete="off" type="checkbox" id="save_jpeg" class="" name="save_jpeg" /> Toma de instantáneas <label class="onoffswitch-label" for="myonoffswitch"></label></div>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Temperatura de alarma </span></div><input type="text" class="form-control" id="alarm_temp"/>
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Compensación de temperatura </span></div><input type="text" class="form-control" id="temp_comp" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span autocomplete="off" class="input-group-text">Tiempo de guardado de instantáneas. </span></div><input type="text" class="form-control" id="record_save_time" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="row mt-auto" style="margin-top:20px;justify-content:center">
-                            <button class="btn btn-success" id="temperature" style="text-align:center">ACTUALIZAR</button>
-                        </div>
+                    <!--   Delete all photo library information-->
+                    <div class="card">
+                        <div class="card-body  d-flex flex-column">
+                            <h4 class="card-title">BORRADO EN LA BASE DE DATOS</h4>
 
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch_delete" />
+                                <div class="input-group-append"><button class="btn btn-success" id="delete_batch" style="width:150px;">BORRAR LOTE</button></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user_delete" />
+                                <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:150px;">BORRAR USUARIO</button></div>
+                            </div>
+                            <div></div>
+                            <div class="row mt-auto" style="justify-content: center">
+                                <button class="btn btn-danger" id="delete_all" style="text-align:center; margin-top:40px">BORRAR TODAS LAS FOTOS</button>
+                            </div>
+
+                        </div>
                     </div>
+
+
                 </div>
-
-                <!--   Add single or multiple user photo database information -->
-                <div class="card">
-                    <i class="fa fa-users fa-3x" style="  text-align: center;"></i>
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-title" style="  text-align: center;"> INGRESO DE USUARIOS A LA BASE DE DATOS</h4>
-
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"> Nombre del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch_name"/>
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">ID del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_id" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Dirección IP servidor de fotos</span></div><input autocomplete="off" type="text" class="form-control" id="server_ip" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Puerto del servidor</span></div><input autocomplete="off" type="text" class="form-control" id="server_port"/>
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input autocomplete="off" type="date" class="form-control" id="active_time" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Fecha de salida</span></div><input autocomplete="off" type="date" class="form-control" id="end_time" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">ID del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_id" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Nombre de usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_name" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">URL de fotografía.</span></div><input autocomplete="off" type="text" class="form-control" id="picture" />
-                            <div class="input-group-append"></div>
-                        </div>
-                        <div class="row mt-auto" style="margin-top:20px;justify-content:center">
-                            <button class="btn btn-success" id="adds_user" style="align-self:center">ACTUALIZAR</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            </div>
-            <br>
-            <div class="row">
-            <div class="card-deck">
-                <!--   Get parameters device-->
-                <div class="card">
-                    <div class="card-body  d-flex flex-column">
-                        <h4 class="card-title">CONSULTA DE TODOS LOS PARÁMETROS</h4>
-                                               
-                        <div class="row mt-auto" style="justify-content: center">
-                            <button class="btn btn-danger" id="get_parameters" style="text-align:center">OBTENER PARÁMETROS</button>
-                        </div>
-
-                    </div>
-                </div>
-                
-                <!--   Delete all photo library information-->
-                <div class="card">
-                    <div class="card-body  d-flex flex-column">
-                        <h4 class="card-title">BORRADO EN LA BASE DE DATOS</h4>
-
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch_delete" />
-                            <div class="input-group-append"><button class="btn btn-success" id="delete_batch" style="width:150px;">BORRAR LOTE</button></div>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user_delete" />
-                            <div class="input-group-append"><button class="btn btn-success" id="delete_user" style="width:150px;">BORRAR USUARIO</button></div>
-                        </div>
-                        <div></div>
-                        <div class="row mt-auto" style="justify-content: center">
-                            <button class="btn btn-danger" id="delete_all" style="text-align:center; margin-top:40px">BORRAR TODAS LAS FOTOS</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                
-            </div>
             </div>
         </div>
 
@@ -460,9 +468,36 @@
 </div>
 
 <div class="clear"></div>
-    
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Adicionar dispositivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:40px 40px;">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div><input autocomplete="off" type="text" class="form-control" id="bind_device_id" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input autocomplete="off" type="text" class="form-control" id="bind_tag" />
+                    <div class="input-group-append"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    
+
+
 <!-- Carga las librerias de MQTT js -->
 <!--  <script src="~/js/mqtt.js"></script> -->
 
@@ -491,7 +526,7 @@
         //$("#active_time").datepicker();
         $("#active_time").datepicker("option", "dateFormat", 'yyyy/mm/dd');
        // $("#end_time").datepicker();
-        $("#end_time").datepicker("option", "dateFormat", 'yyyy/mm/dd');     
+        $("#end_time").datepicker("option", "dateFormat", 'yyyy/mm/dd');
 
     });*/
 
@@ -818,7 +853,7 @@
     */
 
     function tempConfig() {
-        var temp, stranger, mask_check, video, photo;        
+        var temp, stranger, mask_check, video, photo;
         var alarm = $('#alarm_temp').val();
         var tmp_comp = $('#temp_comp').val();
         var save_time = $('#record_save_time').val();
@@ -1176,7 +1211,7 @@
      function getParameters() {
         jsonMsg =
             {
-                mqtt_cmd: 2,                
+                mqtt_cmd: 2,
                 device_id: device_id,
                 tag: tag,
                 device_token: device_tkn
