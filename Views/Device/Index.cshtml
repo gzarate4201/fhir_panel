@@ -515,7 +515,7 @@
         jsonMsg =
             {
                 mqtt_cmd: 1,
-                mqtt_operate_id: 0,
+                mqtt_operate_id: 10,
                 device_id:  $('#bind_device_id').val(),
                 tag: tag,
                 bind_ctrl: 1
@@ -556,17 +556,20 @@
     */
 
     function unbindMqtt() {
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
 
         jsonMsg =
         {
             mqtt_cmd: 1,
-            mqtt_operate_id: 0,
+            mqtt_operate_id: 10,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             bind_ctrl: 0
         };
         jsonMsg = JSON.stringify(jsonMsg);
+        console.log("El mensaje de salida unbind es:");
         console.log(jsonMsg);
 
         $.ajax({
