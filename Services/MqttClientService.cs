@@ -1,4 +1,14 @@
-﻿using System;
+﻿/**
+ * (c) QA Ingenieros Ltda., Bogotá Colombia
+ * 
+ * 
+ * Contains code authored by:    
+ *   
+ *   Alejandro Mejia 
+ *   Santiago Urueña
+ *   and others as recnognizad or listed in the code.
+ */
+using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +32,13 @@ using Microsoft.AspNetCore.SignalR.Client;
 using AspStudio.Models;
 using AspStudio.Data;
 
+/// <summary>
+/// Esta función crea las clases con los parámetros entregados por el dispositivo
+/// Se crean otras subclases para clasificar dichos parámetros
+/// </summary>
+/// <param name="">
+/// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+/// </param>
 
 namespace Mqtt.Client.AspNetCore.Services
 {
@@ -104,7 +121,13 @@ namespace Mqtt.Client.AspNetCore.Services
         
 
     }
-
+    /// <summary>
+    /// Instancia principal para la comunicación MQTT del backend del proyecto
+    /// 
+    /// </summary>
+    /// <param name="">
+    /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+    /// </param>
     public class MqttClientService : IMqttClientService
     {
         // Instancias para manejo de la libreria de MQTTnet
@@ -510,7 +533,14 @@ namespace Mqtt.Client.AspNetCore.Services
 
         }
 
-        // Subscribirse al Topic que envia la tableta
+        /// <summary>
+        /// Esta función realiza la subscripción del tópico MQTT donde se obtienen dichos parámetros
+        /// 
+        /// </summary>
+        /// <param name="eventArgs">
+        /// La función entra con el mensaje pero no retorna nada, sólo realiza la subscripción
+        /// </param>
+        
         public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("connected");
@@ -518,13 +548,28 @@ namespace Mqtt.Client.AspNetCore.Services
             await mqttClient.SubscribeAsync("PublishTest");
         }
 
+        /// <summary>
+        /// Esta función se ejecuta cuando se haya perdido la conexión con el broker MQTT generando la excepción
+        /// 
+        /// </summary>
+        /// <param name="eventArgs">
+        /// La función entra con el mensaje pero no retorna nada, sólo realiza la subscripción
+        /// </param>
+
         public Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
             throw new System.NotImplementedException();
         }
 
-        
+        /// <summary>
+        /// Esta función realiza la reconexión asíncrona con el broker 
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// La función entra con el token y sólo realiza la reconexión
+        /// </param>
+
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await mqttClient.ConnectAsync(options);
@@ -533,6 +578,15 @@ namespace Mqtt.Client.AspNetCore.Services
                 await mqttClient.ReconnectAsync();
             }
         }
+
+        /// <summary>
+        /// Esta función realiza la desconexión asíncrona con el broker 
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// La función entra con el token y sólo realiza la desconexión
+        /// </param>
+
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
