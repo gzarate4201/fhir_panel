@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AspStudio.Models
 {
     
-    [Table("person")]
+    [Table("upload_person")]
     public class Person
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,10 +17,10 @@ namespace AspStudio.Models
         public int Id { get; set; }
 
         [Column("msgType")]
-        public string MsgType { get; set; }
+        public int MsgType { get; set; }
 
         [Column("similar")]
-        public int Similar { get; set; }
+        public double Similar { get; set; }
 
         [Column("user_id")]
         public int UserId { get; set; }
@@ -28,17 +28,20 @@ namespace AspStudio.Models
         [Column("name")]
         public string Name { get; set; }
 
-        [Column("registerTime")]
+        [Column("time")]
         public DateTime RegisterTime { get; set; }
 
         [Column("temperature")]
-        public float Temperature { get; set; }
+        public double Temperature { get; set; }
+
+        [Column("mask")]
+        public int Mask { get; set; }
 
         [Column("matched")]
         public int Matched { get; set; }
 
-        [Column("imageUrl")]
-        public string imageUrl { get; set; }
+        // [Column("imageUrl")]
+        // public string imageUrl { get; set; }
         
     }
 }
