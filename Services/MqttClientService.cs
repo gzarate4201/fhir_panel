@@ -9,6 +9,10 @@
  *   and others as recnognizad or listed in the code.
  */
 using System;
+using System.IO;
+// using System.DrawingCore;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
@@ -199,14 +203,27 @@ namespace Mqtt.Client.AspNetCore.Services
             System.Console.WriteLine("Mensaje recibido");
 
             // De acuerdo al mensaje recibido se ejecuta alguna accion 
-            HandleReceivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
+            var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
+            
+            // Funciones para decodificar los mensajes de llegada por MQTT y realizar las acciones adecuadas
+            HandleReceivedMessagePayload(JsonMsg);
+            
+            // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
+            msg.Property("imageFile").Remove();
+            
+            JsonMsg = JsonConvert.DeserializeObject(msg);
+
+            // Se imprime el objeto por consola
+            System.Console.WriteLine("El mensaje recibido es: ");
+            System.Console.WriteLine(JsonMsg);
 
             // Envio por SignalR paraa comunicacion con el Cliente
             try {
                 System.Console.WriteLine("Conectando al Hub");
                 await connection.StartAsync();
                 System.Console.WriteLine("Enviando al Hub");
-                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, eventArgs.ApplicationMessage.ConvertPayloadToString());
+                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, JsonMsg);
                 System.Console.WriteLine("DesConectando del Hub");
                 await connection.StopAsync();
                 System.Console.WriteLine("Mensaje enviado por el Hub");
@@ -244,9 +261,7 @@ namespace Mqtt.Client.AspNetCore.Services
                 // // Debug de las variables principales
                 // System.Console.WriteLine(code, device_id, cur_pts, tag);
 
-                // Se imprime el objeto por consola
-                System.Console.WriteLine("El mensaje recibido es: ");
-                System.Console.WriteLine(mensaje);
+                
 
                 System.Console.WriteLine("Identificando respuesta:");
 
@@ -350,7 +365,7 @@ namespace Mqtt.Client.AspNetCore.Services
                         var device = new Device()
                         {
                             Id = 0,
-                            DevId = "1",
+                            DevId = mensaje.device_id,
                             DevTag = "2",
                             DevTkn = "3",
                             DevPwd = mensaje.datas.basic_parameters.dev_pwd,
@@ -440,8 +455,14 @@ namespace Mqtt.Client.AspNetCore.Services
                     if (mensaje.msg == "Upload Person Info!") {
                         System.Console.WriteLine("Registro de persona en el Dispositivo");
                         if(mensaje.datas.user_id == "") {
-                                mensaje.datas.user_id = 0;
-                            };
+                            mensaje.datas.user_id = 0;
+                        };
+
+                        // Convierte la imagen a jpeg y la graba en el directorio wwwroot
+                        var image_url = ExportToImage(mensaje.datas.imageFile);
+                        System.Console.WriteLine(mensaje.datas.imageFile);
+
+                        mensaje.datas.imageFile = "";
                         var persona = new Person()
                         {                            
                             MsgType = (Int32)mensaje.datas.msgType,
@@ -454,12 +475,16 @@ namespace Mqtt.Client.AspNetCore.Services
                             Mask = (Int32)mensaje.datas.mask
                         };
                         StorePerson(persona);
+
                     }
 
                 }
+                // Se imprime el objeto por consola
+                System.Console.WriteLine("El mensaje recibido es: ");
+                System.Console.WriteLine(mensaje);
                 
             } catch (Exception e) {
-                System.Console.WriteLine("Error : " + e.Message);
+                System.Console.WriteLine("Error leyendo mensaje de Mqtt : " + e.Message);
             }
             
         }
@@ -497,7 +522,7 @@ namespace Mqtt.Client.AspNetCore.Services
                     dbContext.Persons.Add(persona);
                     dbContext.SaveChanges();
                 } catch (Exception e) {
-                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                    System.Console.WriteLine("Error Guardando Persona en la base de datos:" + e.Message + e.StackTrace);
                 }
             }
             
@@ -600,6 +625,17 @@ namespace Mqtt.Client.AspNetCore.Services
                 await mqttClient.DisconnectAsync(disconnectOption, cancellationToken);
             }
             await mqttClient.DisconnectAsync();
+        }
+
+        protected string ExportToImage(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+            using(Image image = Image.FromStream(new MemoryStream(bytes)))
+            {
+                image.Save("output.jpg", ImageFormat.Jpeg);  // Or Png
+            }
+            // File.Copy(bytes.ToString()+".jpg", "\\\\localhost:5000\\Uploads");
+            return ("output.jpg");
         }
     }
 }

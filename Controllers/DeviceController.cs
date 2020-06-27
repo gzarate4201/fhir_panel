@@ -1,7 +1,10 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 // using System.Net.Mqtt;
 using MQTTnet;
@@ -12,9 +15,14 @@ using MQTTnet.Client.Options;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+
 using Microsoft.AspNetCore.SignalR;
 using SignalRChat.Hubs;
+
+
+// Modelos para Base de datos
+using AspStudio.Models;
+using AspStudio.Data;
 
 
 
@@ -28,6 +36,11 @@ namespace AspStudio.Controllers
         public string msg {get; set;}
     }
 
+    public class DeviceData {
+        public string dev_id {get; set;}
+        public string dev_tag {get; set;}
+    }
+
     
 
     public class DeviceController : Controller
@@ -38,6 +51,9 @@ namespace AspStudio.Controllers
         static IMqttClient mqttClient = new MqttFactory().CreateMqttClient();
 
         private readonly ILogger<DeviceController> _logger;
+        
+        // Inyeccion clase para manejo de la conexion a BD
+        private readonly IServiceScopeFactory _scopeFactory;
 
 
         public DeviceController(ILogger<DeviceController> logger)
@@ -87,6 +103,38 @@ namespace AspStudio.Controllers
 
             // Retorna Json indicando que fue exitoso
             return Json(new {success=true});
+
+        }
+
+
+        [HttpPost]
+        [HttpGet]
+        public  Object addDevice(DeviceData deviceData) {
+            var device = new Device() {
+                DevId = deviceData.dev_id,
+                DevTag = deviceData.dev_tag,
+            };
+
+            using (var scope = _scopeFactory.CreateScope()) {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try {
+                    dbContext.Devices.Add(device);
+                    dbContext.SaveChanges();
+                    // Retorna Json indicando que fue exitoso
+                    return new {success=true};
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                    // Retorna Json indicando que fue exitoso
+                    return new {success=false};
+                }
+            }
 
         }
 
