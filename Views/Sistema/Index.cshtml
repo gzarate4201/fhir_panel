@@ -112,7 +112,7 @@
 <script src="~/js/chat.js"></script>
 <script>
 
-    var device_tkn = "1514348271";
+    var device_tkn = "2385844285";
 
     $('#mqtt_config').on('click',mqttConfig);
     $('#system_config').on('click', systemConfig);
@@ -145,18 +145,18 @@
     */
 
     function mqttConfig() {
-        var dev_id = "";
-        var dev_tag = "";
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";
         var broker = $('#mqtt_broker').val();
-        var mqtt_port = $('#mqtt_port').val();
+        var mqtt_port = parseInt($('#mqtt_port').val());
         var mqtt_user = $('#mqtt_user').val();
         var mqtt_psw = $('#mqtt_psw').val();
         var client_id = $('#mqtt_client_id').val();
         var pub_topic = $('#topic_pub').val();
         var sub_topic = $('#topic_subs').val();
-        var hb = $('#heart_beat').val();
-        var pqos = $('#pqos').val();
-        var sqos = $('#sqos').val();
+        var hb = parseInt($('#heart_beat').val());
+        var pqos = parseInt($('#pqos').val());
+        var sqos = parseInt($('#sqos').val());
         var mqtt_en, ret;
 
         if ($("#mqtt_enable").is(":checked")) {
@@ -189,7 +189,7 @@
                     server: broker,
                     username: mqtt_user,
                     passwd: mqtt_psw,
-                    topic2publish: pub_topic,
+                    topic2pulish: pub_topic,
                     topic2subscribe: sub_topic,
                     heartbeat: hb
                 }
@@ -239,8 +239,8 @@
 
     */
     function systemConfig() {
-        var dev_id = "";
-        var dev_tag = "";        
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";       
         var reboot, reset;
         if ($("#reboot").is(":checked")) {
             reboot = 1;

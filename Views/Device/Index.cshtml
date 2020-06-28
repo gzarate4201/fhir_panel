@@ -211,8 +211,8 @@
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div>
                                 <select id="bind_device_id">
-                                    <option value="1">Device_id_1</option>
-                                    <option value="2">Device_id_2</option>
+                                    <option value="7101396770022">Device_id_1</option>
+                                    <option value="7101076854037">Device_id_2</option>
                                     <option value="3">Device_id_3</option>
                                 </select> <div class="input-group-append"></div> <!-- <input autocomplete="off" type="text" class="form-control" id="bind_device_id" /> -->
                             </div>
@@ -237,7 +237,7 @@
                             <div class="input-group-append"></div>
                         </div>
                         <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_passwd" />
+                            <div class="input-group-prepend"><span class="input-group-text">Contraseña Dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="device_pass" />
                             <div class="input-group-append"></div>
                         </div>
                         <div class="input-group">
@@ -304,11 +304,11 @@
                             <h4 class="card-title" style="  text-align: center;"> BRILLO / VOL </h4>
 
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input autocomplete="off" type="text" class="form-control" id="vol" />
+                                <div class="input-group-prepend"><span class="input-group-text"> Volumen </span></div><input autocomplete="off" type="number" class="form-control" id="vol" min="0" max="24" />
                                 <div class="input-group-append"></div>
                             </div>
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input autocomplete="off" type="text" class="form-control" id="bright" />
+                                <div class="input-group-prepend"><span class="input-group-text">Brillo </span></div><input autocomplete="off" type="number" class="form-control" id="bright" min="45" max="100" />
                                 <div class="input-group-append"></div>
                             </div>
 
@@ -398,11 +398,11 @@
                                 <div class="input-group-append"></div>
                             </div>
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input autocomplete="off" type="date" class="form-control" id="active_time" />
+                                <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input autocomplete="off" type="text" class="calendar" id="active_time" />
                                 <div class="input-group-append"></div>
                             </div>
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">Fecha de salida</span></div><input autocomplete="off" type="date" class="form-control" id="end_time" />
+                                <div class="input-group-prepend"><span class="input-group-text">Fecha de salida</span></div><input autocomplete="off" type="text" class="calendar" id="end_time" />
                                 <div class="input-group-append"></div>
                             </div>
                             <div class="input-group">
@@ -513,11 +513,21 @@
             dayOfWeekStart: 1,
             locale: 'es',
         });
+        var calendarUser1 = new CalendarPopup('#active_time', {
+            format: 'YYYY-MM-DD HH:mm',
+            dayOfWeekStart: 1,
+            locale: 'es',
+        });
+        var calendarUser = new CalendarPopup('#end_time', {
+            format: 'YYYY-MM-DD HH:mm',
+            dayOfWeekStart: 1,
+            locale: 'es',
+        });
     });
 
-    var device_id;
-    var device_tkn;
-    var tag;
+    var dev_id = $('#bind_device_id').val();
+    var device_tkn = "2385844285";
+    var tag = $('#bind_tag').val();
     var mensaje;
 
    /* $(function () {
@@ -649,15 +659,23 @@
     function deviceConfig() {
         var name = $('#device_name').val();
         var pass = $('#device_pass').val();
-        var time = $('#time_server').val();
-        var sync = $('#sync_server').val();
+        var time = $('#server_cur_pts').val();
+        var sync;
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
+        if ($("#sync_server_pts_en").is(":checked")) {
+            sync = true;
+        }
+        else {
+            sync = false;
+        }
         jsonMsg =
         {
 
             mqtt_cmd: 1,
             mqtt_operate_id: 1,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             basic_config:
             {
@@ -717,6 +735,8 @@
         var dns1 = $('#dns1').val();
         var dns2 = $('#dns2').val();
         var dhcp;
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         if ($("#dhcp").is(":checked")) {
             dhcp = true;
         }
@@ -729,9 +749,9 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 2,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
-            network_config:
+            network_cofnig:
             {
                 ip_addr: ip,
                 net_mask: mask,
@@ -783,9 +803,11 @@
     */
 
     function remoteConfig() {
-        var vol = $('#vol').val();
-        var bright = $('#bright').val();
+        var vol = parseInt($('#vol').val());
+        var bright = parseInt($('#bright').val());
         var light;
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         if ($("#light_en").is(":checked")) {
             light = true;
         }
@@ -797,7 +819,7 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 4,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             remote_config:
             {
@@ -854,10 +876,11 @@
 
     function tempConfig() {
         var temp, stranger, mask_check, video, photo;
-        var alarm = $('#alarm_temp').val();
-        var tmp_comp = $('#temp_comp').val();
-        var save_time = $('#record_save_time').val();
-
+        var alarm = parseFloat($('#alarm_temp').val());
+        var tmp_comp = parseFloat($('#temp_comp').val());
+        var save_time = parseInt($('#record_save_time').val());
+        var dev_id = $('#bind_device_id').val();        
+        var tag = $('#bind_tag').val();
         if ($("#temp_dec_en").is(":checked")) {
             temp = true;
         }
@@ -894,7 +917,7 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 6,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             temperature_fun:
             {
@@ -972,19 +995,21 @@
         var batch_name = $('#batch_name').val();
         var batch_id = $('#batch_id').val();
         var address = $('#server_ip').val();
-        var port = $('#server_port').val();
+        var port = parseInt($('#server_port').val());
         var in_time = $('#active_time').val();
         var out_time = $('#end_time').val();
         var id_user = $('#user_id').val();
         var name_user = $('#user_name').val();
         var url = $('#picture').val();
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
 
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             piclib_manage: 0,
             param:
@@ -994,6 +1019,7 @@
                 server_ip: address,
                 server_port: port,
                 pictures:
+                [
                 {
                     active_time: in_time,
                     user_id: id_user,
@@ -1002,6 +1028,7 @@
                     p_id: null,
                     picture: url
                 }
+                ]
             }
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -1050,19 +1077,24 @@
 
     function deleteUser() {
         var user = $('#user_delete').val();
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             piclib_manage: 3,
             param:
             {
-                users: {
+                users:
+                [
+                {
                     user_id: user
                 }
+                ]
             }
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -1112,19 +1144,24 @@
 
     function deleteBatch() {
         var batch = $('#batch_delete').val();
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             piclib_manage: 2,
             param:
             {
-                lib: {
+                lib:
+                [
+                {
                     lib_id: batch
                 }
+                ]
             }
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -1164,12 +1201,14 @@
     */
 
     function deleteAll() {
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: device_id,
+            device_id: dev_id,
             tag: tag,
             piclib_manage: 1
         };
@@ -1208,11 +1247,13 @@
 
 
        */
-     function getParameters() {
+    function getParameters() {
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
         jsonMsg =
             {
                 mqtt_cmd: 2,
-                device_id: device_id,
+                device_id: dev_id,
                 tag: tag,
                 device_token: device_tkn
             };
