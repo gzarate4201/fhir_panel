@@ -20,7 +20,8 @@ connection.on("ReceiveMessage", function (user, message) {
     mensaje = JSON.parse(message);
 
     // Determina los valores para conexion de las otras tramas
-    if (mensaje.msg =="get param success") {
+    if (mensaje.msg == "get param success") {
+        console.log("Llegó el mensaje");
         tag = mensaje.tag;
         $("#actual_device_tag").html(tag);
         device_id = mensaje.device_id;
@@ -53,35 +54,28 @@ function showActualParameters(mensaje) {
     $("#actual_version").html(mensaje.datas.version_info.firmware_ver);
     $("#actual_firm_date").html(mensaje.datas.version_info.firmware_date);
     $("#actual_temp_en").html(mensaje.datas.fun_param.temp_dec_en);
-    $("#actual_face_num").html(mensaje.datas.face_recognition_cfg.dec_face_num_cur);
-    $("#actual_stranger_en").html(mensaje.datas.fun_param.stranger_pass_en);
-    $("#actual_face_min").html(mensaje.datas.face_recognition_cfg.dec_face_num_min);
-    $("#actual_make_en").html(mensaje.datas.fun_param.make_check_en);
-    $("#actual_face_max").html(mensaje.datas.face_recognition_cfg.dec_face_num_max);
-    $("#actual_alarm_temp").html(mensaje.datas.fun_param.alarm_temp);
-    $("#actual_dec_interval").html(mensaje.datas.face_recognition_cfg.dec_interval_cur);
-    $("#actual_temp_comp").html(mensaje.datas.fun_param.temp_comp);
-    $("#actual_dec_min").html(mensaje.datas.face_recognition_cfg.dec_interval_min);
-    $("#actual_record_time").html(mensaje.datas.fun_param.record_save_time);
-    $("#actual_dec_max").html(mensaje.datas.face_recognition_cfg.dec_interval_max);
+    $("#actual_stranger_en").html(mensaje.datas.fun_param.stranger_pass_en);    
+    $("#actual_make_en").html(mensaje.datas.fun_param.make_check_en);    
+    $("#actual_alarm_temp").html(mensaje.datas.fun_param.alarm_temp);    
+    $("#actual_temp_comp").html(mensaje.datas.fun_param.temp_comp);   ;
+    $("#actual_record_time").html(mensaje.datas.fun_param.record_save_time);    
     $("#actual_save_record").html(mensaje.datas.fun_param.save_record);
-    $("#actual_ip").html(mensaje.datas.network_config.ip_addr);
+    $("#actual_ip").html(mensaje.datas.network_cofnig.ip_addr);
     $("#actual_mqtt").html(mensaje.datas.mqtt_protocol_set.enable);
-    $("#actual_mask").html(mensaje.datas.network_config.net_mask);
+    $("#actual_mask").html(mensaje.datas.network_cofnig.net_mask);
     $("#actual_retain").html(mensaje.datas.mqtt_protocol_set.retain);
-    $("#actual_gw").html(mensaje.datas.network_config.gateway);
+    $("#actual_gw").html(mensaje.datas.network_cofnig.gateway);
     $("#actual_pqos").html(mensaje.datas.mqtt_protocol_set.pqos);
-    $("#actual_ddns1").html(mensaje.datas.network_config.DDNS1);
+    $("#actual_ddns1").html(mensaje.datas.network_cofnig.DDNS1);
     $("#actual_sqos").html(mensaje.datas.mqtt_protocol_set.sqos);
-    $("#actual_ddns2").html(mensaje.datas.network_config.DDNS2);
+    $("#actual_ddns2").html(mensaje.datas.network_cofnig.DDNS2);
     $("#actual_server").html(mensaje.datas.mqtt_protocol_set.server);
-    $("#actual_dhcp").html(mensaje.datas.network_config.DHCP);
+    $("#actual_dhcp").html(mensaje.datas.network_cofnig.DHCP);
     $("#actual_username").html(mensaje.datas.mqtt_protocol_set.username);
     $("#actual_mqtt_password").html(mensaje.datas.mqtt_protocol_set.passwd);
     $("#actual_Topic2Subscribe").html(mensaje.datas.mqtt_protocol_set.topic2subscribe);
     $("#actual_Topic2Publish").html(mensaje.datas.mqtt_protocol_set.topic2publish);
     $("#actual_heartbeat").html(mensaje.datas.mqtt_protocol_set.heartbeat);
-
 }
 
 
