@@ -2,16 +2,16 @@
     ViewData["Title"] = "Starter Page";
 }
 
-    <link href="@Url.Content("~/css/sistema.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/sistema.css")" rel="stylesheet" type="text/css" />
 <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
-    
+
 </ul>
 
 <h1 class="page-header">
     Sistema
 </h1>
-
+<!--   System configuration  -->
 <div class="card-sistema">
     <div class="card-body">
         <h4 class="card-title">MQTT</h4>
@@ -20,60 +20,62 @@
                 <form>
                     <div class="form-group">
                         <div class="settingsElement">
-                            <p class="switchText">Habilitar MQTT </p>
-                            <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                            <label class="checkbox-inline" style="margin-left:10px">
+                                <input type="checkbox" id="mqtt_enable" name="mqtt_enable" value="" style="margin-right:10px">Habilitar MQTT
+                            </label>                            
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="settingsElement">
-                            <p class="switchText">Retain </p>
-                            <div class="onoffswitch"><input type="checkbox" id="myonoffswitch" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                            <label class="checkbox-inline" style="margin-left:10px">
+                                <input type="checkbox" id="mqtt_retain" name="mqtt_retain" value="" style="margin-right:10px">Retain 
+                            </label>                           
                         </div>
                     </div>
 
 
 
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">MQTT Broker</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Broker</span></div><input autocomplete="off" type="text" class="form-control" id="mqtt_broker" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">MQTT Port</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Port</span></div><input autocomplete="off" type="text" class="form-control" id="mqtt_port" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">MQTT User</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT User</span></div><input autocomplete="off" type="text" class="form-control" id="mqtt_user" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">MQTT Password</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Password</span></div><input autocomplete="off" type="text" class="form-control" id="mqtt_psw" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">MQTT Client Id</span></div><input class="form-control" type="text" />
+                        <div class="input-group-prepend"><span class="input-group-text">MQTT Client Id</span></div><input autocomplete="off" class="form-control" type="text" id="mqtt_client_id" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Topic2Publish</span></div><input class="form-control" type="text" />
+                        <div class="input-group-prepend"><span class="input-group-text">Topic2Publish</span></div><input autocomplete="off" class="form-control" type="text" id="topic_pub" />
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Topic2Subscribe</span></div><input class="form-control" type="text" />
+                        <div class="input-group-prepend"><span class="input-group-text">Topic2Subscribe</span></div><input autocomplete="off" class="form-control" type="text" id="topic_subs"/>
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Heartbeat</span></div><input class="form-control" type="text" />
+                        <div class="input-group-prepend"><span class="input-group-text">Heartbeat</span></div><input autocomplete="off" class="form-control" type="text" id="heart_beat"/>
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Publish QoS</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">Publish QoS</span></div><input autocomplete="off" type="text" class="form-control" id="pqos"/>
                         <div class="input-group-append"></div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Subscribe QoS</span></div><input type="text" class="form-control" />
+                        <div class="input-group-prepend"><span class="input-group-text">Subscribe QoS</span></div><input autocomplete="off" type="text" class="form-control" id="sqos" />
                         <div class="input-group-append"></div>
                     </div>
-                    <button class="btn btn-primary" type="submit">Guardar</button>
+                    <button class="btn btn-primary" id="mqtt_config" >Guardar</button>
                 </form>
 
 
@@ -83,21 +85,213 @@
                 <form>
                     <div class="form-group">
                         <div class="settingsElement">
-                            <p class="switchText">¿Reiniciar dispositivo? </p>
-                            <div class="onoffswitch"><input type="checkbox" id="reboot" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                            <label class="checkbox-inline" style="margin-left:10px">
+                                <input type="checkbox" id="reboot" name="reboot" value="" style="margin-right:10px">¿Reiniciar dispositivo?
+                            </label>                            
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="settingsElement">
-                            <p class="switchText">¿Restaurar a configuración de fábrica? </p>
-                            <div class="onoffswitch"><input type="checkbox" id="reset" class="onoffswitch-checkbox" name="onoffswitch" /><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div>
+                            <label class="checkbox-inline" style="margin-left:10px">
+                                <input type="checkbox" id="reset" name="reset" value="" style="margin-right:10px">¿Restaurar a configuración de fábrica?
+                            </label>                            
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="submit">Guardar</button>
+                    <button class="btn btn-primary" id="system_config" >Guardar</button>
                 </form>
             </div>
         </div>
-        
-        
+
+
     </div>
 </div>
+<!-- Carga las librerias de MQTT js -->
+<!--  <script src="~/js/mqtt.js"></script> -->
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+<script>
+
+    var device_tkn = "2385844285";
+
+    $('#mqtt_config').on('click',mqttConfig);
+    $('#system_config').on('click', systemConfig);
+
+
+    /* device basic configuration example
+    {
+			"mqtt_cmd":1,
+			"mqtt_operate_id":8,
+			"device_token":"1057628122",
+			"device_id":"7101389947744",
+			"tag":"platfrom define",
+			"mqtt_protocol_set":
+			{
+				"enable":1,
+				"retain":0,
+				"pqos":0,
+				"sqos":0,
+				"port":1883,
+				"server":"",
+				"username":"",
+				"passwd":"YWRtaW4",
+				"topic2pulish":"PublishTest123",
+				"topic2subscribe":"SubscribeTest123",
+				"heartbeat":0		//Device and platform heartbeat parameters
+			}
+		}
+
+
+    */
+
+    function mqttConfig() {
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";
+        var broker = $('#mqtt_broker').val();
+        var mqtt_port = parseInt($('#mqtt_port').val());
+        var mqtt_user = $('#mqtt_user').val();
+        var mqtt_psw = $('#mqtt_psw').val();
+        var client_id = $('#mqtt_client_id').val();
+        var pub_topic = $('#topic_pub').val();
+        var sub_topic = $('#topic_subs').val();
+        var hb = parseInt($('#heart_beat').val());
+        var pqos = parseInt($('#pqos').val());
+        var sqos = parseInt($('#sqos').val());
+        var mqtt_en, ret;
+
+        if ($("#mqtt_enable").is(":checked")) {
+            mqtt_en = 1;
+        }
+        else {
+            mqtt_en = 0;
+        }
+        if ($("#mqtt_retain").is(":checked")) {
+            ret = 1;
+        }
+        else {
+           ret= 0;
+        }
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 8,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+                mqtt_protocol_set:
+                {
+                    enable: mqtt_en,
+                    retain: ret,
+                    pqos: pqos,
+                    sqos: sqos,
+                    port: mqtt_port,
+                    server: broker,
+                    username: mqtt_user,
+                    passwd: mqtt_psw,
+                    topic2pulish: pub_topic,
+                    topic2subscribe: sub_topic,
+                    heartbeat: hb
+                }
+
+        }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying pages");
+            }
+        });
+    }
+
+
+    /* System maintenance parameter configuration
+        {
+                "mqtt_cmd":1,
+			    "mqtt_operate_id":9,
+			    "device_token":"1057628122",
+			    "device_id":"7101389947744",
+			    "tag":"platfrom define",
+			    "sys_maintain":
+			    {
+				    "reboot":1,
+				    "reset":0
+			    }
+		    }
+
+
+
+    */
+    function systemConfig() {
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";       
+        var reboot, reset;
+        if ($("#reboot").is(":checked")) {
+            reboot = 1;
+        }
+        else {
+            reboot = 0;
+        }
+        if ($("#reset").is(":checked")) {
+            reset = 1;
+        }
+        else {
+            reset= 0;
+        }
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 9,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+                sys_maintain:
+                {
+                    reboot: reboot,
+                    reset: reset                   
+                }
+
+        }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying pages");
+            }
+        });
+    }
+</script>
+

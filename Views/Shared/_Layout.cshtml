@@ -36,18 +36,10 @@
         {
             <div id="content" class="app-content @ViewData["AppContentClass"]">
                 @RenderBody()
-
-                <!-- BEGIN btn-scroll-top -->
-                <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
-                <!-- END btn-scroll-top -->
             </div>
         }
         else
             @RenderBody()
-
-            <!-- BEGIN btn-scroll-top -->
-            <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
-            <!-- END btn-scroll-top -->
         }
 
         @RenderSection("OutterAppContainerContent", required: false)

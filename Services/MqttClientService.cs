@@ -1,7 +1,22 @@
-﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿/**
+ * (c) QA Ingenieros Ltda., Bogotá Colombia
+ * 
+ * 
+ * Contains code authored by:    
+ *   
+ *   Alejandro Mejia 
+ *   Santiago Urueña
+ *   and others as recnognizad or listed in the code.
+ */
+using System;
+using System.IO;
+// using System.DrawingCore;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 // Librerias para manejo de MQTT
 using MQTTnet;
@@ -10,19 +25,30 @@ using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 
+using Json.Net;
+
+// Logging
+using Microsoft.Extensions.Logging;
+
 // Librerias para manejo de tareas asincronicas
 using System.Threading;
 using System.Threading.Tasks;
 
 // Librerias para manejo de Notificaciones Cliente - Servidor
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
-using SignalRChat.Hubs;
 
-// Modeles para Base de datos
+
+// Modelos para Base de datos
 using AspStudio.Models;
 using AspStudio.Data;
 
+/// <summary>
+/// Esta función crea las clases con los parámetros entregados por el dispositivo
+/// Se crean otras subclases para clasificar dichos parámetros
+/// </summary>
+/// <param name="">
+/// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+/// </param>
 
 namespace Mqtt.Client.AspNetCore.Services
 {
@@ -105,28 +131,52 @@ namespace Mqtt.Client.AspNetCore.Services
         
 
     }
-
+    /// <summary>
+    /// Instancia principal para la comunicación MQTT del backend del proyecto
+    /// 
+    /// </summary>
+    /// <param name="">
+    /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+    /// </param>
     public class MqttClientService : IMqttClientService
     {
         // Instancias para manejo de la libreria de MQTTnet
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
+        
 
-        // Instancias para manejo de la conexion a BD
-        private readonly ApplicationDbContext dbContext;
+        // Inyeccion clase para manejo de la conexion a BD
+        private readonly IServiceScopeFactory _scopeFactory;
 
 
+       
+        // private readonly ApplicationDbContext dbContext;
         HubConnection connection;
         
-        public MqttClientService(IMqttClientOptions options)
+        public MqttClientService(IMqttClientOptions options, IServiceScopeFactory scopeFactory)
         {
             this.options = options;
             mqttClient = new MqttFactory().CreateMqttClient();
+
+            // Creamos el objeto dbContext
+            // dbContext = _dbContext;
+            _scopeFactory = scopeFactory;
+
+            // Configuracion del servicio MQTTClient
             ConfigureMqttClient();
+
+            // Configuracion del servicio de mensajeria Cliente-Servidor
             ConfigureHub();
         }
+        /// <summary>
+        /// Esta función realiza la configuración pára realizar la comunicación entre el backend y el frontend
+        /// 
+        /// </summary>
+        /// <param name="">
+        /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+        /// </param>
 
-        private async void ConfigureHub() 
+        private void ConfigureHub() 
         {
             connection = new HubConnectionBuilder()
                 .WithUrl("http://localhost:5000/note")
@@ -134,12 +184,25 @@ namespace Mqtt.Client.AspNetCore.Services
             // Thread.Sleep(10000);
             
         }
+        /// <summary>
+        /// Esta función realiza la configuración del cliente MQTT asingándolo a la misma plataforma
+        /// 
+        /// </summary>
+        /// <param name="">
+        /// La función no tiene parámetros, por lo cual realiza la configuración sin retornar nada
+        /// </param>
         private void ConfigureMqttClient()
         {
             mqttClient.ConnectedHandler = this;
             mqttClient.DisconnectedHandler = this;
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
+        /// <summary>
+        /// Esta función realiza el tratamiento del mensaje recibido por la aplicación para luego enviarla al cliente y así poder ser visualizado
+        /// </summary>
+        /// <param name="eventArgs">
+        /// El parámetro es el mensaje recibido por la plataforma, realizar el tratamiento de dicho mensaje y ser enviado al frontend
+        /// </param>
 
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
@@ -147,14 +210,35 @@ namespace Mqtt.Client.AspNetCore.Services
             System.Console.WriteLine("Mensaje recibido");
 
             // De acuerdo al mensaje recibido se ejecuta alguna accion 
+            
+            
+            // Funciones para decodificar los mensajes de llegada por MQTT y realizar las acciones adecuadas
             HandleReceivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            
+            // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
+            // msg.Property("imageFile").Remove();
+            string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
+            var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
+            if (msg.has("imageFile"))
+            {
+                ((JArray)msg.Property("imageFile")).Remove();
+            }            
+            string JsonSend = msg.ToString();
+
+            
+            System.Console.WriteLine(JsonSend);
+            //JsonMsg = JsonConvert.DeserializeObject(msg);
+
+            // Se imprime el objeto por consola
+            // System.Console.WriteLine("El mensaje recibido es: ");
+            // System.Console.WriteLine(JsonMsg);
 
             // Envio por SignalR paraa comunicacion con el Cliente
             try {
                 System.Console.WriteLine("Conectando al Hub");
                 await connection.StartAsync();
                 System.Console.WriteLine("Enviando al Hub");
-                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, eventArgs.ApplicationMessage.ConvertPayloadToString());
+                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, JsonSend);
                 System.Console.WriteLine("DesConectando del Hub");
                 await connection.StopAsync();
                 System.Console.WriteLine("Mensaje enviado por el Hub");
@@ -166,8 +250,15 @@ namespace Mqtt.Client.AspNetCore.Services
             
         
         }
-
+        /// <summary>
+        /// Esta función realiza la extracción de los parámetros recibidos enviados por el dispositivo
+        /// 
+        /// </summary>
+        /// <param name="JsonMsg">
+        /// El parámetro es el JSON enviado por el dispositivo, capturado por MQTTClient y notificado al ForeGround por el servicio SignalR.
+        /// </param>
         public  void HandleReceivedMessagePayload(string JsonMsg) {
+            DateTime localDate = DateTime.Now;
             try {
                 // Se convierte la cadena del JsonMsg en un objeto dinamico para identificar el tipo de respuesta
                 // De acuerdo al contenido se realizan acciones
@@ -185,9 +276,10 @@ namespace Mqtt.Client.AspNetCore.Services
                 // // Debug de las variables principales
                 // System.Console.WriteLine(code, device_id, cur_pts, tag);
 
-                // Se imprime el objeto por consola
-                System.Console.WriteLine("El mensaje recibido es: ");
-                System.Console.WriteLine(mensaje);
+                
+
+                System.Console.WriteLine("Identificando respuesta:");
+
                 if (mensaje.code == -1)
                 {
                     System.Console.WriteLine("Error de comando, el dispositivo entregó código de error ");
@@ -195,6 +287,7 @@ namespace Mqtt.Client.AspNetCore.Services
                 }
                 if (mensaje.code == 0)
                 {
+                    // Respuesta al evento Get All Params
                     if(mensaje.msg == "get param success")
                     {
                         System.Console.WriteLine("Los parámetros del device son los siguientes: ");
@@ -280,11 +373,59 @@ namespace Mqtt.Client.AspNetCore.Services
                         System.Console.WriteLine("Tópico para suscripción: ");
                         System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
                         System.Console.WriteLine("HeartBeat: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);                     
+                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);
+
+                        // Creación del objeto device para ser ingresado a la base de datos
+                        // Se hace la recolección de parámetros de la trama recibida. 
+                        var device = new Device()
+                        {
+                            Id = 0,
+                            DevId = mensaje.device_id,
+                            DevTag = "2",
+                            DevTkn = "3",
+                            DevPwd = mensaje.datas.basic_parameters.dev_pwd,
+                            DevName = mensaje.datas.basic_parameters.dev_name,
+                            IpAddr = mensaje.datas.network_config.ip_addr,
+                            NetMsk = mensaje.datas.network_config.net_mask,
+                            NetGw = mensaje.datas.network_config.gateway,
+                            DDNS1 = mensaje.datas.network_config.DDNS1,
+                            DDNS2 = mensaje.datas.network_config.DDNS2,
+                            DHCP = mensaje.datas.network_config.DHCP,
+                            DevMdl = mensaje.datas.version_info.dev_model,
+                            FwrVer = mensaje.datas.version_info.firmware_ver,
+                            FwrDate = mensaje.datas.version_info.firmware_ver,
+                            TempDecEn = mensaje.datas.fun_param.temp_dec_en,
+                            StrPassEn = mensaje.datas.fun_param.stranger_pass_en,
+                            MkeChkEn = mensaje.datas.fun_param.make_check_en,
+                            AlarmTemp = mensaje.datas.fun_param.alarm_temp,
+                            TempComp = mensaje.datas.fun_param.temp_comp,
+                            RcrdTimeSv = mensaje.datas.fun_param.record_save_time,
+                            SvRec = mensaje.datas.fun_param.save_record,
+                            SvJpg = mensaje.datas.fun_param.save_jpeg,
+                            MqttEn = mensaje.datas.mqtt_protocol_set.enable,
+                            MqttRet = mensaje.datas.mqtt_protocol_set.retain,
+                            PQos = mensaje.datas.mqtt_protocol_set.pqos,
+                            SQos = mensaje.datas.mqtt_protocol_set.sqos,
+                            MqttPrt = mensaje.datas.mqtt_protocol_set.port,
+                            MqttSrv = mensaje.datas.mqtt_protocol_set.server,
+                            MqttUsr = mensaje.datas.mqtt_protocol_set.username,
+                            MqttPwd = mensaje.datas.mqtt_protocol_set.passwd,
+                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2publish,
+                            Topic2Sub = mensaje.datas.mqtt_protocol_set.topic2subscribe,
+                            HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat
+                        };
+
+                        StoreDevice(device);
                     }
+
+                    // Respuesta a la orden Bind
+
                     if (mensaje.msg == "mqtt bind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo enlazado correctamente.");
+                        
+
+
                     }
                     if (mensaje.msg == "mqtt unbind ctrl success")
                     {
@@ -318,19 +459,130 @@ namespace Mqtt.Client.AspNetCore.Services
                     {
                         System.Console.WriteLine("Librerías de datos borrados correctamente");
                     }
-                    if (mensaje.msg == "delete lib piclib success")
+                    if (mensaje.msg == "delete users piclib success")
                     {
-                        System.Console.WriteLine("Librerías de datos borrados correctamente");
+                        System.Console.WriteLine("Usuarios borrados correctamente");
                     }
+
+                    if (mensaje.msg == "Upload Person Info!") {
+                        System.Console.WriteLine("Registro de persona en el Dispositivo");
+                        if(mensaje.datas.user_id == "") {
+                            mensaje.datas.user_id = 0;
+                        };
+
+                        // Convierte la imagen a jpeg y la graba en el directorio wwwroot
+                        var image_url = ExportToImage(mensaje.datas.imageFile.ToString());
+                        // System.Console.WriteLine(mensaje.datas.imageFile);
+                        // Se envia a la base de datos el nombre de la imagen
+                        mensaje.datas.imageFile = image_url;
+
+
+                        // Se carga en el modelo Person los datos a almacenar en la DB
+                        var persona = new Person()
+                        {                            
+                            MsgType = (Int32)mensaje.datas.msgType,
+                            Similar = (float)mensaje.datas.similar,
+                            UserId = (Int32)mensaje.datas.user_id,
+                            Name = mensaje.datas.name,
+                            RegisterTime = localDate,
+                            Temperature = (float)mensaje.datas.temperature,
+                            Matched = (Int32)mensaje.datas.matched,
+                            Mask = (Int32)mensaje.datas.mask,
+                            DevId = mensaje.device_id.ToString(),
+                            imageUrl = image_url
+                        };
+                        StorePerson(persona);
+
+                    }
+
                 }
+                // Se imprime el objeto por consola
+                System.Console.WriteLine("El mensaje recibido es: ");
+                System.Console.WriteLine(mensaje);
                 
             } catch (Exception e) {
-                System.Console.WriteLine("Error : " + e.Message);
+                System.Console.WriteLine("Error leyendo mensaje de Mqtt : " + e.Message);
             }
             
         }
 
-        // Subscribirse al Topic que envia la tableta
+        /// <summary>
+        /// Genera la insercion de datos en la BD SQL Server a partir de la clase Person
+        /// </summary>
+        /// <param name="persona">
+        ///     Contiene los datos de la persona que fue detectada por la tableta
+        ///     Ejemplo:
+        ///     var persona = new Person()
+        ///                {
+        ///                    MsgType = "1",
+        ///                    Similar = 98,
+        ///                    UserId = 77,
+        ///                    Name = "Santiago Urueña",
+        ///                    RegisterTime = localDate,
+        ///                    Temperature = 36,
+        ///                    Matched = 1,
+        ///                    imageUrl = "/upload/images/77.jpg"
+        ///                };
+        /// </param>
+        public void StorePerson(Person persona) {
+            
+            using (var scope = _scopeFactory.CreateScope()) {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try {
+                    dbContext.Persons.Add(persona);
+                    dbContext.SaveChanges();
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error Guardando Persona en la base de datos:" + e.Message + e.StackTrace);
+                }
+            }
+            
+        }
+
+
+        /// <summary>
+        /// el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+        /// scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+        /// de lo contrario da un error 
+        /// Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+        /// e instanciar un scope revisar en el constructor la instanciacion de _scopeFactory
+        /// </summary>
+        /// <param name="dev"></param>
+        public void StoreDevice(Device dev)
+        {
+
+            using (var scope = _scopeFactory.CreateScope())
+            {
+
+                
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    dbContext.Devices.Add(dev);
+                    dbContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Esta función realiza la subscripción del tópico MQTT donde se obtienen dichos parámetros
+        /// 
+        /// </summary>
+        /// <param name="eventArgs">
+        /// La función entra con el mensaje pero no retorna nada, sólo realiza la subscripción
+        /// </param>
+        
         public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("connected");
@@ -338,20 +590,66 @@ namespace Mqtt.Client.AspNetCore.Services
             await mqttClient.SubscribeAsync("PublishTest");
         }
 
-        public Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
+        /// <summary>
+        /// Esta función se ejecuta cuando se haya perdido la conexión con el broker MQTT generando la excepción
+        /// 
+        /// </summary>
+        /// <param name="eventArgs">
+        /// La función entra con el mensaje pero no retorna nada, sólo realiza la subscripción
+        /// </param>
+
+        public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
-            throw new System.NotImplementedException();
+
+            var connected = mqttClient.IsConnected;
+            var options = new MqttClientOptionsBuilder()
+                .WithClientId("client_id")
+                .WithTcpServer("iot02.qaingenieros.com")
+                .WithCleanSession()
+                .Build();
+
+            while (!connected )
+            {
+                try
+                {
+                    // Parametros para la configuracion del cliente MQTT.
+                    // Establece conexion con el Broker
+                    await mqttClient.ConnectAsync(options);
+                } catch (System.Exception e) {
+                    System.Console.WriteLine("No connection to MQTT Broker " + e.Message + e.StackTrace);
+                }
+                connected = mqttClient.IsConnected;
+                await Task.Delay(10000);
+            }
         }
+
+        /// <summary>
+        /// Esta función realiza la reconexión asíncrona con el broker 
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// La función entra con el token y sólo realiza la reconexión
+        /// </param>
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await mqttClient.ConnectAsync(options);
+            // _logger.LogWarning("Broker conectado");
             if (!mqttClient.IsConnected)
             {
                 await mqttClient.ReconnectAsync();
             }
         }
+
+        /// <summary>
+        /// Esta función realiza la desconexión asíncrona con el broker 
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// La función entra con el token y sólo realiza la desconexión
+        /// </param>
+
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
@@ -365,6 +663,38 @@ namespace Mqtt.Client.AspNetCore.Services
                 await mqttClient.DisconnectAsync(disconnectOption, cancellationToken);
             }
             await mqttClient.DisconnectAsync();
+        }
+
+        /// <summary>
+        ///  Convert image comming in MQTT message in format base64 to JPEG and store in Registers directory
+        /// </summary>
+        /// <param name="base64">
+        /// base64 : String que contiene los datos de la imagen
+        /// </param>
+        /// <returns>
+        /// imagePath : Ruta en el sistema de archivos de la imagen jpeg, para ser almacenada en la base de datos
+        /// </returns>
+        protected string ExportToImage(string base64)
+        {
+            DateTime localDate = DateTime.Now;
+            var image64 = base64.Substring(base64.LastIndexOf(',') + 1);
+            //  Convierte la cadena base64 en un arreglo de bytes
+            byte[] bytes = Convert.FromBase64String(image64);
+            var imageName = "output" + localDate.ToString("yyyy_MM_dd_HH_mm_ss") + ".jpg";
+            var folderPath = "Media/Registers/";
+            var imagePath = folderPath + imageName;
+            
+            using(Image image = Image.FromStream(new MemoryStream(bytes)))
+            {
+                try {
+                    image.Save(imagePath, ImageFormat.Jpeg);  // Or Png
+                } catch(System.Exception e){
+                    System.Console.WriteLine("Error saving " + imagePath + " in filesystem" + e.Message + e.StackTrace );
+                }
+                
+            }
+            
+            return (imagePath);
         }
     }
 }

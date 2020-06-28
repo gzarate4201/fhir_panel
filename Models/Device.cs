@@ -23,13 +23,13 @@ namespace AspStudio.Models
         [Column("device_tag")]
         public string DevTag { get; set; }
 
-        [Column("device_token")]
+        [Column("device_tkn")]
         public string DevTkn { get; set; }
 
-        [Column("dev_pwd")]
+        [Column("device_pwd")]
         public string DevPwd { get; set; }
 
-        [Column("dev_name")]
+        [Column("device_name")]
         public string DevName { get; set; }
 
         [Column("ip_addr")]
@@ -48,25 +48,8 @@ namespace AspStudio.Models
         public string DDNS2 { get; set; }
 
         [Column("DHCP")]
-        public string DHCP { get; set; }
-
-        [Column("dec_face_num_cur")]
-        public string DecFaceNumCur { get; set; }
-
-        [Column("dec_interval_cur")]
-        public string DecIntCur { get; set; }
-
-        [Column("dec_face_num_min")]
-        public string DecFaceNumMin { get; set; }
-
-        [Column("dec_face_num_max")]
-        public string DecFaceNumMax { get; set; }
-
-        [Column("dec_interval_min")]
-        public string DecIntMin { get; set; }
-
-        [Column("dec_interval_max")]
-        public string DecIntMax { get; set; }
+        public bool DHCP { get; set; }
+        
 
         [Column("dev_model")]
         public string DevMdl { get; set; }
@@ -78,43 +61,43 @@ namespace AspStudio.Models
         public string FwrDate { get; set; }
 
         [Column("temp_dec_en")]
-        public string TempDecEn { get; set; }
+        public bool TempDecEn { get; set; }
 
         [Column("stranger_pass_en")]
-        public string StrPassEn { get; set; }
+        public bool StrPassEn { get; set; }
 
-        [Column("make_check_en")]
-        public string MkeChkEn { get; set; }
+        [Column("mask_check_en")]
+        public bool MkeChkEn { get; set; }
 
         [Column("alarm_temp")]
-        public string AlarmTemp { get; set; }
+        public double AlarmTemp { get; set; }
 
         [Column("temp_comp")]
-        public string TempComp { get; set; }
+        public double TempComp { get; set; }
 
         [Column("record_time_save")]
         public string RcrdTimeSv { get; set; }
 
         [Column("save_record")]
-        public string SvRec { get; set; }
+        public bool SvRec { get; set; }
 
-        [Column("save_jpg")]
-        public string SvJpg { get; set; }
+        [Column("save_jpeg")]
+        public bool SvJpg { get; set; }
 
         [Column("mqtt_enable")]
-        public string MqttEn { get; set; }
+        public bool MqttEn { get; set; }
 
         [Column("mqtt_retain")]
-        public string MqttRet { get; set; }
+        public int MqttRet { get; set; }
 
         [Column("pqos")]
-        public string PQos { get; set; }
+        public int PQos { get; set; }
 
         [Column("sqos")]
-        public string SQos { get; set; }
+        public int SQos { get; set; }
 
-        [Column("maqtt_port")]
-        public string MqttPrt { get; set; }
+        [Column("mqtt_port")]
+        public int MqttPrt { get; set; }
 
         [Column("mqtt_server")]
         public string MqttSrv { get; set; }
@@ -122,7 +105,7 @@ namespace AspStudio.Models
         [Column("mqtt_username")]
         public string MqttUsr { get; set; }
 
-        [Column("maqtt_password")]
+        [Column("mqtt_password")]
         public string MqttPwd { get; set; }
 
         [Column("topic2publish")]
@@ -132,6 +115,9 @@ namespace AspStudio.Models
         public string Topic2Sub { get; set; }
 
         [Column("heartbeat")]
-        public string HeartBt { get; set; }
+        public int HeartBt { get; set; }
+
+        [Column("bound")]
+        public bool Bound { get; set; }
     }
 }

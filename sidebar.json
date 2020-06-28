@@ -11,10 +11,10 @@
       "text": "Dispositivos"
     },
     {
-      "controller": "Personal",
+      "controller": "Employee",
       "action": "Index",
       "icon": "fa fa-users",
-      "text": "Personal"
+      "text": "Registro"
     },
     {
       "controller": "Visitante",

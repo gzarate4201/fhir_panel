@@ -21,6 +21,8 @@ using Mqtt.Client.AspNetCore.Extensions;
 using Mqtt.Client.AspNetCore.Services;
 using Mqtt.Client.AspNetCore.Settings;
 
+
+
 namespace studio
 {
     public class Startup
@@ -65,9 +67,10 @@ namespace studio
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddDbContextPool<ApplicationDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddAuthentication(
@@ -118,14 +121,14 @@ namespace studio
             }
             app.UseHttpsRedirection();
 
+            app.UseResponsiveFileManager();
+
             app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseNodeModules();
 
             app.UseEndpoints(endpoints =>
             {

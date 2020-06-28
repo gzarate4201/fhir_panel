@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,13 +25,12 @@ namespace studio
                         optional: true,
                         reloadOnChange: true);
                 })
-                .ConfigureLogging(logging =>
-                {
-                    logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
-                    logging.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
-                })
                 .ConfigureWebHostDefaults(webBuilder =>
-                {
+                {   
+                    webBuilder.ConfigureKestrel(so =>
+                    {
+                        so.Listen(IPAddress.Any, 5050); //==> This is OK
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

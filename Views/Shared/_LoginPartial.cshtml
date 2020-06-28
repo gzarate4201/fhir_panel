@@ -1,18 +1,29 @@
 ﻿@{ 
     bool logged = User.Identity.IsAuthenticated;
 }
-<ul class="navbar-nav">
+<ul class="navbar-nav" style="display:inline;">
 @if (logged)
 {
     int userId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value);
     string userName = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value;
     
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @userName!</a>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @userName
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
+            <a class="dropdown-item"  asp-action="Logout" asp-controller="Account">Logout</a>
+        </div>
+    </div>
+
+    @* <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> @userName!</a>
     </li>
     <li class="nav-item">
         <a class="nav-link btn btn-link text-dark" asp-action="Logout" asp-controller="Account">Logout</a>
-    </li>
+    </li> *@
 }
 else
 {
