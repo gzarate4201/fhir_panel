@@ -13,14 +13,8 @@
     {
       "controller": "Employee",
       "action": "Index",
-      "icon": "fa fa-sign-in",
-      "text": "Registro"
-    },
-    {
-      "controller": "Personal",
-      "action": "Index",
       "icon": "fa fa-users",
-      "text": "Personal"
+      "text": "Registro"
     },
     {
       "controller": "Visitante",

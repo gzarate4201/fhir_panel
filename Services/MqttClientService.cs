@@ -391,12 +391,6 @@ namespace Mqtt.Client.AspNetCore.Services
                             DDNS1 = mensaje.datas.network_config.DDNS1,
                             DDNS2 = mensaje.datas.network_config.DDNS2,
                             DHCP = mensaje.datas.network_config.DHCP,
-                            DecFaceNumCur = mensaje.datas.face_recognition_cfg.dec_face_num_cur,
-                            DecIntCur = mensaje.datas.face_recognition_cfg.dec_interval_cur,
-                            DecFaceNumMin = mensaje.datas.face_recognition_cfg.dec_face_num_min,
-                            DecFaceNumMax = mensaje.datas.face_recognition_cfg.dec_face_num_max,
-                            DecIntMin = mensaje.datas.face_recognition_cfg.dec_interval_min,
-                            DecIntMax = mensaje.datas.face_recognition_cfg.dec_interval_max,
                             DevMdl = mensaje.datas.version_info.dev_model,
                             FwrVer = mensaje.datas.version_info.firmware_ver,
                             FwrDate = mensaje.datas.version_info.firmware_ver,
@@ -429,6 +423,9 @@ namespace Mqtt.Client.AspNetCore.Services
                     if (mensaje.msg == "mqtt bind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo enlazado correctamente.");
+                        
+
+
                     }
                     if (mensaje.msg == "mqtt unbind ctrl success")
                     {
@@ -601,11 +598,30 @@ namespace Mqtt.Client.AspNetCore.Services
         /// La función entra con el mensaje pero no retorna nada, sólo realiza la subscripción
         /// </param>
 
-        public Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
+        public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
 
-            throw new System.NotImplementedException();
+            var connected = mqttClient.IsConnected;
+            var options = new MqttClientOptionsBuilder()
+                .WithClientId("client_id")
+                .WithTcpServer("iot02.qaingenieros.com")
+                .WithCleanSession()
+                .Build();
+
+            while (!connected )
+            {
+                try
+                {
+                    // Parametros para la configuracion del cliente MQTT.
+                    // Establece conexion con el Broker
+                    await mqttClient.ConnectAsync(options);
+                } catch (System.Exception e) {
+                    System.Console.WriteLine("No connection to MQTT Broker " + e.Message + e.StackTrace);
+                }
+                connected = mqttClient.IsConnected;
+                await Task.Delay(10000);
+            }
         }
 
         /// <summary>
