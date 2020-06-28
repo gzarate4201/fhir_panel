@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Device Page";
+}
+@using AspStudio.Models;
+@model IQueryable<Employee>
+
+
+@* <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">HOME</a></li>
+    <li class="breadcrumb-item active">REPORTES</li>
+</ul> *@
+
+<link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet">
+<link href="~/css/dropzone.min.css" rel="stylesheet">
+<style>
+.table-title {
+    padding-bottom: 15px;
+    background: #299be4;
+    color: #fff;
+    padding: 16px 30px;
+    border-radius: 5px;
+}
+.table-title h2 {
+    margin: 5px 0 0;
+    font-size: 24px;
+}
+.table-title .btn {
+    color: #566787;
+    float: right;
+    font-size: 13px;
+    background: #fff;
+    border: none;
+    min-width: 50px;
+    border-radius: 2px;
+    border: none;
+    outline: none !important;
+    margin-left: 10px;
+}
+.table-title .btn:hover, .table-title .btn:focus {
+    color: #566787;
+    background: #f2f2f2;
+}
+.table-title .btn i {
+    float: left;
+    font-size: 21px;
+    margin-right: 5px;
+}
+.table-title .btn span {
+    float: left;
+    margin-top: 2px;
+}
+</style>
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+<div class="row">
+    <div class="col-md-6">
+        <div id="dropzone">
+            <form action="/Employee/Upload" class="dropzone needsclick dz-clickable" id="uploader">
+                <div class="dz-message needsclick">
+                   Suelte los archivos de imagenes aqui.<br>
+                   Las imagenes deben estar en formato JPEG, con tamaño de imagen 640x640, fondo blancoy deben pesar menos de 240Kb <br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+<div class="container-l" width="100%">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Administración de Empleados y Contratistas</h2>
+            </div>
+            <div class="col-md-6">
+                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
+            </div>
+        </div>
+    </div>
+    @(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.LastName).Titled("Name");
+            columns.Add(model => model.FirstName).Titled("Surname");
+            columns.Add(model => model.IdLenel).Titled("Id Lenel");
+            columns.Add(model => model.SSNO).Titled("SSNO");
+            columns.Add(model => model.Status).Titled("Status");
+            columns.Add(model => model.Documento).Titled("Documento");
+            columns.Add(model => model.Empresa).Titled("Empresa");
+        })
+        .Using(GridFilterMode.Header)
+        .Empty("No se encontraron datos")
+        .Filterable()
+        .Sortable()
+        .Pageable()
+    )
+</div>  
+
+<script src="~/js/mvc-grid/mvc-grid.js"></script>
+<script src="~/js/dropzone.min.js"></script>
+<script>
+    document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
+</script>
+
+<script>
+    $(document).ready(function () {
+        Dropzone.options.uploader = {
+            paramName: "file",
+            maxFilesize: 2,
+            accept: function (file, done) {
+                if (file.name == "test.jpg") {
+                    alert("Can't upload a test file.");
+                }
+                else {
+                    //Show a confirm alert and display the image on the page.
+              }
+           }
+        };
+});
+</script>

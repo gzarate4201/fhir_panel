@@ -14,6 +14,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +24,11 @@ using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
+
+using Json.Net;
+
+// Logging
+using Microsoft.Extensions.Logging;
 
 // Librerias para manejo de tareas asincronicas
 using System.Threading;
@@ -137,6 +143,7 @@ namespace Mqtt.Client.AspNetCore.Services
         // Instancias para manejo de la libreria de MQTTnet
         private IMqttClient mqttClient;
         private IMqttClientOptions options;
+        
 
         // Inyeccion clase para manejo de la conexion a BD
         private readonly IServiceScopeFactory _scopeFactory;
@@ -146,7 +153,7 @@ namespace Mqtt.Client.AspNetCore.Services
         // private readonly ApplicationDbContext dbContext;
         HubConnection connection;
         
-        public MqttClientService(IMqttClientOptions options, IServiceScopeFactory scopeFactory )
+        public MqttClientService(IMqttClientOptions options, IServiceScopeFactory scopeFactory)
         {
             this.options = options;
             mqttClient = new MqttFactory().CreateMqttClient();
@@ -203,27 +210,33 @@ namespace Mqtt.Client.AspNetCore.Services
             System.Console.WriteLine("Mensaje recibido");
 
             // De acuerdo al mensaje recibido se ejecuta alguna accion 
+            
+            
+            // Funciones para decodificar los mensajes de llegada por MQTT y realizar las acciones adecuadas
+            HandleReceivedMessagePayload(eventArgs.ApplicationMessage.ConvertPayloadToString());
+            
+            // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
+            // msg.Property("imageFile").Remove();
             string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
             var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
             
-            // Funciones para decodificar los mensajes de llegada por MQTT y realizar las acciones adecuadas
-            HandleReceivedMessagePayload(JsonMsg);
+            ((JArray)msg.Property("imageFile")).Remove();
+            string JsonSend = msg.ToString();
+
             
-            // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
-            msg.Property("imageFile").Remove();
-            
-            JsonMsg = JsonConvert.DeserializeObject(msg);
+            System.Console.WriteLine(JsonSend);
+            //JsonMsg = JsonConvert.DeserializeObject(msg);
 
             // Se imprime el objeto por consola
-            System.Console.WriteLine("El mensaje recibido es: ");
-            System.Console.WriteLine(JsonMsg);
+            // System.Console.WriteLine("El mensaje recibido es: ");
+            // System.Console.WriteLine(JsonMsg);
 
             // Envio por SignalR paraa comunicacion con el Cliente
             try {
                 System.Console.WriteLine("Conectando al Hub");
                 await connection.StartAsync();
                 System.Console.WriteLine("Enviando al Hub");
-                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, JsonMsg);
+                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, JsonSend);
                 System.Console.WriteLine("DesConectando del Hub");
                 await connection.StopAsync();
                 System.Console.WriteLine("Mensaje enviado por el Hub");
@@ -459,10 +472,13 @@ namespace Mqtt.Client.AspNetCore.Services
                         };
 
                         // Convierte la imagen a jpeg y la graba en el directorio wwwroot
-                        var image_url = ExportToImage(mensaje.datas.imageFile);
-                        System.Console.WriteLine(mensaje.datas.imageFile);
+                        var image_url = ExportToImage(mensaje.datas.imageFile.ToString());
+                        // System.Console.WriteLine(mensaje.datas.imageFile);
+                        // Se envia a la base de datos el nombre de la imagen
+                        mensaje.datas.imageFile = image_url;
 
-                        mensaje.datas.imageFile = "";
+
+                        // Se carga en el modelo Person los datos a almacenar en la DB
                         var persona = new Person()
                         {                            
                             MsgType = (Int32)mensaje.datas.msgType,
@@ -472,7 +488,9 @@ namespace Mqtt.Client.AspNetCore.Services
                             RegisterTime = localDate,
                             Temperature = (float)mensaje.datas.temperature,
                             Matched = (Int32)mensaje.datas.matched,
-                            Mask = (Int32)mensaje.datas.mask
+                            Mask = (Int32)mensaje.datas.mask,
+                            DevId = mensaje.device_id.ToString(),
+                            imageUrl = image_url
                         };
                         StorePerson(persona);
 
@@ -584,6 +602,7 @@ namespace Mqtt.Client.AspNetCore.Services
         public Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
+
             throw new System.NotImplementedException();
         }
 
@@ -598,6 +617,7 @@ namespace Mqtt.Client.AspNetCore.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await mqttClient.ConnectAsync(options);
+            // _logger.LogWarning("Broker conectado");
             if (!mqttClient.IsConnected)
             {
                 await mqttClient.ReconnectAsync();
@@ -627,15 +647,36 @@ namespace Mqtt.Client.AspNetCore.Services
             await mqttClient.DisconnectAsync();
         }
 
+        /// <summary>
+        ///  Convert image comming in MQTT message in format base64 to JPEG and store in Registers directory
+        /// </summary>
+        /// <param name="base64">
+        /// base64 : String que contiene los datos de la imagen
+        /// </param>
+        /// <returns>
+        /// imagePath : Ruta en el sistema de archivos de la imagen jpeg, para ser almacenada en la base de datos
+        /// </returns>
         protected string ExportToImage(string base64)
         {
-            byte[] bytes = Convert.FromBase64String(base64);
+            DateTime localDate = DateTime.Now;
+            var image64 = base64.Substring(base64.LastIndexOf(',') + 1);
+            //  Convierte la cadena base64 en un arreglo de bytes
+            byte[] bytes = Convert.FromBase64String(image64);
+            var imageName = "output" + localDate.ToString("yyyy_MM_dd_HH_mm_ss") + ".jpg";
+            var folderPath = "Media/Registers/";
+            var imagePath = folderPath + imageName;
+            
             using(Image image = Image.FromStream(new MemoryStream(bytes)))
             {
-                image.Save("output.jpg", ImageFormat.Jpeg);  // Or Png
+                try {
+                    image.Save(imagePath, ImageFormat.Jpeg);  // Or Png
+                } catch(System.Exception e){
+                    System.Console.WriteLine("Error saving " + imagePath + " in filesystem" + e.Message + e.StackTrace );
+                }
+                
             }
-            // File.Copy(bytes.ToString()+".jpg", "\\\\localhost:5000\\Uploads");
-            return ("output.jpg");
+            
+            return (imagePath);
         }
     }
 }

@@ -490,7 +490,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="save_new_device">Save changes</button>
             </div>
         </div>
     </div>
@@ -541,6 +541,8 @@
     $('#delete_user').on('click', deleteUser);
     $('#delete_all').on('click', deleteAll);
     $('#get_parameters').on('click', getParameters);
+    $('#save_new_device').on('click', addDevice);
+
 
 
     function bindMqtt() {
@@ -575,6 +577,28 @@
             },
             error: function() {
                 console.log("Error sending Bind");
+            }
+        });
+    }
+
+
+    function    addDevice() {
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("addDevice", "Device")',
+            dataType: "json",
+            data:{
+                dev_id:dev_id,
+                dev_tag:tag,
+            },
+            async: false,
+            success: function(data) {
+                console.log(data);
+            },
+            error: function() {
+                console.log("Error sending device Data");
             }
         });
     }

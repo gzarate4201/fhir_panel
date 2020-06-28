@@ -53,12 +53,14 @@ namespace AspStudio.Controllers
         private readonly ILogger<DeviceController> _logger;
         
         // Inyeccion clase para manejo de la conexion a BD
-        private readonly IServiceScopeFactory _scopeFactory;
+
+        private readonly ApplicationDbContext dbContext;
 
 
-        public DeviceController(ILogger<DeviceController> logger)
+        public DeviceController(ILogger<DeviceController> logger, ApplicationDbContext _dbContext)
         {
             _logger = logger;
+            dbContext = _dbContext;
         }
 
         public IActionResult Index()
@@ -111,30 +113,24 @@ namespace AspStudio.Controllers
         [HttpGet]
         public  Object addDevice(DeviceData deviceData) {
             var device = new Device() {
-                DevId = deviceData.dev_id,
-                DevTag = deviceData.dev_tag,
+                DevId = "7101396770022",
+                DevTag = "dev01",
+                DevTkn = "12345678",
+                Bound = false
             };
 
-            using (var scope = _scopeFactory.CreateScope()) {
-
-                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
-                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
-                // de lo contrario da un error 
-                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
-                // e instanciar un scope
-                // revisar en el constructor la instanciacion de _scopeFactory
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                try {
-                    dbContext.Devices.Add(device);
-                    dbContext.SaveChanges();
-                    // Retorna Json indicando que fue exitoso
-                    return new {success=true};
-                } catch (Exception e) {
-                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
-                    // Retorna Json indicando que fue exitoso
-                    return new {success=false};
-                }
+            
+            try {
+                dbContext.Devices.Add(device);
+                dbContext.SaveChanges();
+                // Retorna Json indicando que fue exitoso
+                return new {success=true};
+            } catch (Exception e) {
+                System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                // Retorna Json indicando que fue exitoso
+                return new {success=false};
             }
+            
 
         }
 

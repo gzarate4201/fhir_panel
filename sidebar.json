@@ -11,6 +11,12 @@
       "text": "Dispositivos"
     },
     {
+      "controller": "Employee",
+      "action": "Index",
+      "icon": "fa fa-sign-in",
+      "text": "Registro"
+    },
+    {
       "controller": "Personal",
       "action": "Index",
       "icon": "fa fa-users",
