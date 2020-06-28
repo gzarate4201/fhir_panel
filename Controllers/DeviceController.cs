@@ -107,6 +107,7 @@ namespace AspStudio.Controllers
 
             // Parametros para la configuracion del cliente MQTT.
             var options = new MqttClientOptionsBuilder()
+
                 .WithClientId("client_id")
                 .WithTcpServer("iot02.qaingenieros.com")
                 .WithCleanSession()
