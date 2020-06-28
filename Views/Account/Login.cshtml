@@ -35,3 +35,11 @@
         </div>
         <div id="mensajeError" class="text-danger">@ViewBag.Mensaje</div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $("#Password").keypress(function (e) {
+                submit();
+            });
+        });
+
+    </script>

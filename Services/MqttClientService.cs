@@ -219,8 +219,10 @@ namespace Mqtt.Client.AspNetCore.Services
             // msg.Property("imageFile").Remove();
             string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
             var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
-            
-            ((JArray)msg.Property("imageFile")).Remove();
+            if (msg.has("imageFile"))
+            {
+                ((JArray)msg.Property("imageFile")).Remove();
+            }            
             string JsonSend = msg.ToString();
 
             
