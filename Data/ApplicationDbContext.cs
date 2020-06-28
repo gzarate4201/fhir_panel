@@ -15,7 +15,7 @@ namespace AspStudio.Data
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Device> Devices {get; set;}
         public DbSet<Person> Persons {get; set;}
-        
+        public DbSet<Employee> Empleados { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

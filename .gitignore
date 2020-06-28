@@ -27,6 +27,8 @@ obj/
 TestResults/
 node_modules/
 publish/
+Media/
+wwwroot/Uploads
 
 ###################
 # Web publish log #

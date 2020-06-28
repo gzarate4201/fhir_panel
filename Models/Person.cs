@@ -40,8 +40,11 @@ namespace AspStudio.Models
         [Column("matched")]
         public int Matched { get; set; }
 
-        // [Column("imageUrl")]
-        // public string imageUrl { get; set; }
+        [Column("device_id")]
+        public string DevId { get; set; }
+
+        [Column("imageUrl")]
+        public string imageUrl { get; set; }
         
     }
 }
