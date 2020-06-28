@@ -65,6 +65,28 @@ namespace AspStudio.Controllers
 
         public IActionResult Index()
         {
+            var dispositivos = dbContext.Devices;
+            System.Console.WriteLine(dispositivos.ToArray());
+
+            List<dynamic> devices = new List<dynamic>();
+            try{
+                foreach(var dispositivo in dispositivos)
+                {
+                    devices.Add(
+                        new
+                        {
+                            id = dispositivo.Id,
+                            dev_id = dispositivo.DevId
+                        }
+                    );
+                }
+            } catch(System.Exception e) {
+                System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
+            }
+            
+
+            // ViewBag.Dispositivos = devices;
+            // System.Console.WriteLine(ViewBag.Dispositivos);
             return View();
         }
 
@@ -75,13 +97,17 @@ namespace AspStudio.Controllers
             // Inicializar respuesta 
             string result = string.Empty;
 
+            // Generar un client_id aleatorio para evitar conflictos en mqtt
+            var client_id = Guid.NewGuid().ToString();
+
+
             // Debug
             Console.WriteLine(mqtt.topic);
             Console.WriteLine(mqtt.msg);
 
             // Parametros para la configuracion del cliente MQTT.
             var options = new MqttClientOptionsBuilder()
-                .WithClientId("Client123456789")
+                .WithClientId("client_id")
                 .WithTcpServer("iot02.qaingenieros.com")
                 .WithCleanSession()
                 .Build();
@@ -109,17 +135,21 @@ namespace AspStudio.Controllers
         }
 
 
+        /// <summary>
+        /// con esta funcion se crea un registro en la base de datos de un nuevo dispositivo
+        /// </summary>
+        /// <param name="deviceData"></param>
+        /// <returns></returns>
         [HttpPost]
         [HttpGet]
         public  Object addDevice(DeviceData deviceData) {
+            System.Console.WriteLine(deviceData);
+
             var device = new Device() {
-                DevId = "7101396770022",
-                DevTag = "dev01",
-                DevTkn = "12345678",
+                DevId = deviceData.dev_id,
+                DevTag = deviceData.dev_tag,
                 Bound = false
             };
-
-            
             try {
                 dbContext.Devices.Add(device);
                 dbContext.SaveChanges();
@@ -130,7 +160,6 @@ namespace AspStudio.Controllers
                 // Retorna Json indicando que fue exitoso
                 return new {success=false};
             }
-            
 
         }
 
