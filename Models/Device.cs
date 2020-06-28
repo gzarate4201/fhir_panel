@@ -49,24 +49,7 @@ namespace AspStudio.Models
 
         [Column("DHCP")]
         public bool DHCP { get; set; }
-
-        [Column("dec_face_num_cur")]
-        public string DecFaceNumCur { get; set; }
-
-        [Column("dec_interval_cur")]
-        public string DecIntCur { get; set; }
-
-        [Column("dec_face_num_min")]
-        public string DecFaceNumMin { get; set; }
-
-        [Column("dec_face_num_max")]
-        public string DecFaceNumMax { get; set; }
-
-        [Column("dec_interval_min")]
-        public string DecIntMin { get; set; }
-
-        [Column("dec_interval_max")]
-        public string DecIntMax { get; set; }
+        
 
         [Column("dev_model")]
         public string DevMdl { get; set; }
@@ -87,10 +70,10 @@ namespace AspStudio.Models
         public bool MkeChkEn { get; set; }
 
         [Column("alarm_temp")]
-        public float AlarmTemp { get; set; }
+        public double AlarmTemp { get; set; }
 
         [Column("temp_comp")]
-        public float TempComp { get; set; }
+        public double TempComp { get; set; }
 
         [Column("record_time_save")]
         public string RcrdTimeSv { get; set; }
@@ -105,7 +88,7 @@ namespace AspStudio.Models
         public bool MqttEn { get; set; }
 
         [Column("mqtt_retain")]
-        public bool MqttRet { get; set; }
+        public int MqttRet { get; set; }
 
         [Column("pqos")]
         public int PQos { get; set; }
@@ -114,7 +97,7 @@ namespace AspStudio.Models
         public int SQos { get; set; }
 
         [Column("mqtt_port")]
-        public string MqttPrt { get; set; }
+        public int MqttPrt { get; set; }
 
         [Column("mqtt_server")]
         public string MqttSrv { get; set; }
@@ -132,7 +115,7 @@ namespace AspStudio.Models
         public string Topic2Sub { get; set; }
 
         [Column("heartbeat")]
-        public string HeartBt { get; set; }
+        public int HeartBt { get; set; }
 
         [Column("bound")]
         public bool Bound { get; set; }
