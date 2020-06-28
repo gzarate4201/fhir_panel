@@ -20,15 +20,15 @@ connection.on("ReceiveMessage", function (user, message) {
     mensaje = JSON.parse(message);
 
     // Determina los valores para conexion de las otras tramas
-    if(mensaje.msg=="mqtt bind ctrl success") {
+    if (mensaje.msg =="get param success") {
         tag = mensaje.tag;
         $("#actual_device_tag").html(tag);
         device_id = mensaje.device_id;
         $("#actual_device_id").html(device_id);
-        device_tkn = mensaje.datas.device_token;
+        //device_tkn = mensaje.datas.device_token;
 
         // Trae todos los parametros de configuracion del dispositivo enlazado
-        getParameters();
+        //getParameters();
         showActualParameters(mensaje);
     }
     console.log('Mensaje del Hub\n');
@@ -49,7 +49,7 @@ function showActualParameters(mensaje) {
     $("#actual_device_time").html(mensaje.dev_cur_pts);
     $("#actual_device_name").html(mensaje.datas.basic_parameters.dev_name);
     console.log(mensaje.datas.basic_parameters.dev_name);
-    $("#actual_device_pass").html(mensaje.datas.basic_parameters.dev_pass);
+    $("#actual_device_pass").html(mensaje.datas.basic_parameters.dev_pwd);
     $("#actual_version").html(mensaje.datas.version_info.firmware_ver);
     $("#actual_firm_date").html(mensaje.datas.version_info.firmware_date);
     $("#actual_temp_en").html(mensaje.datas.fun_param.temp_dec_en);
