@@ -9,7 +9,9 @@
  *   and others as recnognizad or listed in the code.
  */
 using System;
+using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 // using System.DrawingCore;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -179,7 +181,7 @@ namespace Mqtt.Client.AspNetCore.Services
         private void ConfigureHub() 
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/note")
+                .WithUrl("http://localhost:5050/note")
                 .Build();
             // Thread.Sleep(10000);
             
@@ -218,14 +220,24 @@ namespace Mqtt.Client.AspNetCore.Services
             // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
             // msg.Property("imageFile").Remove();
             string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
-            var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
-            if (msg.has("imageFile"))
+            // dynamic mes = (JObject)JsonConvert.DeserializeObject(JsonMsg);
+
+            JObject msg = JObject.Parse(JsonMsg);
+            JObject datas = (JObject)msg["datas"];
+
+            // Si el mensaje contine una imagen la elimina
+            var tipo = msg["msg"];
+
+            System.Console.WriteLine(tipo);
+
+            if (tipo.ToString() == "Upload Person Info!")
             {
-                ((JArray)msg.Property("imageFile")).Remove();
-            }            
+                datas.Property("imageFile").Remove();
+            }
+
             string JsonSend = msg.ToString();
 
-            
+            System.Console.WriteLine("Mensaje enviado por el Hub");
             System.Console.WriteLine(JsonSend);
             //JsonMsg = JsonConvert.DeserializeObject(msg);
 
@@ -279,6 +291,7 @@ namespace Mqtt.Client.AspNetCore.Services
                 
 
                 System.Console.WriteLine("Identificando respuesta:");
+                // System.Console.WriteLine(mensaje);
 
                 if (mensaje.code == -1)
                 {
@@ -299,31 +312,17 @@ namespace Mqtt.Client.AspNetCore.Services
                         System.Console.WriteLine(mensaje.datas.basic_parameters.dev_pwd);
                         System.Console.WriteLine("Parámetros de red: ");
                         System.Console.WriteLine("Dirección IP: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.ip_addr);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.ip_addr);
                         System.Console.WriteLine("Máscara de Subred: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.net_mask);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.net_mask);
                         System.Console.WriteLine("Puerta de enlace: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.gateway);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.gateway);
                         System.Console.WriteLine("DDNS1: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DDNS1);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS1);
                         System.Console.WriteLine("DDNS2: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DDNS2);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS2);
                         System.Console.WriteLine("Bandera DHCP: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DHCP);
-
-                        System.Console.WriteLine("Parámetros de reconocimiento facial: ");
-                        System.Console.WriteLine("Número de rostros guardados: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_cur);
-                        System.Console.WriteLine("Intervalo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_cur);
-                        System.Console.WriteLine("Mínimo número de rostros a capturar: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_min);
-                        System.Console.WriteLine("Máximo número de rostros a capturar: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_max);
-                        System.Console.WriteLine("Intervalo mínimo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_min);
-                        System.Console.WriteLine("Intervalo máximo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_max);
+                        System.Console.WriteLine(mensaje.datas.network_cofnig.DHCP);
 
                         System.Console.WriteLine("Información de versión: ");
                         System.Console.WriteLine("Versión del modélo: ");
@@ -369,7 +368,7 @@ namespace Mqtt.Client.AspNetCore.Services
                         System.Console.WriteLine("Contraseña: ");
                         System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.passwd);                       
                         System.Console.WriteLine("Tópico para publicar: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2publish);
+                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2pulish);
                         System.Console.WriteLine("Tópico para suscripción: ");
                         System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
                         System.Console.WriteLine("HeartBeat: ");
@@ -379,24 +378,22 @@ namespace Mqtt.Client.AspNetCore.Services
                         // Se hace la recolección de parámetros de la trama recibida. 
                         var device = new Device()
                         {
-                            Id = 0,
                             DevId = mensaje.device_id,
-                            DevTag = "2",
-                            DevTkn = "3",
+                            DevTag = mensaje.tag,
                             DevPwd = mensaje.datas.basic_parameters.dev_pwd,
                             DevName = mensaje.datas.basic_parameters.dev_name,
-                            IpAddr = mensaje.datas.network_config.ip_addr,
-                            NetMsk = mensaje.datas.network_config.net_mask,
-                            NetGw = mensaje.datas.network_config.gateway,
-                            DDNS1 = mensaje.datas.network_config.DDNS1,
-                            DDNS2 = mensaje.datas.network_config.DDNS2,
-                            DHCP = mensaje.datas.network_config.DHCP,
+                            IpAddr = mensaje.datas.network_cofnig.ip_addr,
+                            NetMsk = mensaje.datas.network_cofnig.net_mask,
+                            NetGw = mensaje.datas.network_cofnig.gateway,
+                            DDNS1 = mensaje.datas.network_cofnig.DDNS1,
+                            DDNS2 = mensaje.datas.network_cofnig.DDNS2,
+                            DHCP = mensaje.datas.network_cofnig.DHCP,
                             DevMdl = mensaje.datas.version_info.dev_model,
                             FwrVer = mensaje.datas.version_info.firmware_ver,
                             FwrDate = mensaje.datas.version_info.firmware_ver,
                             TempDecEn = mensaje.datas.fun_param.temp_dec_en,
                             StrPassEn = mensaje.datas.fun_param.stranger_pass_en,
-                            MkeChkEn = mensaje.datas.fun_param.make_check_en,
+                            MskChkEn = mensaje.datas.fun_param.make_check_en,
                             AlarmTemp = mensaje.datas.fun_param.alarm_temp,
                             TempComp = mensaje.datas.fun_param.temp_comp,
                             RcrdTimeSv = mensaje.datas.fun_param.record_save_time,
@@ -410,9 +407,10 @@ namespace Mqtt.Client.AspNetCore.Services
                             MqttSrv = mensaje.datas.mqtt_protocol_set.server,
                             MqttUsr = mensaje.datas.mqtt_protocol_set.username,
                             MqttPwd = mensaje.datas.mqtt_protocol_set.passwd,
-                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2publish,
+                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2pulish,
                             Topic2Sub = mensaje.datas.mqtt_protocol_set.topic2subscribe,
                             HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat
+
                         };
 
                         StoreDevice(device);
@@ -423,8 +421,16 @@ namespace Mqtt.Client.AspNetCore.Services
                     if (mensaje.msg == "mqtt bind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo enlazado correctamente.");
-                        
 
+                        var device = new Device()
+                        {
+                            DevId = mensaje.device_id,
+                            DevTag = mensaje.tag,
+                            DevTkn = mensaje.datas.device_token,
+                            Bound = true
+                        };
+
+                        StoreDeviceToken(device);
 
                     }
                     if (mensaje.msg == "mqtt unbind ctrl success")
@@ -535,6 +541,8 @@ namespace Mqtt.Client.AspNetCore.Services
                 // e instanciar un scope
                 // revisar en el constructor la instanciacion de _scopeFactory
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                
                 try {
                     dbContext.Persons.Add(persona);
                     dbContext.SaveChanges();
@@ -556,7 +564,7 @@ namespace Mqtt.Client.AspNetCore.Services
         /// <param name="dev"></param>
         public void StoreDevice(Device dev)
         {
-
+            System.Console.WriteLine("Arreglo dev" + dev);
             using (var scope = _scopeFactory.CreateScope())
             {
 
@@ -564,8 +572,45 @@ namespace Mqtt.Client.AspNetCore.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 try
                 {
-                    dbContext.Devices.Add(dev);
-                    dbContext.SaveChanges();
+                    var result = dbContext.Devices.FirstOrDefault(p => p.DevId == dev.DevId);
+                    if (result != null)
+                    {
+                        dev.Id = result.Id;
+                        dbContext.Devices.Update(dev);
+                        dbContext.SaveChanges();
+                    } else {
+                        dbContext.Devices.Add(dev);
+                        dbContext.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                }
+            }
+
+        }
+
+        public void StoreDeviceToken(Device dev)
+        {
+            System.Console.WriteLine("Arreglo dev" + dev);
+            using (var scope = _scopeFactory.CreateScope())
+            {
+
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    var result = dbContext.Devices.FirstOrDefault(p => p.DevId == dev.DevId);
+                    if (result != null)
+                    {
+                        if (dev.DevTkn != "") {
+                            result.DevTkn = dev.DevTkn;
+                        }
+                        dbContext.SaveChanges();
+                    } else {
+                        dbContext.Devices.Add(dev);
+                        dbContext.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -620,7 +665,7 @@ namespace Mqtt.Client.AspNetCore.Services
                     System.Console.WriteLine("No connection to MQTT Broker " + e.Message + e.StackTrace);
                 }
                 connected = mqttClient.IsConnected;
-                await Task.Delay(10000);
+                await Task.Delay(30000);
             }
         }
 

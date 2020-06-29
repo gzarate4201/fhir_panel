@@ -212,17 +212,18 @@
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-title" style="  text-align: center;">BIND /UNBIND</h4>
                             <div class="input-group">
-                                @* @foreach (var item in ViewBag.Dispositivos)
-                                {
-                                    <p> @item.DevId </p>
-                                } *@
+                                <ul>
+                                    
+                                </ul>
                                 <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div>
-
-                                <select id="bind_device_id">
-
-                                    <option value="7101396770022">Device_id_1</option>
-                                    <option value="7101076854037">Device_id_2</option>
-                                    <option value="3">Device_id_3</option>
+            
+                                <select id="bind_device_id_select">
+                                    <option value="" data-token=""> Seleccione </option>
+                                    
+                                    @foreach (dynamic device in ViewBag.Devices)
+                                    {
+                                        <option value="@device.dev_id">@device.tag</option>
+                                    }
                                 </select> <div class="input-group-append"></div> <!-- <input autocomplete="off" type="text" class="form-control" id="bind_device_id" /> -->
                             </div>
                             <div class="input-group">
@@ -516,28 +517,30 @@
 
 <script>
 
+    var device_id;
+    var device_tkn;
+    var device_tag;
+    var mensaje;
+
     $(function () {
         var calendarInicio = new CalendarPopup('#server_cur_pts', {
-            format: 'YYYY-MM-DD HH:mm',
+            format: 'YYYY/MM/DD HH:mm:ss',
             dayOfWeekStart: 1,
             locale: 'es',
         });
         var calendarUser1 = new CalendarPopup('#active_time', {
-            format: 'YYYY-MM-DD HH:mm',
+            format: 'YYYY/MM/DD HH:mm:ss',
             dayOfWeekStart: 1,
             locale: 'es',
         });
         var calendarUser = new CalendarPopup('#end_time', {
-            format: 'YYYY-MM-DD HH:mm',
+            format: 'YYYY/MM/DD HH:mm:ss',
             dayOfWeekStart: 1,
             locale: 'es',
         });
     });
 
-    var dev_id = $('#bind_device_id').val();
-    var device_tkn = "2166892825";
-    var tag = $('#bind_tag').val();
-    var mensaje;
+    
 
    /* $(function () {
         //$("#server_cur_pts").datepicker();
@@ -561,19 +564,34 @@
     $('#delete_all').on('click', deleteAll);
     $('#get_parameters').on('click', getParameters);
     $('#save_new_device').on('click', addDevice);
+    $('#bind_device_id_select').on('change', changeDevice);
+
+    function changeDevice() {
+        device_id = $(this).val();
+        console.log("Device_id : " + device_id);
+        $.get( "/Device/getDeviceToken?device_id=" + device_id, function( data ) {
+            device_tkn = data.token;
+            device_tag = data.tag;
+            console.log("Data : ")
+            console.log(data);
+            console.log("Dev Tkn : " + device_tkn);
+            console.log("Device_tag : " + device_tag);
+        });
+        
+    }
 
 
 
     function bindMqtt() {
-        var dev_id = $('#bind_device_id').val();
-        var tag = $('#bind_tag').val();
-        console.log(dev_id, tag);
+        // var dev_id = $('#bind_device_id').val();
+        // var tag = $('#bind_tag').val();
+        console.log(device_id, device_tag);
         jsonMsg =
             {
                 mqtt_cmd: 1,
                 mqtt_operate_id: 10,
-                device_id:  $('#bind_device_id').val(),
-                tag: tag,
+                device_id:  device_id,
+                tag: device_tag,
                 bind_ctrl: 1
             };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -644,8 +662,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 10,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             bind_ctrl: 0
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -710,8 +728,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 1,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             basic_config:
             {
                 dev_name: name,
@@ -784,8 +802,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 2,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             network_cofnig:
             {
                 ip_addr: ip,
@@ -854,8 +872,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 4,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             remote_config:
             {
                 volume: vol,
@@ -911,9 +929,9 @@
 
     function tempConfig() {
         var temp, stranger, mask_check, video, photo;
-        var alarm = parseFloat($('#alarm_temp').val());
-        var tmp_comp = parseFloat($('#temp_comp').val());
-        var save_time = parseInt($('#record_save_time').val());
+        var alarm_temp = parseFloat($('#alarm_temp').val());
+        var tmp_comp =   parseFloat($('#temp_comp').val()) ;
+        var save_time =  parseInt($('#record_save_time').val()) ;
         var dev_id = $('#bind_device_id').val();        
         var tag = $('#bind_tag').val();
         if ($("#temp_dec_en").is(":checked")) {
@@ -946,26 +964,47 @@
         else {
             photo = false;
         }
+
         console.log(dev_id, tag);
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 6,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             temperature_fun:
             {
                 temp_dec_en: temp,
                 stranger_pass_en: stranger,
                 make_check_en: mask_check,
-                alarm_temp: alarm,
+                alarm_temp: alarm_temp,
                 temp_comp: tmp_comp,
                 record_save_time: save_time,
                 save_record: video,
                 save_jpeg: photo
             }
-        };
+        }; 
+        
+        console.log("alarm_temp:" + alarm_temp);
+        console.log("temp_comp:" + temp_comp);
+        console.log("save_time:" + save_time);
+
+        // json = JSON.Parse(jsonMsg);
+        if(alarm_temp.isNaN()) {
+           delete jsonMsg.alarm_temp;
+        }
+
+        // json = JSON.Parse(jsonMsg);
+        if(temp_comp.isNaN()) {
+           delete jsonMsg.temp_comp;
+        }
+
+        // json = JSON.Parse(jsonMsg);
+        if(save_time.isNaN()) {
+           delete jsonMsg.record_save_time;
+        }
+
         jsonMsg = JSON.stringify(jsonMsg);
         console.log(jsonMsg);
 
@@ -1044,8 +1083,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             piclib_manage: 0,
             param:
             {
@@ -1119,8 +1158,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             piclib_manage: 3,
             param:
             {
@@ -1186,8 +1225,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             piclib_manage: 2,
             param:
             {
@@ -1243,8 +1282,8 @@
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
             device_token: device_tkn,
-            device_id: dev_id,
-            tag: tag,
+            device_id:  device_id,
+            tag: device_tag,
             piclib_manage: 1
         };
         jsonMsg = JSON.stringify(jsonMsg);
@@ -1288,8 +1327,8 @@
         jsonMsg =
             {
                 mqtt_cmd: 2,
-                device_id: dev_id,
-                tag: tag,
+                device_id:  device_id,
+                tag: device_tag,
                 device_token: device_tkn
             };
         jsonMsg = JSON.stringify(jsonMsg);

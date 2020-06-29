@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Dynamic;
 using Microsoft.Extensions.DependencyInjection;
 
 using System.Linq;
@@ -66,26 +67,26 @@ namespace AspStudio.Controllers
         public IActionResult Index()
         {
             var dispositivos = dbContext.Devices;
-            System.Console.WriteLine(dispositivos.ToArray());
+            
 
-            List<dynamic> devices = new List<dynamic>();
+            List<dynamic> Devices = new List<dynamic>();
+            dynamic device;
+            
             try{
                 foreach(var dispositivo in dispositivos)
                 {
-                    devices.Add(
-                        new
-                        {
-                            id = dispositivo.Id,
-                            dev_id = dispositivo.DevId
-                        }
-                    );
+                    device = new  ExpandoObject();
+                    device.id = dispositivo.Id;
+                    device.dev_id = dispositivo.DevId;
+                    device.tag = dispositivo.DevTag;
+                    Devices.Add(device);   
                 }
             } catch(System.Exception e) {
                 System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
             }
             
-
-            // ViewBag.Dispositivos = devices;
+            System.Console.WriteLine(Devices);
+            ViewBag.Devices = Devices;
             // System.Console.WriteLine(ViewBag.Dispositivos);
             return View();
         }
@@ -152,17 +153,47 @@ namespace AspStudio.Controllers
                 Bound = false
             };
             try {
-                dbContext.Devices.Add(device);
-                dbContext.SaveChanges();
-                // Retorna Json indicando que fue exitoso
-                return new {success=true};
+                var result = dbContext.Devices.FirstOrDefault(p => p.DevId == device.DevId);
+                if (result != null)
+                {
+                    // Retorna Json indicando que ya existe
+                    return new {success=false, message="Dispositivo ya existe en la base de datos"};
+                } else {
+                    // Retorna Json indicando que fue exitoso
+                    dbContext.Devices.Add(device);
+                    dbContext.SaveChanges();
+                    return new {success=true};
+                }
+                
+                
+                
             } catch (Exception e) {
                 System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
                 // Retorna Json indicando que fue exitoso
-                return new {success=false};
+                return new {success=false, message = "Error guardando en la base de datos"};
             }
 
         }
+
+        [HttpGet]
+        public  Object getDeviceToken(string device_id) {
+            try {
+                var result = dbContext.Devices.FirstOrDefault(p => p.DevId == device_id);
+                if (result != null)
+                {
+                    // Retorna Json indicando que ya existe
+                    return new {success=false, token=result.DevTkn, tag=result.DevTag};
+                } else {
+                    return new {success=false, message = "Dispositivo no encontrado"};
+                }
+                
+            } catch (Exception e) {
+                System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                // Retorna Json indicando que fue exitoso
+                return new {success=false, message = "Error consutando la base de datos"};
+            }
+        }
+
 
         
 

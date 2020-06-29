@@ -67,7 +67,7 @@ namespace AspStudio.Models
         public bool StrPassEn { get; set; }
 
         [Column("mask_check_en")]
-        public bool MkeChkEn { get; set; }
+        public bool MskChkEn { get; set; }
 
         [Column("alarm_temp")]
         public double AlarmTemp { get; set; }
@@ -76,7 +76,7 @@ namespace AspStudio.Models
         public double TempComp { get; set; }
 
         [Column("record_time_save")]
-        public string RcrdTimeSv { get; set; }
+        public int RcrdTimeSv { get; set; }
 
         [Column("save_record")]
         public bool SvRec { get; set; }
@@ -85,7 +85,7 @@ namespace AspStudio.Models
         public bool SvJpg { get; set; }
 
         [Column("mqtt_enable")]
-        public bool MqttEn { get; set; }
+        public int MqttEn { get; set; }
 
         [Column("mqtt_retain")]
         public int MqttRet { get; set; }
