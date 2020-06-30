@@ -1,0 +1,18 @@
+version: '3.4'
+
+networks:
+  docker-fhir-net:
+    driver: bridge
+    
+services: 
+  dockerfhir:
+    image: aspnetapp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks :
+      - docker-fhir-net
+    volumes:
+      - type: bind
+        source: ./config
+        target: /fhir_ws/config

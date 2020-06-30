@@ -3,65 +3,68 @@
 }
 @using AspStudio.Models;
 @model IQueryable<Employee>
-
-
 @* <ul class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">HOME</a></li>
-    <li class="breadcrumb-item active">REPORTES</li>
-</ul> *@
+        <li class="breadcrumb-item"><a href="#">HOME</a></li>
+        <li class="breadcrumb-item active">REPORTES</li>
+    </ul> *@
 
 <link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet">
 <link href="~/css/dropzone.min.css" rel="stylesheet">
 <style>
-.table-title {
-    padding-bottom: 15px;
-    background: #299be4;
-    color: #fff;
-    padding: 16px 30px;
-    border-radius: 5px;
-}
-.table-title h2 {
-    margin: 5px 0 0;
-    font-size: 24px;
-}
-.table-title .btn {
-    color: #566787;
-    float: right;
-    font-size: 13px;
-    background: #fff;
-    border: none;
-    min-width: 50px;
-    border-radius: 2px;
-    border: none;
-    outline: none !important;
-    margin-left: 10px;
-}
-.table-title .btn:hover, .table-title .btn:focus {
-    color: #566787;
-    background: #f2f2f2;
-}
-.table-title .btn i {
-    float: left;
-    font-size: 21px;
-    margin-right: 5px;
-}
-.table-title .btn span {
-    float: left;
-    margin-top: 2px;
-}
+    .table-title {
+        padding-bottom: 15px;
+        background: #299be4;
+        color: #fff;
+        padding: 16px 30px;
+        border-radius: 5px;
+    }
+
+        .table-title h2 {
+            margin: 5px 0 0;
+            font-size: 24px;
+        }
+
+        .table-title .btn {
+            color: #566787;
+            float: right;
+            font-size: 13px;
+            background: #fff;
+            border: none;
+            min-width: 50px;
+            border-radius: 2px;
+            border: none;
+            outline: none !important;
+            margin-left: 10px;
+        }
+
+            .table-title .btn:hover, .table-title .btn:focus {
+                color: #566787;
+                background: #f2f2f2;
+            }
+
+            .table-title .btn i {
+                float: left;
+                font-size: 21px;
+                margin-right: 5px;
+            }
+
+            .table-title .btn span {
+                float: left;
+                margin-top: 2px;
+            }
 </style>
 <script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>
 <div class="row">
     <div class="col-md-6">
         <div id="dropzone">
             <form action="/Employee/Upload" class="dropzone needsclick dz-clickable" id="uploader">
                 <div class="dz-message needsclick">
-                   Suelte los archivos de imagenes aqui.<br>
-                   Las imagenes deben estar en formato JPEG, con tamaño de imagen 640x640, fondo blancoy deben pesar menos de 240Kb <br>
+                    Suelte los archivos de imagenes aqui.<br>
+                    Las imagenes deben estar en formato JPEG, con tamaño de imagen 640x640, fondo blancoy deben pesar menos de 240Kb <br>
                 </div>
             </form>
         </div>
@@ -76,8 +79,8 @@ $(document).ready(function(){
                 <h2>Administración de Empleados y Contratistas</h2>
             </div>
             <div class="col-md-6">
-                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>						
+                <a href="#" class="btn btn-secondary"><i class="material-icons" data-toggle="modal" data-target="#Add_user_modal">&#xE147;</i> <span>Add New User</span></a>
+                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
             </div>
         </div>
     </div>
@@ -91,9 +94,9 @@ $(document).ready(function(){
             columns.Add(model => model.Documento).Titled("Documento");
             columns.Add(model => model.Empresa).Titled("Empresa");
             columns.Add(model => $"<img src='{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
-            columns.Add(Model => 
-                $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog'></i>"
-                + "<a href='#' class='send' title='Send' data-toggle='tooltip'><i class='fa fa-paper-plane'></i>"
+            columns.Add(Model =>
+                $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
+                + "<a href='#' class='send' title='Send' data-toggle='tooltip'><i class='fa fa-paper-plane' id='enviar'></i>"
             ).Encoded(false);
         })
         .Using(GridFilterMode.Header)
@@ -102,20 +105,143 @@ $(document).ready(function(){
         .Sortable()
         .Pageable()
     )
-</div>  
+</div>
 
-            @* columns.Add(model => $"<img src='{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false); *@
-            @* columns.Add(Model => model.imageUrl).Titled("Image"); *@
-            @* columns.Add(model => model.IdLenel).Titled("Id Lenel"); *@
-            @* columns.Add(model => model.SSNO).Titled("SSNO"); *@
+@* columns.Add(model => $"<img src='{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false); *@
+@* columns.Add(Model => model.imageUrl).Titled("Image"); *@
+@* columns.Add(model => model.IdLenel).Titled("Id Lenel"); *@
+@* columns.Add(model => model.SSNO).Titled("SSNO"); *@
 
+<!-- Modal 1 Adicionar usuario -->
+<div class="modal fade" id="Add_user_modal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Adicionar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:40px 40px;">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">ID</span></div><input autocomplete="off" type="text" class="form-control" id="Id" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Puntaje similitud</span></div><input autocomplete="off" type="text" class="form-control" id="similar_score" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Nombre Usuario</span></div><input autocomplete="off" type="text" class="form-control" id="add_user_name" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Fecha de registro</span></div><input autocomplete="off" type="text" class="form-control" id="register_date" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Temperatura</span></div><input autocomplete="off" type="text" class="form-control" id="temperature" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Mascarilla</span></div><input autocomplete="off" type="text" class="form-control" id="mask" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">¿Extraño?</span></div><input autocomplete="off" type="text" class="form-control" id="matched" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">ID dispositivo</span></div><input autocomplete="off" type="text" class="form-control" id="dev_id" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">URL de fotografía</span></div><input autocomplete="off" type="text" class="form-control" id="photo" />
+                    <div class="input-group-append"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save_new_device">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal 2 Enviar usuario a la tableta-->
+<div class="modal fade" id="Send_user_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Enviar usuario a la tableta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:40px 40px;">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Nombre del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_name" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">ID del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_id" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">IP del servidor</span></div><input autocomplete="off" type="text" class="form-control" id="server_ip" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Puerto del servidor</span></div><input autocomplete="off" type="text" class="form-control" id="server_port" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Fecha de ingreso</span></div><input autocomplete="off" type="text" class="form-control" id="active_time" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Fecha de Salida</span></div><input autocomplete="off" type="text" class="form-control" id="end_time" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">ID del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_id" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Nombre del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_name" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">URL de fotografía</span></div><input autocomplete="off" type="text" class="form-control" id="picture" />
+                    <div class="input-group-append"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save_new_device">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/js/mvc-grid/mvc-grid.js"></script>
 <script src="~/js/dropzone.min.js"></script>
+
+
+<!-- Carga las librerias de MQTT js -->
+<!--  <script src="~/js/mqtt.js"></script> -->
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
 </script>
 
 <script>
+
+    $('#enviar').on('click', addsUser);
+
     $(document).ready(function () {
         Dropzone.options.uploader = {
             paramName: "file",
@@ -126,8 +252,110 @@ $(document).ready(function(){
                 }
                 else {
                     //Show a confirm alert and display the image on the page.
-              }
-           }
+                }
+            }
         };
-});
+    });
+
+
+
+     /* 	Add single or multiple user photo database information
+    {
+            "mqtt_cmd":1,
+            "mqtt_operate_id":7,
+            "device_token":"1514348271",
+            "device_id":"7101389947744",
+            "tag":"platfrom define",
+            "piclib_manage":0,
+            "param":
+            {
+                "lib_name":"Smart Park",
+                "lib_id":"8",
+                "server_ip":"172.18.195.61",
+                "server_port":80,
+                "pictures":
+                [{
+                    "active_time":"2020/01/1 00:00:01",
+                    "user_id":"11",
+                    "user_name":"Zhang San",
+                    "end_time":"2020/12/30 23:59:59",
+                    "p_id":"null",
+                    "picture":"/192952.JPG"
+                },
+                {
+                    "active_time":"2020/01/1 00:00:01",
+                    "user_id":"22",
+                    "user_name":"LI SI",
+                    "end_time":"2020/12/30 23:59:59",
+                    "p_id":"null",
+                    "picture":"/linxiaofei.jpg"
+                }]
+            }
+        }
+
+    */
+
+    function addsUser() {
+        console.log("se fue el avion a la tableta.");
+        var batch_name = $('#batch_name').val();
+        var batch_id = $('#batch_id').val();
+        var address = $('#server_ip').val();
+        var port = parseInt($('#server_port').val());
+        var in_time = $('#active_time').val();
+        var out_time = $('#end_time').val();
+        var id_user = $('#user_id').val();
+        var name_user = $('#user_name').val();
+        var url = $('#picture').val();
+        var dev_id = $('#bind_device_id').val();
+        var tag = $('#bind_tag').val();
+
+        jsonMsg =
+        {
+            mqtt_cmd: 1,
+            mqtt_operate_id: 7,
+            device_token: device_tkn,
+            device_id:  device_id,
+            tag: device_tag,
+            piclib_manage: 0,
+            param:
+            {
+                lib_name: batch_name,
+                lib_id: batch_id,
+                server_ip: address,
+                server_port: port,
+                pictures:
+                [
+                {
+                    active_time: in_time,
+                    user_id: id_user,
+                    user_name: name_user,
+                    end_time: out_time,
+                    p_id: null,
+                    picture: url
+                }
+                ]
+            }
+        };
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic: "SubscribeTest",
+                msg: jsonMsg
+            },
+            async: false,
+            success: function(data) {
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error adding new user");
+            }
+        });
+    }
 </script>
