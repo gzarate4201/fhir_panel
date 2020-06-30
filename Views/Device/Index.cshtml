@@ -928,7 +928,7 @@
     */
 
     function tempConfig() {
-        var temp, stranger, mask_check, video, photo;
+        
         var alarm_temp = parseFloat($('#alarm_temp').val());
         var tmp_comp =   parseFloat($('#temp_comp').val()) ;
         var save_time =  parseInt($('#record_save_time').val()) ;
@@ -985,8 +985,17 @@
                 save_jpeg: photo
             }
         }; 
-        
-        console.log("alarm_temp:" + alarm_temp);
+
+        /*let value1 = "";
+        let value2 = null;
+        let value3 = NaN;
+        Object.keys(jsonMsg).forEach(function (key) {
+            if (jsonMsg[key] == value1 || jsonMsg[key] == value2 || jsonMsg[key] == value3)
+                delete jsonMsg[key];
+        });
+        console.log("La trama enviada es: ");
+        console.log(jsonMsg)*/
+       /* console.log("alarm_temp:" + alarm_temp);
         console.log("temp_comp:" + temp_comp);
         console.log("save_time:" + save_time);
 
@@ -1006,7 +1015,7 @@
         }
 
         jsonMsg = JSON.stringify(jsonMsg);
-        console.log(jsonMsg);
+        console.log(jsonMsg);*/
 
         $.ajax({
             type: "GET",
