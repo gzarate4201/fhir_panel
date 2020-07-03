@@ -13,6 +13,7 @@ using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
+using Mqtt.Client.AspNetCore.Settings;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
@@ -106,11 +107,14 @@ namespace AspStudio.Controllers
             Console.WriteLine(mqtt.topic);
             Console.WriteLine(mqtt.msg);
 
+            var clientSettinigs = AppSettingsProvider.ClientSettings;
+            var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
+
             // Parametros para la configuracion del cliente MQTT.
             var options = new MqttClientOptionsBuilder()
-
-                .WithClientId("client_id")
-                .WithTcpServer("iot02.qaingenieros.com")
+                .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)
+                .WithClientId(clientSettinigs.Id)
+                .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port)
                 .WithCleanSession()
                 .Build();
 
