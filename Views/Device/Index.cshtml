@@ -517,6 +517,9 @@
 
 <script>
 
+    // Debe haber una funcion que revise el timeout de respuestas y 
+    // si se cumple genere un modal o alert informando que no se recibio respuesta en XXX segundos
+
     var device_id;
     var device_tkn;
     var device_tag;
@@ -1031,10 +1034,12 @@
                 $('#mqtt_send').html(
                     jsonPretty
                 )
+                // Inicializar un timeout para esperar respuesta del broker
             },
             error: function() {
-                console.log("Error setting temperature parameters");
-            }
+                console.log("Error sending setting temperature parameters");
+            },
+            timeout: 3000 // sets timeout to 3 seconds
         });
     }
 

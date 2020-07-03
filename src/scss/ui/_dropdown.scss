@@ -2,7 +2,7 @@
 	@include box-shadow($dropdown-box-shadow);
 	
 	&.dropdown-notification {
-		min-width: 320px;
+		min-width: 420px;
 		
 		& .dropdown-notification-item {
 			padding: 10px $dropdown-item-padding-x;

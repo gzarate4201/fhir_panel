@@ -1,4 +1,10 @@
-﻿<!-- BEGIN #header -->
+﻿<style>
+    #log_messages {
+        height: 200px;
+        overflow-y: auto;
+    }
+</style>
+<!-- BEGIN #header -->
 <div id="header" class="app-header">
     <!-- BEGIN mobile-toggler -->
     <div class="mobile-toggler">
@@ -33,12 +39,16 @@
         <div class="menu-item dropdown">
             <a href="#" data-toggle="dropdown" data-display="static" class="menu-link">
                 <div class="menu-icon"><i class="fa fa-bell nav-icon"></i></div>
-                <div class="menu-label">0</div>
+                <div class="menu-label" style="background-color:red" id="alarm_badge"> 0 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-notification">
-                <h6 class="dropdown-header text-gray-900 mb-1">Notifications</h6>
-                <div class="dropdown-notification-item bg-white">
-                	No record found
+                <h6 class="dropdown-header text-gray-900 mb-1">Registro</h6>
+                <div class="dropdown-notification-item bg-white" id="logging_area">
+                	<div id="log_messages">
+                        <div class="message">
+                            Logs
+                        </div>
+                    </div>
                 </div>
                 <div class="p-2 text-center mb-n1">
                     <a href="#" class="text-gray-800 text-decoration-none">See all</a>

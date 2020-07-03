@@ -1,4 +1,5 @@
 "use strict";
+var messages;
 
 var connection = new signalR.HubConnectionBuilder()
         .withUrl("/note")
@@ -16,22 +17,35 @@ connection.start().then(function () {
 connection.on("ReceiveMessage", function (user, message) {
 
     console.log("Mensaje recibido por el Hub");
+    console.log(message);
+
+
+    // Debe resetear el timeout para respuesta ***
+
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     mensaje = JSON.parse(message);
 
+    console.log("Mensaje recibido en el hub : " + mensaje.msg);
     // Determina los valores para conexion de las otras tramas
     if (mensaje.msg == "get param success") {
-        console.log("Llegó el mensaje");
-        tag = mensaje.tag;
-        $("#actual_device_tag").html(tag);
-        device_id = mensaje.device_id;
-        $("#actual_device_id").html(device_id);
+        console.log("Llego el mensaje con parametros");
+        $("#actual_device_tag").html(mensaje.tag);
+        $("#actual_device_id").html(mensaje.device_id);
         //device_tkn = mensaje.datas.device_token;
 
         // Trae todos los parametros de configuracion del dispositivo enlazado
         //getParameters();
         showActualParameters(mensaje);
     }
+
+    if(mensaje.msg == "Upload Person Info!") {
+        console.log("Registro de persona");
+        
+        appendLogMessages(mensaje);
+        
+
+    }
+
     console.log('Mensaje del Hub\n');
     console.log(mensaje);
     
@@ -43,7 +57,46 @@ connection.on("ReceiveMessage", function (user, message) {
     console.log('Mensaje recibido por Hub' + encodedMsg);
 });
 
+// Adiciona el mensaje a la caja
+function appendLogMessages(mensajelog) {
+    console.log("Actualizando registro eventos");
+    const messages = document.getElementById('log_messages');
+    // console.log ("ClientHeight: " + messages.clientHeight);
+    // console.log ("ScrollHeight!!!: " + messages.scrollHeight);
 
+
+    // actualizar valor del numero de alarmas (no esta funcionando)
+    var alarms = document.getElementById('alarm_badge');
+    var alarmsValue = parseInt(alarms.textContent);
+    
+    if (mensaje.datas.temperature > 37.3)
+        alarmsValue = alarmsValue + 1;
+
+    alarms.textContent = alarmsValue;
+    console.log("Alarmas : " + alarmsValue);
+    // fin actualizar el valor mostrado en el badge encima de la campana
+
+    var shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
+    console.log("ShouldScroll : " + shouldScroll);
+    const message = document.getElementsByClassName('message')[0];
+    const newMessage = message.cloneNode(true);
+
+    console.log("Mensaje a adicionar: " + mensajelog.msg) 
+    var color = (mensajelog.datas.temperature > 36.85) ? "red" : "green";
+    
+    newMessage.style.color = color;
+    newMessage.style.fontSize = "75%";
+    // determinar que tipo de mensaje es e imprimir
+    newMessage.innerText =  mensajelog.datas.time + ' : ' + ((mensajelog.datas.name != "") ? mensajelog.datas.name : "Desconocido")  + " Temp : " + mensajelog.datas.temperature + "Âº" ;
+    // message.innerText = ;
+    console.log(newMessage);
+    messages.appendChild(newMessage);
+
+    // After getting your messages. Determinar si es necesario hacer scroll
+    if (!shouldScroll) {
+        messages.scrollTop = messages.scrollHeight;
+    }
+}
 
 function showActualParameters(mensaje) {
     $("#actual_device_tag").html(mensaje.tag);
