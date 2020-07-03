@@ -569,6 +569,8 @@
     $('#save_new_device').on('click', addDevice);
     $('#bind_device_id_select').on('change', changeDevice);
 
+
+    // Se dispara cuando se selecciona una tableta de la lista desplegable
     function changeDevice() {
         device_id = $(this).val();
         console.log("Device_id : " + device_id);
