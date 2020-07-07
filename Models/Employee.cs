@@ -42,6 +42,13 @@ namespace AspStudio.Models
 
         [Column("imageUrl")]
         public string imageUrl { get; set; }
+
+        [Column("start_time")]
+        public DateTime? StartTime { get; set; }
+
+        [Column("end_time")]
+        public DateTime? EndTime { get; set; }
+
         
     }
 }

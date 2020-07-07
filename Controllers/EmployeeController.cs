@@ -256,6 +256,8 @@ namespace AspStudio.Controllers
                                     Documento = row.Cells[6].ToString(),
                                     Empresa = row.Cells[7].ToString(),
                                     imageUrl = row.Cells[8].ToString(),
+                                    StartTime = DateTime.Parse(row.Cells[9].ToString()),
+                                    EndTime = DateTime.Parse(row.Cells[10].ToString())
                                 };
 
                                 if (employeeDb != null)
