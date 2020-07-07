@@ -776,7 +776,7 @@ namespace Mqtt.Client.AspNetCore.Services
             System.Console.WriteLine(fecha);
             var imageName =  mensaje.device_id + '_' + fecha + ".jpg";
             System.Console.WriteLine(imageName);
-            var folderPath = "Media/Registers/";
+            var folderPath = "wwwroot/Registers/";
             var imagePath = folderPath + imageName;
             
             using(Image image = Image.FromStream(new MemoryStream(bytes)))
