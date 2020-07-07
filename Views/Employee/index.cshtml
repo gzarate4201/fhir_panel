@@ -69,6 +69,30 @@
             </form>
         </div>
     </div>
+    <div class="col-md-6">
+        <form asp-controller="Home" asp-action="Export">
+            <div class="container">
+                <div class="row">  Actualización en lote de autorizaciones</div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="file" id="fileupload" name="files" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" name="Upload" value="Upload" id="btnupload" class="btn btn-primary" />
+                        @* <a href="@Url.Action("Download", "Home")">Download</a> *@
+                    </div>
+                    @* <div class="col-md-5">
+                        <input type="submit" name="Export" value="Create and Export" id="btnExport"
+                            class="btn btn-primary" asp-action="Export" />
+                    </div> *@
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="row">
+                    <div id="divPrint"></div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <div class="clear"></div>
 
@@ -358,4 +382,59 @@
             }
         });
     }
+</script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#btnupload').on('click', function () {
+            var fileExtension = ['xls', 'xlsx'];
+            var filename = $('#fileupload').val();
+            if (filename.length == 0) {
+                alert("Seleccione un archivo.");
+                return false;
+            }
+            else {
+                var extension = filename.replace(/^.*\./, '');
+                if ($.inArray(extension, fileExtension) == -1) {
+                    alert("Solo se permite archivos de excel.");
+                    return false;
+                }
+            }
+            var fdata = new FormData();
+            var fileUpload = $("#fileupload").get(0);
+            var files = fileUpload.files;
+            fdata.append(files[0].name, files[0]);
+            $.ajax({
+                type: "POST",
+                url: "/Employee/Import",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: fdata,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.length == 0)
+                        alert('Some error occured while uploading');
+                    else {
+                        console.log(response);
+                        location.reload();
+                    }
+                },
+                error: function (e) {
+                    $('#divPrint').html(e.responseText);
+                }
+            });
+        })
+        $('#btnExport').on('click', function () {
+            var fileExtension = ['xls', 'xlsx'];
+            var filename = $('#fileupload').val();
+            if (filename.length == 0) {
+                alert("Please select a file then Import");
+                return false;
+            }
+        });
+    });
 </script>

@@ -29,6 +29,7 @@ node_modules/
 publish/
 Media/
 wwwroot/Uploads
+wwwroot/Registers
 
 ###################
 # Web publish log #
