@@ -563,7 +563,8 @@ namespace Mqtt.Client.AspNetCore.Services
                 // var device = dbContext.Devices.FirstOrDefault(p => p.DevId == persona.DevId);
                 var device_site = dbContext.DeviceSites.FirstOrDefault(p => p.DevId == persona.DevId);
                 var employee = dbContext.Empleados.FirstOrDefault(p => p.Id == persona.UserId);
-                
+
+
                 var fhir_data_table = new FhirData() {
                     TipoDoc = "CC",
                     NumDoc = 12345678,
