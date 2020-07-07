@@ -21,8 +21,16 @@
             <form>
                 <h5>Consulta por páginas</h5>
                 <br>
+                <select id="bind_device_id_select">
+                    <option value="" data-token=""> Seleccione </option>
+
+                    @foreach (dynamic device in ViewBag.Devices)
+                    {
+                <option value="@device.dev_id">@device.tag</option>}
+                </select> <div class="input-group-append"></div> 
+                <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input  autocomplete="off" type="text" class="form-control" id="page" />
+                    <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input autocomplete="off" type="text" class="form-control" id="page" />
                     <div class="input-group-append"><button class="btn btn-success" id="query_pages" style="width:165px;">REALIZAR CONSULTA</button></div>
                 </div>
                 <br>
@@ -32,7 +40,7 @@
                 <h5>Consulta por lote</h5>
                 <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch"/>
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch" />
                     <div class="input-group-append"><button class="btn btn-success" id="query_batch" style="width:165px;">CONSULTAR LOTE</button></div>
                 </div>
                 <br>
@@ -42,7 +50,7 @@
                 <h5>Consulta por usuario</h5>
                 <br>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user"/>
+                    <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user" />
                     <div class="input-group-append"><button class="btn btn-success" id="query_user" style="width:165px;">CONSULTAR USUARIO</button></div>
                 </div>
                 <div class="row">
@@ -62,6 +70,7 @@
     $('#query_pages').on('click',queryPages);
     $('#query_batch').on('click', queryBatch);
     $('#query_user').on('click', queryUser);
+    $('#bind_device_id_select').on('change', changeDevice);
 
     /* device basic configuration example
     {
@@ -80,6 +89,21 @@
     }
 
     */
+
+    // Se dispara cuando se selecciona una tableta de la lista desplegable
+    function changeDevice() {
+        device_id = $(this).val();
+        console.log("Device_id : " + device_id);
+        $.get("/Device/getDeviceToken?device_id=" + device_id, function (data) {
+            device_tkn = data.token;
+            device_tag = data.tag;
+            console.log("Data : ")
+            console.log(data);
+            console.log("Dev Tkn : " + device_tkn);
+            console.log("Device_tag : " + device_tag);
+        });
+
+    }
 
     function queryPages() {
         var dev_id = "7101076854037";
