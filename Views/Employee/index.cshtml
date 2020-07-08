@@ -117,10 +117,10 @@
             columns.Add(model => model.Status).Titled("Status");
             columns.Add(model => model.Documento).Titled("Documento");
             columns.Add(model => model.Empresa).Titled("Empresa");
-            columns.Add(model => $"<img src='{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
+            columns.Add(model => $"<img src='/Uploads/{model.Documento}.jpg' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
             columns.Add(Model =>
                 $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
-                + "<a href='#' class='send' title='Send' data-toggle='tooltip'><i class='fa fa-paper-plane' id='enviar'></i>"
+                + "<a href='#' class='send' title='Send' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-paper-plane' id='enviar'></i>"
             ).Encoded(false);
         })
         .Using(GridFilterMode.Header)
@@ -264,20 +264,37 @@
 
 <script>
 
-    $('#enviar').on('click', addsUser);
+    var row;
+
+    $('#enviar').on('click', function () {
+        row = $(this).closest('tr');
+        console.log(row);
+        name = row.find("td:eq(0)").html() + " " + row.find("td:eq(1)").html();
+        user_id = row.find("td:eq(3)").html();
+        imageUrl = "/Uploads/" + user_id + '.jpg';
+        addsUser(name, user_id, imageUrl);
+    });
 
     $(document).ready(function () {
-        Dropzone.options.uploader = {
+         Dropzone.options.uploader = {
             paramName: "file",
             maxFilesize: 2,
+            init: function () {             
+                this.on("success", function (file) {
+                   alert("Added file.");
+                });
+            }/*,
             accept: function (file, done) {
                 if (file.name == "test.jpg") {
                     alert("Can't upload a test file.");
                 }
                 else {
                     //Show a confirm alert and display the image on the page.
+                    alert("Foto subida."); 
+                    location.reload();
+                    console.log("Foto subida.");
                 }
-            }
+            }*/
         };
     });
 
@@ -319,19 +336,20 @@
 
     */
 
-    function addsUser() {
+    function addsUser(name , user_id, imageUrl) {
         console.log("se fue el avion a la tableta.");
-        var batch_name = $('#batch_name').val();
-        var batch_id = $('#batch_id').val();
-        var address = $('#server_ip').val();
-        var port = parseInt($('#server_port').val());
-        var in_time = $('#active_time').val();
-        var out_time = $('#end_time').val();
-        var id_user = $('#user_id').val();
-        var name_user = $('#user_name').val();
-        var url = $('#picture').val();
-        var dev_id = $('#bind_device_id').val();
-        var tag = $('#bind_tag').val();
+        var batch_name = "Ecopetrol";
+        var batch_id = "1";
+        var address = "localhost" ;
+        var port = 44313;
+        var in_time = "2020/07/07 23:59:59";
+        var out_time = "2020/12/30 23:59:59";
+        var id_user = user_id;
+        var name_user = name;
+        var url =imageUrl;
+        var device_id = "7101837081173";
+        var device_tag = "send_image";
+        var device_tkn = "3338871199";
 
         jsonMsg =
         {
