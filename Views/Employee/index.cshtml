@@ -120,17 +120,18 @@
         .Grid(Model)
         .Build(columns =>
         {
-            columns.Add(model => model.LastName).Titled("Nombre");
-            columns.Add(model => model.FirstName).Titled("Apellido");
+            columns.Add(model => model.LastName).Titled("Apellido");
+            columns.Add(model => model.FirstName).Titled("Nombre");
             columns.Add(model => model.Status).Titled("Status");
-            columns.Add(model => model.StartTime).Titled("Desde").RenderedAs(model => model.StartTime == null ? "- - -" : model.StartTime.ToString());
-            columns.Add(model => model.EndTime).Titled("Hasta").RenderedAs(model => model.EndTime == null ? "- - -" : model.EndTime.ToString());
+            columns.Add(model => model.StartTime).Titled("Desde").RenderedAs(model => model.StartTime == null ? null : model.StartTime).Formatted("{0: yyyy/MM/dd HH:mm:ss}");
+            columns.Add(model => model.EndTime).Titled("Hasta").RenderedAs(model => model.EndTime == null ? null : model.EndTime).Formatted("{0: yyyy/MM/dd HH:mm:ss}");
             columns.Add(model => model.Documento).Titled("Documento");
             columns.Add(model => model.Empresa).Titled("Empresa");
             columns.Add(model => $"<img src='/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
             columns.Add(Model =>
                 $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
                 + "<a href='#' class='send' title='Send' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-paper-plane' id='enviar'></i>"
+                +  "<a href='#' class='delete' title='Delete' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-trash' id='delete'></i>"
             ).Encoded(false);
         })
         .Using(GridFilterMode.Header)
@@ -218,7 +219,7 @@
             </div>
             <div class="modal-body" style="padding:40px 40px;">
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">Nombre del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_name" />
+                    <div class="input-group-prepend"><span class="input-group-text">Nombre del lote</span></div><input autocomplete="off" type="text" class="form-control" id="batch_name" default="Ecopetrol" />
                     <div class="input-group-append"></div>
                 </div>
                 <div class="input-group">
@@ -246,7 +247,11 @@
                     <div class="input-group-append"></div>
                 </div>
                 <div class="input-group">
-                    <div class="input-group-prepend"><span class="input-group-text">Nombre del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_name" />
+                    <div class="input-group-prepend"><span class="input-group-text">Nombre del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_firstname" />
+                    <div class="input-group-append"></div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Apellido del usuario</span></div><input autocomplete="off" type="text" class="form-control" id="user_lastname" />
                     <div class="input-group-append"></div>
                 </div>
                 <div class="input-group">
@@ -277,7 +282,35 @@
 
 <script>
 
+    var server_ip = "192.168.0.5";
+    var server_port = 5050;
+
     $('#bind_device_id_select').on('change', changeDevice);
+    $('.settings').on('click', function(){
+        row = $(this).closest('tr');
+        console.log(row);
+        console.log("Avión.");
+        lastname = row.find("td:eq(0)").html();
+        firstname = row.find("td:eq(1)").html();
+        name =  firstname + " " + lastname;
+        user_id = row.find("td:eq(5)").html();
+        imageUrl = "/Uploads/" + user_id + '.jpg';
+        console.log(imageUrl);
+        start_time = moment(row.find("td:eq(3)").html(), "yyyy/MM/dd HH:mm:ss") ;
+        console.log("la fecha de inicio:");
+        console.log(start_time);
+        end_time = row.find("td:eq(4)").html();
+        $("#batch_name").val("Ecopetrol");
+        $("#batch_id").val("1");
+        $("#server_ip").val(server_ip);
+        $("#server_port").val(server_port);
+        $("#active_time").val(start_time);
+        $("#end_time").val(end_time);
+        $("#user_id").val(user_id);
+        $("#user_firstname").val(firstname);
+        $("#user_lastname").val(lastname);
+        $("#picture").val(imageUrl);
+    })
 
     var row;
     var device_id;
@@ -285,14 +318,21 @@
     var device_tag;
 
     $('.send').on('click', function () {
-        row = $(this).closest('tr');
-        console.log(row);
-        console.log("Avión.");
-        name = row.find("td:eq(0)").html() + " " + row.find("td:eq(1)").html();
-        user_id = row.find("td:eq(5)").html();
-        imageUrl = "/Uploads/" + user_id + '.jpg';
+        if( device_id ==  null || device_tkn == null) {
+            alert("Debe seleccionar un dispositivo de destino y este debe estar enlazado");
+        } else {
+            row = $(this).closest('tr');
+            console.log(row);
+            console.log("Avión.");
+            name = row.find("td:eq(0)").html() + " " + row.find("td:eq(1)").html();
+            user_id = row.find("td:eq(5)").html();
+            imageUrl = "/Uploads/" + user_id + '.jpg';
+            start_time = row.find("td:eq(3)").html();
+            end_time = row.find("td:eq(4)").html();
 
-        addsUser(name, user_id, imageUrl);
+            addsUser(name, user_id, imageUrl, start_time, end_time);
+        }
+        
     });
 
 
@@ -320,7 +360,7 @@
                 this.on("success", function (file) {
                     alert("Added file.");
                 });
-            }/*,
+            },
             accept: function (file, done) {
                 if (file.name == "test.jpg") {
                     alert("Can't upload a test file.");
@@ -331,11 +371,7 @@
                     location.reload();
                     console.log("Foto subida.");
                 }
-            },
-            init: function() {
-                this.on("addedfile", function(file) { alert("Added file."); });
             }
-
         };
     });
 
@@ -377,14 +413,16 @@
 
     */
 
-    function addsUser(name , user_id, imageUrl) {
-        console.log("se fue el avion a la tableta.");
+    function addsUser(name , user_id, imageUrl, start_time, end_time) {
+        console.log("Se envian datos a la tableta.");
+        console.log (start_time);
+        console.log (end_time);
         var batch_name = "Ecopetrol";
         var batch_id = "1";
-        var address = "localhost" ;
-        var port = 44313;
-        var in_time = "2020/07/07 23:59:59";
-        var out_time = "2020/12/30 23:59:59";
+        var address =  server_ip ;
+        var port = server_port;
+        var in_time = start_time;
+        var out_time = end_time;
         var id_user = user_id;
         var name_user = name;
         var url = imageUrl;
