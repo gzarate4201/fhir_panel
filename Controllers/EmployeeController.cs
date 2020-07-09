@@ -296,6 +296,13 @@ namespace AspStudio.Controllers
         }
 
 
+        // public ActionResult SendToDevice()
+        // {
+        //     var empleados = dbContext.Empleados;
+            
+        //     return JsonData;
+        // }
+
         public ActionResult Download()
         {
             string Files = "wwwroot/UploadExcel/CoreProgramm_ExcelImport.xlsx";

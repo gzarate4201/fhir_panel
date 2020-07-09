@@ -282,6 +282,9 @@
                 else {
                     //Show a confirm alert and display the image on the page.
                 }
+            },
+            init: function() {
+                this.on("addedfile", function(file) { alert("Added file."); });
             }
         };
     });
