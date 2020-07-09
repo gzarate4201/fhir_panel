@@ -567,7 +567,7 @@ namespace Mqtt.Client.AspNetCore.Services
 
                 var fhir_data_table = new FhirData() {
                     TipoDoc = "CC",
-                    NumDoc = 12345678,
+                    NumDoc = persona.UserId,
                     FechaRegistro = persona.RegisterTime,
                     Temperature = persona.Temperature,
                     CiudadReg = device_site.CiudadReg,
@@ -577,11 +577,11 @@ namespace Mqtt.Client.AspNetCore.Services
                     Lon = device_site.Lon,
                     Nit = device_site.Nit,
                     Report = (persona.Temperature > 37.3) ? 1 : 0,
-                    Instrumento = "FLUKE9000",
-                    TipoCal = "Comparativa",
-                    TipoMed = "Electronica",
-                    ValCal = 37.3,
-                    IdLenel = 10101
+                    IdLenel = 10101,
+                    Instrumento = "Indra-FK02GYW-" + device_site.DevId,
+                    TipoCal = "None",
+                    TipoMed = "None",
+                    ValCal = 37.3
                 };
 
 

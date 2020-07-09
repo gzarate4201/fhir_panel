@@ -17,12 +17,6 @@
       "text": "Registro"
     },
     {
-      "controller": "Visitante",
-      "action": "Index",
-      "icon": "fa fa-user",
-      "text": "Visitante"
-    },
-    {
       "controller": "Reporte",
       "action": "Index",
       "icon": "fa fa-table",
