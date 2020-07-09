@@ -29,6 +29,7 @@ connection.on("ReceiveMessage", function (user, message) {
     // Determina los valores para conexion de las otras tramas
     if (mensaje.msg == "get param success") {
         console.log("Llego el mensaje con parametros");
+        alert("Parámetros recibidos desde la tableta");
         $("#actual_device_tag").html(mensaje.tag);
         $("#actual_device_id").html(mensaje.device_id);
         //device_tkn = mensaje.datas.device_token;
@@ -39,12 +40,79 @@ connection.on("ReceiveMessage", function (user, message) {
     }
 
     if(mensaje.msg == "Upload Person Info!") {
-        console.log("Registro de persona");
-        
+        console.log("Registro de persona");        
         appendLogMessages(mensaje);
-        
-
     }
+    // Mensajes exitosos
+
+    if (mensaje.msg == "mqtt bind ctrl success") {
+        alert("Enlazamiento a la tableta exitoso.");
+    }
+
+    if (mensaje.msg == "mqtt unbind ctrl success") {
+        alert("Desenlazamiento a la tableta exitoso.");
+    }
+
+    if (mensaje.msg == "basic param set success") {
+        alert("Configuración básica de la tableta exitosa");
+    }
+
+    if (message.msg == "download PicLib status") {
+        if (message.datas.picture_statues == 10) {
+            alert("Subida de fotos a la tableta fue exitosa.");
+        }
+        if (message.datas.picture_statues == 20) {
+            alert("No se descargaron correctamente las fotografías de la tableta.");
+        }
+    }
+
+    if (mensaje.msg == "network param set successs") {
+        alert("Parámetros de red cambiados correctamente.");
+    }
+
+    if (mensaje.msg == "remote config set success") {
+        alert("Parámetros de dispositivo cambiados correctamente.");
+    }
+
+    if (mensaje.msg == "funtable param set success") {
+        alert("Parámetros de dispositivo cambiados correctamente.");
+    }
+
+    if (mensaje.msg == "delete all piclib success!") {
+        alert("Todos los registros borrados de la tableta correctamente.");
+    }
+
+    if (mensaje.msg == "delete lib piclib success") {
+        alert("Lote borrado de la tableta correctamente.");
+    }
+
+    if (mensaje.msg == "delete users piclib success") {
+        alert("Usuario borrado de la tableta correctamente.");
+    }
+
+    if (mensaje.msg == "mqtt query success!") {
+        alert("Consulta realizada correctamente.");
+    }
+
+    if (mensaje.msg == "mqtt protocol set success") {
+        alert("Parámetros mqtt cambiados correctamente.");
+    }
+
+    if (mensaje.msg == "systime maintain set success") {
+        alert("Reinicio o restauración de configuración de fábrica correctos.");
+    }
+
+    
+    // Mensajes de error
+
+    if (mensaje.msg == "mqtt param erro!") {
+        alert("Error en los parámetros enviados");
+    }
+
+    if (mensaje.msg == "device_token erro!") {
+        alert("Error en el device token. ")
+    }
+    
 
     console.log('Mensaje del Hub\n');
     console.log(mensaje);
