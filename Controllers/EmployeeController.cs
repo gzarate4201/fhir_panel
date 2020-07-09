@@ -51,7 +51,9 @@ using AspStudio.Data;
 namespace AspStudio.Controllers
 {
     
-    
+    public class DeleteId {
+        public string document {get; set;}
+    }
     public class EmployeeController : Controller
     {
         // Inyecta la instancia de MQTTnet (mqttClient) que fue creada como
@@ -340,6 +342,24 @@ namespace AspStudio.Controllers
 
         }
 
+        
+        [HttpPost]
+        [HttpGet]
+        public  Object DeleteUser(DeleteId deleteId)
+        {
+            var document = deleteId.document;
+
+            dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            var employeeDb = dbContext.Empleados.FirstOrDefault(p => p.Documento.Contains(document));
+            if (employeeDb != null)
+            {
+                dbContext.Empleados.Remove(employeeDb);
+                dbContext.SaveChanges();
+                return new {success=true, message="Registro borrado de la base de datos"};
+            }
+
+            return new {success=false, message="Registro no existente"};
+        } 
 
         // public ActionResult SendToDevice()
         // {
@@ -348,79 +368,8 @@ namespace AspStudio.Controllers
         //     return JsonData;
         // }
 
-        public ActionResult Download()
-        {
-            string Files = "wwwroot/UploadExcel/CoreProgramm_ExcelImport.xlsx";
-            byte[] fileBytes = System.IO.File.ReadAllBytes(Files);
-            System.IO.File.WriteAllBytes(Files, fileBytes);
-            MemoryStream ms = new MemoryStream(fileBytes);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "employee.xlsx");
-        }
 
-        public async Task<IActionResult> Export()
-        {
-            string sWebRootFolder = _hostingEnvironment.WebRootPath;
-            string sFileName = @"Employees.xlsx";
-            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
-            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
-            var memory = new MemoryStream();
-            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
-            {
-                IWorkbook workbook;
-                workbook = new XSSFWorkbook();
-                ISheet excelSheet = workbook.CreateSheet("employee");
-                IRow row = excelSheet.CreateRow(0);
 
-                row.CreateCell(0).SetCellValue("EmployeeId");
-                row.CreateCell(1).SetCellValue("EmployeeName");
-                row.CreateCell(2).SetCellValue("Age");
-                row.CreateCell(3).SetCellValue("Sex");
-                row.CreateCell(4).SetCellValue("Designation");
-
-                row = excelSheet.CreateRow(1);
-                row.CreateCell(0).SetCellValue(1);
-                row.CreateCell(1).SetCellValue("Jack Supreu");
-                row.CreateCell(2).SetCellValue(45);
-                row.CreateCell(3).SetCellValue("Male");
-                row.CreateCell(4).SetCellValue("Solution Architect");
-
-                row = excelSheet.CreateRow(2);
-                row.CreateCell(0).SetCellValue(2);
-                row.CreateCell(1).SetCellValue("Steve khan");
-                row.CreateCell(2).SetCellValue(33);
-                row.CreateCell(3).SetCellValue("Male");
-                row.CreateCell(4).SetCellValue("Software Engineer");
-
-                row = excelSheet.CreateRow(3);
-                row.CreateCell(0).SetCellValue(3);
-                row.CreateCell(1).SetCellValue("Romi gill");
-                row.CreateCell(2).SetCellValue(25);
-                row.CreateCell(3).SetCellValue("FeMale");
-                row.CreateCell(4).SetCellValue("Junior Consultant");
-
-                row = excelSheet.CreateRow(4);
-                row.CreateCell(0).SetCellValue(4);
-                row.CreateCell(1).SetCellValue("Hider Ali");
-                row.CreateCell(2).SetCellValue(34);
-                row.CreateCell(3).SetCellValue("Male");
-                row.CreateCell(4).SetCellValue("Accountant");
-
-                row = excelSheet.CreateRow(5);
-                row.CreateCell(0).SetCellValue(5);
-                row.CreateCell(1).SetCellValue("Mathew");
-                row.CreateCell(2).SetCellValue(48);
-                row.CreateCell(3).SetCellValue("Male");
-                row.CreateCell(4).SetCellValue("Human Resource");
-
-                workbook.Write(fs);
-            }
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
-            {
-                await stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
-            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-        }
 
     }
 }
