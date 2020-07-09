@@ -224,31 +224,36 @@ namespace Mqtt.Client.AspNetCore.Services
             // dynamic mes = (JObject)JsonConvert.DeserializeObject(JsonMsg);
 
             JObject msg = JObject.Parse(JsonMsg);
-            JObject datas = (JObject)msg["datas"];
-
-            // Si el mensaje contine una imagen la elimina
-            var tipo = msg["msg"];
-
-            System.Console.WriteLine(tipo);
-
-            if (tipo.ToString() == "Upload Person Info!")
+            if ( msg.SelectToken("datas") is JObject )
             {
-                datas.Property("imageFile").Remove();
-            }
+                JObject datas = (JObject)msg["datas"];
+                 // Si el mensaje contine una imagen la elimina
+                var tipo = msg["msg"];
 
+                System.Console.WriteLine(tipo);
+
+                if (tipo.ToString() == "Upload Person Info!")
+                {
+                    datas.Property("imageFile").Remove();
+                }
+
+            } 
+            
             string JsonSend = msg.ToString();
             string Topic = eventArgs.ApplicationMessage.Topic;
 
             System.Console.WriteLine("Mensaje enviado por el Hub");
             System.Console.WriteLine(JsonSend);
             //JsonMsg = JsonConvert.DeserializeObject(msg);
+
+            // Envio por SignalR paraa comunicacion con el Cliente
             await SendByHub(Topic, JsonSend);
 
             // Se imprime el objeto por consola
             // System.Console.WriteLine("El mensaje recibido es: ");
             // System.Console.WriteLine(JsonMsg);
 
-            // Envio por SignalR paraa comunicacion con el Cliente
+            
             
             
         
@@ -687,13 +692,13 @@ namespace Mqtt.Client.AspNetCore.Services
         public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
-            var clientSettinigs = AppSettingsProvider.ClientSettings;
+            var clientSettings = AppSettingsProvider.ClientSettings;
             var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
-
+            System.Console.WriteLine("MQTT Broker :" + brokerHostSettings );
             var connected = mqttClient.IsConnected;
             var options = new MqttClientOptionsBuilder()
-                .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)
-                .WithClientId(clientSettinigs.Id)
+                .WithCredentials(clientSettings.UserName, clientSettings.Password)
+                .WithClientId(clientSettings.Id)
                 .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port)
                 .WithCleanSession()
                 .Build();
