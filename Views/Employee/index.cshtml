@@ -116,6 +116,9 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <a id="checkAll"> Seleccionar todos </a>
+    </div>
     @(Html
         .Grid(Model)
         .Build(columns =>
@@ -283,7 +286,7 @@
 
 <script>
 
-    var server_ip = "192.168.0.5";
+    var server_ip = "10.11.34.94";
     var server_port = 5050;
 
     $('#bind_device_id_select').on('change', changeDevice);
@@ -315,7 +318,7 @@
 
     $(".delete").on('click', function(){
         row = $(this).closest('tr');
-        user_id = row.find("td:eq(5)").html();
+        user_id = row.find("td:eq(6)").html();
         var r = confirm("Esta seguro de querer borar el registro?");
         if (r==true) {
             $.ajax({
@@ -477,14 +480,14 @@
                 server_port: port,
                 pictures:
                 [
-                {
-                    active_time: in_time,
-                    user_id: id_user,
-                    user_name: name_user,
-                    end_time: out_time,
-                    p_id: null,
-                    picture: url
-                }
+                    {
+                        active_time: in_time,
+                        user_id: id_user,
+                        user_name: name_user,
+                        end_time: out_time,
+                        p_id: null,
+                        picture: url
+                    }
                 ]
             }
         };
@@ -563,6 +566,10 @@
                 alert("Please select a file then Import");
                 return false;
             }
+        });
+
+        $('#CheckAll').click(function(){
+            toggle(this);
         });
 
         $('#sendSelected').on('click', sendAll);
