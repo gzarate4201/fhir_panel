@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.IO;
+using System.Threading;
 
 using System.Net;
 using System.Web;
@@ -26,6 +28,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
+// Hub Chat
+using Microsoft.AspNetCore.SignalR;
+using SignalRChat.Hubs;
+
+// using System.Net.Mqtt;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Connecting;
+using MQTTnet.Client.Disconnecting;
+using MQTTnet.Client.Options;
+using Mqtt.Client.AspNetCore.Settings;
+
 // Json
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -40,6 +54,9 @@ namespace AspStudio.Controllers
     
     public class EmployeeController : Controller
     {
+        // Inyecta la instancia de MQTTnet (mqttClient) que fue creada como
+        // servicio inyectable en StartUp.cs
+        static IMqttClient mqttClient = new MqttFactory().CreateMqttClient();
         private readonly ILogger<AccountController> _logger;
         private readonly ApplicationDbContext dbContext;
         private readonly IWebHostEnvironment _environment;
@@ -54,6 +71,9 @@ namespace AspStudio.Controllers
             _hostingEnvironment = hostingEnvironment;
 
         }
+
+
+
 
 
         // public IActionResult Index(string sortOrder, string searchString)
@@ -83,6 +103,31 @@ namespace AspStudio.Controllers
         [HttpGet]
         public ViewResult Index()
         {
+            var dispositivos = dbContext.Devices;
+
+
+            List<dynamic> Devices = new List<dynamic>();
+            dynamic device;
+
+            try
+            {
+                foreach (var dispositivo in dispositivos)
+                {
+                    device = new ExpandoObject();
+                    device.id = dispositivo.Id;
+                    device.dev_id = dispositivo.DevId;
+                    device.tag = dispositivo.DevTag;
+                    Devices.Add(device);
+                }
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Error generando lista" + e.Message + e.StackTrace);
+            }
+
+            System.Console.WriteLine(Devices);
+            ViewBag.Devices = Devices;
+            // System.Console.WriteLine(ViewBag.Dispositivos);
             // Result needs to be IQueryable in database scenarios, to make use of database side paging.
             return View(dbContext.Set<Employee>());
         }
