@@ -112,7 +112,7 @@
             </div>
             <div class="col-md-6">
                 <a href="#" class="btn btn-secondary"><i class="material-icons" data-toggle="modal" data-target="#Add_user_modal">&#xE147;</i> <span>Add New User</span></a>
-                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
+                <a id="sendSelected"  class="btn btn-secondary"><i class="fa fa-send"></i> <span>Enviar Seleccionados</span></a>
             </div>
         </div>
     </div>
@@ -120,6 +120,7 @@
         .Grid(Model)
         .Build(columns =>
         {
+            columns.Add(model => $"<input name='employee' type='checkbox' data-id='{model.Documento}' id='{model.Documento}'/>").Titled("Sel").Encoded(false);
             columns.Add(model => model.LastName).Titled("Apellido");
             columns.Add(model => model.FirstName).Titled("Nombre");
             columns.Add(model => model.Status).Titled("Status");
@@ -290,16 +291,16 @@
         row = $(this).closest('tr');
         console.log(row);
         console.log("Avión.");
-        lastname = row.find("td:eq(0)").html();
-        firstname = row.find("td:eq(1)").html();
+        lastname = row.find("td:eq(1)").html();
+        firstname = row.find("td:eq(2)").html();
         name =  firstname + " " + lastname;
-        user_id = row.find("td:eq(5)").html();
+        user_id = row.find("td:eq(6)").html();
         imageUrl = "/Uploads/" + user_id + '.jpg';
         console.log(imageUrl);
-        start_time = moment(row.find("td:eq(3)").html(), "yyyy/MM/dd HH:mm:ss") ;
+        start_time = row.find("td:eq(4)").html();
         console.log("la fecha de inicio:");
         console.log(start_time);
-        end_time = row.find("td:eq(4)").html();
+        end_time = row.find("td:eq(5)").html();
         $("#batch_name").val("Ecopetrol");
         $("#batch_id").val("1");
         $("#server_ip").val(server_ip);
@@ -310,6 +311,36 @@
         $("#user_firstname").val(firstname);
         $("#user_lastname").val(lastname);
         $("#picture").val(imageUrl);
+    })
+
+    $(".delete").on('click', function(){
+        row = $(this).closest('tr');
+        user_id = row.find("td:eq(5)").html();
+        var r = confirm("Esta seguro de querer borar el registro?");
+        if (r==true) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("DeleteUser", "Employee")',
+                //dataType: "json",
+                data:{
+                    document: user_id,
+                },
+                async: false,
+                success: function(data) {
+                    if(data.success == true) {
+                        // ToDo : Enviar mensaje por MQTT para borrar registro de todas las tabletas
+                        location.reload();
+                    } else {
+                        alert("Registro no encontrado");
+                    }
+                    
+                },
+                error: function() {
+                    console.log("Error borrando un registro");
+                }
+            });
+        }
+        
     })
 
     var row;
@@ -324,11 +355,11 @@
             row = $(this).closest('tr');
             console.log(row);
             console.log("Avión.");
-            name = row.find("td:eq(0)").html() + " " + row.find("td:eq(1)").html();
-            user_id = row.find("td:eq(5)").html();
+            name = row.find("td:eq(1)").html() + " " + row.find("td:eq(2)").html();
+            user_id = row.find("td:eq(6)").html();
             imageUrl = "/Uploads/" + user_id + '.jpg';
-            start_time = row.find("td:eq(3)").html();
-            end_time = row.find("td:eq(4)").html();
+            start_time = row.find("td:eq(4)").html();
+            end_time = row.find("td:eq(3)").html();
 
             addsUser(name, user_id, imageUrl, start_time, end_time);
         }
@@ -533,5 +564,33 @@
                 return false;
             }
         });
+
+        $('#sendSelected').on('click', sendAll);
+        function sendAll() {
+            var selectedIds = [];
+            $("input:checkbox[name=employee]:checked").each(function(){
+                selectedIds.push($(this).data("id"));
+            });
+            console.log(selectedIds);
+
+            $.each(selectedIds, function(i, v){
+                //console.log(v);
+                chkbox = document.getElementById(v);
+                //console.log(chkbox);
+                row = chkbox.closest('tr');
+                lastname = row.getElementsByTagName("td")[1].textContent;
+                firstname = row.getElementsByTagName("td")[2].textContent;
+
+                name = lastname + " " + firstname;
+                user_id = row.getElementsByTagName("td")[6].textContent;
+                imageUrl = "/Uploads/" + user_id + '.jpg';
+                start_time = row.getElementsByTagName("td")[4].textContent;
+                end_time = row.getElementsByTagName("td")[5].textContent;
+
+                //console.log(row, name, user_id, imageUrl, start_time, end_time);
+
+                addsUser(name, user_id, imageUrl, start_time, end_time);
+            })
+        }
     });
 </script>
