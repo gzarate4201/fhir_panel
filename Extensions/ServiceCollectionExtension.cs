@@ -16,6 +16,8 @@ namespace Mqtt.Client.AspNetCore.Extensions
             {
                 var clientSettinigs = AppSettingsProvider.ClientSettings;
                 var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
+                System.Console.WriteLine("MQTT Broker :" + brokerHostSettings.Host );
+                System.Console.WriteLine("MQTT Broker Port :" + brokerHostSettings.Port );
 
                 aspOptionBuilder
                 .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)

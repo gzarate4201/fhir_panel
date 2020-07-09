@@ -55,6 +55,13 @@ namespace studio
             AppSettingsProvider.ClientSettings = clientSettings;
         }
 
+        private void MapServerHostSettings()
+        {
+            ServerHostSettings serverHostSettings = new ServerHostSettings();
+            Configuration.GetSection(nameof(ServerHostSettings)).Bind(serverHostSettings);
+            AppSettingsProvider.ServerHostSettings = serverHostSettings;
+        }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

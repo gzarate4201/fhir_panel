@@ -12,6 +12,7 @@ using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 
+
 // using LinqToExcel;
 // using ImportExceData.Models;
 using NPOI;
@@ -27,6 +28,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Mqtt.Client.AspNetCore.Settings;
 
 // Hub Chat
 using Microsoft.AspNetCore.SignalR;
@@ -37,8 +39,8 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
-using MQTTnet.Client.Options;
-using Mqtt.Client.AspNetCore.Settings;
+// using MQTTnet.Client.Options;
+
 
 // Json
 using System.Text.Json;
@@ -105,6 +107,14 @@ namespace AspStudio.Controllers
         [HttpGet]
         public ViewResult Index()
         {
+            var serverHostSettings = AppSettingsProvider.ServerHostSettings;
+            // var serverIp = serverHostSettings.Host;
+            // var serverPort = serverHostSettings.Port;
+            var serverIp = "192.168.0.5";
+            var serverPort = 5050;
+            var imageServerIp = "192.168.0.5";
+            // var imageServerIp = AppSettingsProvider.ImageServerIp;
+            // var serverPort = AppSettingsProvider.ServerPort;
             var dispositivos = dbContext.Devices;
 
 
@@ -129,6 +139,9 @@ namespace AspStudio.Controllers
 
             System.Console.WriteLine(Devices);
             ViewBag.Devices = Devices;
+            ViewBag.ServerIp = serverIp;
+            ViewBag.ImageServerIp = imageServerIp;
+            ViewBag.ServerPort = serverPort;
             // System.Console.WriteLine(ViewBag.Dispositivos);
             // Result needs to be IQueryable in database scenarios, to make use of database side paging.
             return View(dbContext.Set<Employee>());
