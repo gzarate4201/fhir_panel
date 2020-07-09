@@ -92,6 +92,14 @@
                 </div>
             </div>
         </form>
+        <select id="bind_device_id_select">
+            <option value="" data-token=""> Seleccione </option>
+
+            @foreach (dynamic device in ViewBag.Devices)
+            {
+                <option value="@device.dev_id">@device.tag</option>
+            }
+        </select> <div class="input-group-append"></div>
     </div>
 </div>
 <div class="clear"></div>
@@ -122,7 +130,7 @@
             columns.Add(model => $"<img src='/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
             columns.Add(Model =>
                 $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
-                + "<a href='#' class='send' title='Send' data-toggle='tooltip'><i class='fa fa-paper-plane' id='enviar'></i>"
+                + "<a href='#' class='send' title='Send' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-paper-plane' id='enviar'></i>"
             ).Encoded(false);
         })
         .Using(GridFilterMode.Header)
@@ -269,23 +277,65 @@
 
 <script>
 
-    $('#enviar').on('click', addsUser);
+    $('#bind_device_id_select').on('change', changeDevice);
+
+    var row;
+    var device_id;
+    var device_tkn;
+    var device_tag;
+
+    $('.send').on('click', function () {
+        row = $(this).closest('tr');
+        console.log(row);
+        console.log("Avión.");
+        name = row.find("td:eq(0)").html() + " " + row.find("td:eq(1)").html();
+        user_id = row.find("td:eq(5)").html();
+        imageUrl = "/Uploads/" + user_id + '.jpg';
+
+        addsUser(name, user_id, imageUrl);
+    });
+
+
+    // Se dispara cuando se selecciona una tableta de la lista desplegable
+    function changeDevice() {
+        device_id = $(this).val();
+        console.log("Device_id : " + device_id);
+        $.get("/Device/getDeviceToken?device_id=" + device_id, function (data) {
+            device_tkn = data.token;
+            device_tag = data.tag;
+            console.log("Data : ")
+            console.log(data);
+            console.log("Dev Tkn : " + device_tkn);
+            console.log("Device_tag : " + device_tag);
+        });
+    }
+    
+
 
     $(document).ready(function () {
         Dropzone.options.uploader = {
             paramName: "file",
             maxFilesize: 2,
+            init: function () {
+                this.on("success", function (file) {
+                    alert("Added file.");
+                });
+            }/*,
             accept: function (file, done) {
                 if (file.name == "test.jpg") {
                     alert("Can't upload a test file.");
                 }
                 else {
                     //Show a confirm alert and display the image on the page.
+                    alert("Foto subida.");
+                    location.reload();
+                    console.log("Foto subida.");
                 }
             },
             init: function() {
                 this.on("addedfile", function(file) { alert("Added file."); });
             }
+
         };
     });
 
@@ -327,27 +377,28 @@
 
     */
 
-    function addsUser() {
+    function addsUser(name , user_id, imageUrl) {
         console.log("se fue el avion a la tableta.");
-        var batch_name = $('#batch_name').val();
-        var batch_id = $('#batch_id').val();
-        var address = $('#server_ip').val();
-        var port = parseInt($('#server_port').val());
-        var in_time = $('#active_time').val();
-        var out_time = $('#end_time').val();
-        var id_user = $('#user_id').val();
-        var name_user = $('#user_name').val();
-        var url = $('#picture').val();
-        var dev_id = $('#bind_device_id').val();
-        var tag = $('#bind_tag').val();
+        var batch_name = "Ecopetrol";
+        var batch_id = "1";
+        var address = "localhost" ;
+        var port = 44313;
+        var in_time = "2020/07/07 23:59:59";
+        var out_time = "2020/12/30 23:59:59";
+        var id_user = user_id;
+        var name_user = name;
+        var url = imageUrl;
+        var dev_id = device_id;
+        var dev_tag = device_tag;
+        var dev_tkn = device_tkn;
 
         jsonMsg =
         {
             mqtt_cmd: 1,
             mqtt_operate_id: 7,
-            device_token: device_tkn,
-            device_id:  device_id,
-            tag: device_tag,
+            device_token: dev_tkn,
+            device_id:  dev_id,
+            tag: dev_tag,
             piclib_manage: 0,
             param:
             {
