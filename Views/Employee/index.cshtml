@@ -117,7 +117,7 @@
         </div>
     </div>
     <div class="row">
-        <a id="checkAll"> Seleccionar todos </a>
+        <a id="checkAll" href="#"> Seleccionar todos </a>
     </div>
     @(Html
         .Grid(Model)
@@ -131,7 +131,7 @@
             columns.Add(model => model.EndTime).Titled("Hasta").RenderedAs(model => model.EndTime == null ? null : model.EndTime).Formatted("{0: yyyy/MM/dd HH:mm:ss}");
             columns.Add(model => model.Documento).Titled("Documento");
             columns.Add(model => model.Empresa).Titled("Empresa");
-            columns.Add(model => $"<img src='http://10.11.34.94/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
+            columns.Add(model => $"<img src='http://10.11.34.94:5050/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
             columns.Add(Model =>
                 $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
                 + "<a href='#' class='send' title='Send' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-paper-plane' id='enviar'></i>"
@@ -277,8 +277,8 @@
 <!-- Carga las librerias de MQTT js -->
 <!--  <script src="~/js/mqtt.js"></script> -->
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+@* <script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script> *@
 
 <script>
     document.querySelectorAll(".mvc-grid").forEach(element => new MvcGrid(element));
@@ -300,10 +300,10 @@
         user_id = row.find("td:eq(6)").html();
         imageUrl = "/Uploads/" + user_id + '.jpg';
         console.log(imageUrl);
-        start_time = row.find("td:eq(4)").html();
+        start_time = row.find("td:eq(4)").html().trim();
         console.log("la fecha de inicio:");
         console.log(start_time);
-        end_time = row.find("td:eq(5)").html();
+        end_time = row.find("td:eq(5)").html().trim();
         $("#batch_name").val("Ecopetrol");
         $("#batch_id").val("1");
         $("#server_ip").val(server_ip);
@@ -361,8 +361,8 @@
             name = row.find("td:eq(1)").html() + " " + row.find("td:eq(2)").html();
             user_id = row.find("td:eq(6)").html();
             imageUrl = "/Uploads/" + user_id + '.jpg';
-            start_time = row.find("td:eq(4)").html();
-            end_time = row.find("td:eq(3)").html();
+            start_time = row.find("td:eq(4)").html().trim();
+            end_time = row.find("td:eq(5)").html().trim();
 
             addsUser(name, user_id, imageUrl, start_time, end_time);
         }
@@ -449,8 +449,8 @@
 
     function addsUser(name , user_id, imageUrl, start_time, end_time) {
         console.log("Se envian datos a la tableta.");
-        console.log (start_time);
-        console.log (end_time);
+        console.log ("Start_Time: " + start_time);
+        console.log ("End_Time: " + end_time);
         var batch_name = "Ecopetrol";
         var batch_id = "1";
         var address =  server_ip ;
@@ -495,7 +495,7 @@
         console.log(jsonMsg);
         $.ajax({
             type: "GET",
-            url: '@Url.Action("publishMQTT", "Device")',
+            url: '@Url.Action("publishMQTT", "Employee")',
             dataType: "json",
             data:{
                 topic: "SubscribeTest",
@@ -503,10 +503,13 @@
             },
             async: false,
             success: function(data) {
-                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
-                $('#mqtt_send').html(
-                    jsonPretty
-                )
+                if(data.success == true)
+                {
+                    console.log("Registro enviado");
+                } else {
+                    alert ("Fallo el envio del registro");
+                }
+                
             },
             error: function() {
                 console.log("Error adding new user");
@@ -591,10 +594,10 @@
                 name = lastname + " " + firstname;
                 user_id = row.getElementsByTagName("td")[6].textContent;
                 imageUrl = "/Uploads/" + user_id + '.jpg';
-                start_time = row.getElementsByTagName("td")[4].textContent;
-                end_time = row.getElementsByTagName("td")[5].textContent;
+                start_time = row.getElementsByTagName("td")[4].textContent.trim();
+                end_time = row.getElementsByTagName("td")[5].textContent.trim();
 
-                //console.log(row, name, user_id, imageUrl, start_time, end_time);
+                console.log(row, name, user_id, imageUrl, start_time, end_time);
 
                 addsUser(name, user_id, imageUrl, start_time, end_time);
             })

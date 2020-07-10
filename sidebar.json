@@ -23,6 +23,12 @@
       "text": "Reportes"
     },
     {
+      "controller": "Image",
+      "action": "Index",
+      "icon": "fa fa-camera",
+      "text": "Imagenes"
+    },
+    {
       "controller": "Sistema",
       "action": "Index",
       "icon": "fa fa-home",

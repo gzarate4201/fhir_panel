@@ -95,7 +95,7 @@ namespace AspStudio.Controllers
 
         [HttpPost]
         [HttpGet]
-        public async Task<JsonResult> publishMQTT(MqttCon mqtt) {
+        public Object publishMQTT(MqttCon mqtt) {
 
             // Inicializar respuesta 
             string result = string.Empty;
@@ -114,7 +114,7 @@ namespace AspStudio.Controllers
             // Parametros para la configuracion del cliente MQTT.
             var options = new MqttClientOptionsBuilder()
                 .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)
-                .WithClientId(clientSettinigs.Id)
+                .WithClientId(client_id)
                 .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port)
                 .WithCleanSession()
                 .Build();
@@ -128,13 +128,23 @@ namespace AspStudio.Controllers
                 .Build();
 
             // Console.WriteLine(msg.ConvertPayloadToString());
-            // Establece conexion con el Broker
-            await mqttClient.ConnectAsync(options);
+            
             // Envia mensaje MQTT
-            mqttClient.PublishAsync(msg).Wait();
+
+            try {
+                // Establece conexion con el Broker
+                mqttClient.ConnectAsync(options).Wait();
+                // Envia el mensaje
+                mqttClient.PublishAsync(msg).Wait();
+                //Desconecta el cliente
+                mqttClient.DisconnectAsync().Wait();
+            } catch(Exception e) {
+                System.Console.WriteLine("Error enviando por MQTT : " + e.Message + e.StackTrace);
+            }
+            
 
             // Cierra la conexion
-            await mqttClient.DisconnectAsync();
+            //
 
             // Retorna Json indicando que fue exitoso
             return Json(new {success=true});

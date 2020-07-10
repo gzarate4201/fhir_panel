@@ -216,7 +216,21 @@
                                     
                                 </ul>
                                 <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div>
-            
+
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Dispositivos
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        @foreach (dynamic device in ViewBag.Devices)
+                                        {
+                                            <option value="@device.dev_id">@device.tag</option>
+                                        }
+                            
+                                        
+                                    </div>
+                                </div>
+
                                 <select id="bind_device_id_select">
                                     <option value="" data-token=""> Seleccione </option>
                                     
@@ -511,8 +525,8 @@
 <!-- Carga las librerias de MQTT js -->
 <!--  <script src="~/js/mqtt.js"></script> -->
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+<!-- <script src="~/js/signalr/dist/browser/signalr.js"></script> -->
+<!-- <script src="~/js/chat.js"></script> -->
 
 
 <script>
