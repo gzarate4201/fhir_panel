@@ -26,8 +26,10 @@ namespace studio.Controllers
             
             
             try{
-                var dirs = Directory.EnumerateFiles("wwwroot/Registers/", "7101076854037*.jpg", SearchOption.AllDirectories);
-    
+                var dirs = Directory.GetFiles("wwwroot/Registers/", "*.jpg", SearchOption.AllDirectories).Select(f=> new FileInfo(f)).OrderByDescending(f=> f.CreationTime);
+                // var sortedDir = dirs.OrderBy(item => int.Parse(item));
+
+
                 ViewBag.Archivos = dirs;
             } catch (Exception e) {
                 Console.WriteLine("The process failed: {0}", e.ToString());
