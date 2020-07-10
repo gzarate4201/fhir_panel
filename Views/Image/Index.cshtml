@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Image Page";
+    int counter = 0;
+}
+
+<script src="~/js/images.js"></script>
+<style>
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display:none;
+    background: #eee;
+}
+
+#ImageList{
+    margin-bottom: 20px;
+}
+
+img {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+</style>
+
+<h3> Registro de Entradas </h3>
+
+<div id="imageList">
+    <div class="container">
+        
+            <div class="row">
+                @foreach (var image in ViewBag.Archivos)
+                {
+                    if (counter != 0 && counter % 4 == 0)
+                    {
+                        @:</div>
+                        @:<div class="row">
+                    }
+
+                    <div class="col-sm-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src='@image.Remove(0,7)' alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">@image.Remove(0,18)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    counter++;
+                }
+            </div>
+    
+    </div>
+
+
+</div>
+<div id="footer">Cargar mas imagenes</div>
+
+<script>
+    
+    
+</script>

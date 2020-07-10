@@ -18,7 +18,7 @@ connection.on("ReceiveMessage", function (user, message) {
 
     console.log("Mensaje recibido por el Hub");
     console.log(message);
-
+    
 
     // Debe resetear el timeout para respuesta ***
 
@@ -26,6 +26,7 @@ connection.on("ReceiveMessage", function (user, message) {
     mensaje = JSON.parse(message);
 
     console.log("Mensaje recibido en el hub : " + mensaje.msg);
+    appendLogMessages(mensaje);
     // Determina los valores para conexion de las otras tramas
     if (mensaje.msg == "get param success") {
         console.log("Llego el mensaje con parametros");
@@ -41,12 +42,16 @@ connection.on("ReceiveMessage", function (user, message) {
 
     if(mensaje.msg == "Upload Person Info!") {
         console.log("Registro de persona");        
-        appendLogMessages(mensaje);
+        // appendLogMessages(mensaje);
     }
     // Mensajes exitosos
 
     if (mensaje.msg == "mqtt bind ctrl success") {
         alert("Enlazamiento a la tableta exitoso.");
+    }
+
+    if (mensaje.msg == "The device has been bound! ip:192.168.1.88 platfrom:2") {
+        alert("La tableta ya se encuentra enlazada.");
     }
 
     if (mensaje.msg == "mqtt unbind ctrl success") {
@@ -64,6 +69,7 @@ connection.on("ReceiveMessage", function (user, message) {
         if (message.datas.picture_statues == 20) {
             alert("No se descargaron correctamente las fotografías de la tableta.");
         }
+        
     }
 
     if (mensaje.msg == "network param set successs") {
@@ -155,7 +161,24 @@ function appendLogMessages(mensajelog) {
     newMessage.style.color = color;
     newMessage.style.fontSize = "75%";
     // determinar que tipo de mensaje es e imprimir
-    newMessage.innerText =  mensajelog.datas.time + ' : ' + ((mensajelog.datas.name != "") ? mensajelog.datas.name : "Desconocido")  + " Temp : " + mensajelog.datas.temperature + "º" ;
+    if (mensaje.msg == "Upload Person Info!") {
+        newMessage.innerText =  mensajelog.datas.time + ' : ' + ((mensajelog.datas.name != "") ? mensajelog.datas.name : "Desconocido")  + " Temp : " + mensajelog.datas.temperature + "º" ;
+    }
+    
+    if (mensaje.msg == "mqtt bind ctrl success") {
+        newMessage.innerText =  mensaje.device_id + ": Se enlazo correctamente";
+    }
+
+    if (message.msg == "download PicLib status") {
+        if (message.datas.picture_statues == 10) {
+            newMessage.innerText =  mensaje.device_id + ": " + mensaje.datas.pic_url + " exitosa.";
+        }
+        if (message.datas.picture_statues == 20) {
+            newMessage.innerText =  mensaje.device_id + ": fallo envio de la imagen" + mensaje.datas.pic_url;
+        }
+    }
+
+    
     // message.innerText = ;
     console.log(newMessage);
     messages.appendChild(newMessage);

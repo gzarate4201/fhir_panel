@@ -779,7 +779,8 @@ namespace Mqtt.Client.AspNetCore.Services
             var fecha = mensaje.datas.time.ToString();
             fecha.Replace("/", "_");
             System.Console.WriteLine(fecha);
-            var imageName =  mensaje.device_id + '_' + fecha + ".jpg";
+            var nombre = (mensaje.datas.name != "") ? mensaje.datas.name : "Desconocido";
+            var imageName =  mensaje.device_id + '_' + nombre  + '_' + mensaje.datas.temperature  + '_' + fecha + ".jpg";
             System.Console.WriteLine(imageName);
             var folderPath = "wwwroot/Registers/";
             var imagePath = folderPath + imageName;

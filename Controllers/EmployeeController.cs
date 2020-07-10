@@ -34,13 +34,13 @@ using Mqtt.Client.AspNetCore.Settings;
 using Microsoft.AspNetCore.SignalR;
 using SignalRChat.Hubs;
 
+
 // using System.Net.Mqtt;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
-// using MQTTnet.Client.Options;
-
+using MQTTnet.Client.Options;
 
 // Json
 using System.Text.Json;
@@ -355,6 +355,63 @@ namespace AspStudio.Controllers
 
         }
 
+        [HttpPost]
+        [HttpGet]
+        public Object publishMQTT(MqttCon mqtt) {
+
+            // Inicializar respuesta 
+            string result = string.Empty;
+
+            // Generar un client_id aleatorio para evitar conflictos en mqtt
+            var client_id = Guid.NewGuid().ToString();
+
+
+            // Debug
+            Console.WriteLine(mqtt.topic);
+            Console.WriteLine(mqtt.msg);
+
+            var clientSettinigs = AppSettingsProvider.ClientSettings;
+            var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
+
+            // Parametros para la configuracion del cliente MQTT.
+            var options = new MqttClientOptionsBuilder()
+                .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)
+                .WithClientId(client_id)
+                .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port)
+                .WithCleanSession()
+                .Build();
+
+            // Consruye el mensaje MQTT
+            var msg = new MqttApplicationMessageBuilder()
+                .WithTopic(mqtt.topic)
+                .WithPayload(mqtt.msg)
+                .WithExactlyOnceQoS()
+                .WithRetainFlag()
+                .Build();
+
+            // Console.WriteLine(msg.ConvertPayloadToString());
+            
+            // Envia mensaje MQTT
+
+            try {
+                // Establece conexion con el Broker
+                mqttClient.ConnectAsync(options).Wait();
+                // Envia el mensaje
+                mqttClient.PublishAsync(msg).Wait();
+                //Desconecta el cliente
+                mqttClient.DisconnectAsync().Wait();
+            } catch(Exception e) {
+                System.Console.WriteLine("Error enviando por MQTT : " + e.Message + e.StackTrace);
+            }
+            
+
+            // Cierra la conexion
+            //
+
+            // Retorna Json indicando que fue exitoso
+            return Json(new {success=true});
+
+        }
         
         [HttpPost]
         [HttpGet]
