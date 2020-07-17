@@ -116,8 +116,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <a id="checkAll" href="#"> Seleccionar todos </a>
+    <div class="selAll" style = "margin:10px;">
+        <input type="checkbox" id="checkAll"/> Seleccionar todos
     </div>
     @(Html
         .Grid(Model)
@@ -142,7 +142,15 @@
         .Empty("No se encontraron datos")
         .Filterable()
         .Sortable()
-        .Pageable()
+        .Pageable(pager =>
+            {
+                //pager.PageSizes = new DictionaryInt32, String> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 5;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 100;
+            }
+        )
     )
 </div>
 
@@ -571,8 +579,9 @@
             }
         });
 
-        $('#CheckAll').click(function(){
-            toggle(this);
+        $('#checkAll').on("change", function(){
+            console.log("Click en Select All")
+            $('input:checkbox[name=employee]').not(this).prop('checked', this.checked);
         });
 
         $('#sendSelected').on('click', sendAll);
