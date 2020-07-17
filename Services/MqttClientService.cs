@@ -72,6 +72,13 @@ namespace Mqtt.Client.AspNetCore.Services
         public string device_token {get; set;}
     }
 
+    public class picLibStatus {
+        public string pic_url {get; set;}
+        public int pic_status {get; set;}
+        public string user_id {get; set;}
+    }
+    
+
     public class deviceDataBasicObj {
         public string dev_pwd {get; set;}
         public string dev_name {get; set;}
@@ -454,6 +461,25 @@ namespace Mqtt.Client.AspNetCore.Services
                     {
                         System.Console.WriteLine("Datos guardados del dispositivo borrados correctamente");
                     }
+                    if (mensaje.msg == "download PicLib status")
+                    {
+                        System.Console.WriteLine("Librerías de imagenes actualizadas correctamente");
+
+                        foreach (var item in mensaje.datas)
+                        {
+                            System.Console.WriteLine(item);
+                            DateTime timestamp = DateTime.Now; 
+                            var de = new DeviceEmployee()
+                            {
+                                DevId = mensaje.device_id,
+                                UserId = item.user_id,
+                                Status  = (item.picture_statues == 10 ) ? true : false ,
+                                Created = timestamp
+                            };
+                            StoreDeviceEmployee(de);
+
+                        }
+                    }
                     if (mensaje.msg == "delete lib piclib success")
                     {
                         System.Console.WriteLine("Librerías de datos borrados correctamente");
@@ -552,6 +578,29 @@ namespace Mqtt.Client.AspNetCore.Services
             
         }
 
+
+        public void StoreDeviceEmployee(DeviceEmployee de) {
+            
+            using (var scope = _scopeFactory.CreateScope()) {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                
+                try {
+                    dbContext.DeviceEmployees.Add(de);
+                    dbContext.SaveChanges();
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error Guardando Dispositivo - Persona en la base de datos:" + e.Message + e.StackTrace);
+                }
+            }
+            
+        }
 
         public void StoreFhirData(Person persona) {
             

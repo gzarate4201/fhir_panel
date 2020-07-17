@@ -26,7 +26,17 @@
 
 <h3> Registro de Entradas </h3>
 
-<div ></div>
+<div>
+    <select id="bind_device_id_select">
+            <option value="" data-token=""> Seleccione </option>
+
+            @foreach (dynamic device in ViewBag.Devices)
+            {
+                <option value="@device.dev_id">@device.tag</option>
+            }
+        </select>
+
+</div>
 
 <div id="imageList">
     <div class="container">
