@@ -112,7 +112,7 @@
             </div>
             <div class="col-md-6">
                 <a href="#" class="btn btn-secondary"><i class="material-icons" data-toggle="modal" data-target="#Add_user_modal">&#xE147;</i> <span>Add New User</span></a>
-                <a id="sendSelected"  class="btn btn-secondary"><i class="fa fa-send"></i> <span>Enviar Seleccionados</span></a>
+                <button id="sendSelected"  class="btn btn-secondary"><i class="fa fa-send"></i> <span>Enviar Seleccionados</span></button>
             </div>
         </div>
     </div>
@@ -131,7 +131,9 @@
             columns.Add(model => model.EndTime).Titled("Hasta").RenderedAs(model => model.EndTime == null ? null : model.EndTime).Formatted("{0: yyyy/MM/dd HH:mm:ss}");
             columns.Add(model => model.Documento).Titled("Documento");
             columns.Add(model => model.Empresa).Titled("Empresa");
-            columns.Add(model => $"<img src='http://10.11.34.94:5050/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
+            //.RenderedAs(model => model.IsWorking == true ? "Employed" : "Unemployed");
+            //columns.Add(model => $"<img src='http://10.11.34.94:5050/Uploads/{model.imageUrl}' style='width:50px;height:50px' />").Titled("Foto").Encoded(false);
+            columns.Add(model => model.imageUrl).Titled("Foto").RenderedAs(model => model.imageUrl != "" ? $"<img src='http://10.11.34.94:5050/Uploads/{model.imageUrl}' style='width:50px;height:50px' onerror='this.onerror=null;this.src=\"http://10.11.34.94:5050/Uploads/avatar.png\"';/>" : $"<img src='http://10.11.34.94:5050/Uploads/avatar.png' style='width:50px;height:50px' />" ).Encoded(false);
             columns.Add(Model =>
                 $"<a href='#' class='settings' title='Settings' data-toggle='tooltip'><i class='fa fa-cog' data-toggle='modal' data-target='#Send_user_modal'></i>"
                 + "<a href='#' class='send' title='Send' data-toggle='tooltip' data-id='{model.Documento}'><i class='fa fa-paper-plane' id='enviar'></i>"
@@ -524,10 +526,40 @@
             }
         });
     }
+
+
+    function sendUsers(json) {
+        jsonMsg = JSON.stringify(json);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Employee")',
+            dataType: "json",
+            data:{
+                topic: "SubscribeTest",
+                msg: jsonMsg
+            },
+            async: false,
+            success: function(data) {
+                if(data.success == true)
+                {
+                    console.log("Registro enviado");
+                } else {
+                    alert ("Fallo el envio del registro");
+                }
+                
+            },
+            error: function() {
+                console.log("Error adding new users");
+            }
+        });
+    }
 </script>
 
 
 <script type="text/javascript">
+
+
     $(function () {
         $('#btnupload').on('click', function () {
             var fileExtension = ['xls', 'xlsx'];
@@ -584,13 +616,53 @@
             $('input:checkbox[name=employee]').not(this).prop('checked', this.checked);
         });
 
-        $('#sendSelected').on('click', sendAll);
-        function sendAll() {
+        $('#sendSelected').on('click', function(){
+            console.log("Enviando seleccionados");
+            if( device_id ==  null || device_tkn == null) {
+                alert("Debe seleccionar un dispositivo de destino y este debe estar enlazado");
+            } else {
+                sendAll("7101396770022","2302879601", "SendImages", "Test", 1)
+            }
+        });
+        
+        function sendAll(device_id, device_tkn, device_tag, b_name, b_id) {
+
+            
+            console.log("Enviando Batch imagenes");
+
+            var batch_name = b_name
+            var batch_id = b_id;
+            var address =  server_ip ;
+            var port = server_port;
+            var in_time ;
+            var out_time ;
+            var id_user;
+            var name_user;
+            var url ;
+
             var selectedIds = [];
             $("input:checkbox[name=employee]:checked").each(function(){
                 selectedIds.push($(this).data("id"));
             });
             console.log(selectedIds);
+
+            jsonMsg =
+            {
+                mqtt_cmd: 1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id:  device_id,
+                tag: device_tag,
+                piclib_manage: 0,
+                param:
+                {
+                    lib_name: batch_name,
+                    lib_id: batch_id,
+                    server_ip: address,
+                    server_port: port,
+                    pictures:[]
+                }
+            };
 
             $.each(selectedIds, function(i, v){
                 //console.log(v);
@@ -607,9 +679,28 @@
                 end_time = row.getElementsByTagName("td")[5].textContent.trim();
 
                 console.log(row, name, user_id, imageUrl, start_time, end_time);
+                
+                newPic = {
+                    active_time: start_time,
+                    user_id: user_id,
+                    user_name: name,
+                    end_time: end_time,
+                    p_id: null,
+                    picture: imageUrl
+                };
 
-                addsUser(name, user_id, imageUrl, start_time, end_time);
+                jsonMsg.param.pictures.push(newPic);
+
+                
+                
             })
+
+            sendUsers(jsonMsg);
+            
+            
+
+            
         }
+
     });
 </script>

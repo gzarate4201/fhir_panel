@@ -46,5 +46,6 @@ namespace AspStudio.Models
         [Column("imageUrl")]
         public string imageUrl { get; set; }
         
+        //public List<Employee> Employee { get; set; }
     }
 }
