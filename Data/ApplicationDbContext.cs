@@ -17,10 +17,14 @@ namespace AspStudio.Data
         public DbSet<Person> Persons {get; set;}
         public DbSet<Employee> Empleados { get; set; }
         public DbSet<DeviceSite> DeviceSites { get; set; }
+        public DbSet<DeviceEmployee> DeviceEmployees { get; set; }
         public DbSet<FhirData> FhirDatas { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            //builder.Entity<Person>().
+            //    HasOne(p => p.Employee);
         }
 
     }
