@@ -21,9 +21,14 @@ namespace studio
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
+                    config.AddJsonFile("/Config/appsettings.docker.json",
+                        optional: true,
+                        reloadOnChange: true);
+
                     config.AddJsonFile("sidebar.json",
                         optional: true,
                         reloadOnChange: true);
+                    
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {   

@@ -22,6 +22,9 @@ namespace AspStudio.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            //builder.Entity<Person>().
+            //    HasOne(p => p.Employee);
         }
 
     }
