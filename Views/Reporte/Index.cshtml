@@ -10,129 +10,127 @@
 
 <h1 class="page-header">
 </h1>
-<!--   Querys  -->
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-body">
-            <div class="reporte view" id="reporte">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header ">
-                                <h4 class="card-title">Reporte</h4>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="stat-widget-one">
-                                    <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                    <div class="stat-content dib" style="text-align:center">
-                                        <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                        <div class="stat-digit" id="profitBogota">  </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="row">
+    <div class="card-deck">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-header ">
+                        <h4 class="card-title">Consulta de datos</h4>                        
+                            <label for="ID">ID Dispositivo: </label>
+                            <input type="text" id="ecp_id" name="ID"><br><br>
+                            <label for="Name">Nombre: </label>
+                            <input type="text" id="ecp_name" name="Name"><br><br>
+                            <label for="Temp">Temperatura: </label>
+                            <input type="text" id="ecp_temp" name="Temp"><br><br>
+                            <div class="input-group-append"><button class="btn btn-success" id="Query" style="width:165px;">Enviar</button></div>                        
                     </div>
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header ">
-                                <h4 class="card-title">Alumnos</h4>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="stat-widget-one">
-                                    <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                    <div class="stat-content dib" style="text-align:center">
-                                        <!-- <div class="stat-text">Alumnos Atendidos</div> -->
-                                        <div class="stat-digit" id="profitBogota"> </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header ">
-                                <h4 class="card-title">Programas</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="stat-widget-one">
-                                    <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                    <div class="stat-content dib" style="text-align:center">
-                                        <div class="stat-digit" id="profitBogota"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header ">
-                                <h4 class="card-title">Profesoras</h4>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="stat-widget-one">
-                                    <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                    <div class="stat-content dib" style="text-align:center">
-                                        <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                        <div class="stat-digit" id="profitBogota"> </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body" id="reporte">
+                    <div class="card-header">
+                        <h4 class="card-title">Datos obtenidos</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">Asistencia Alumnos</h4>
-                                <p class="card-category">Distribucion de Asistencias por Programa y Nivel</p>
-                            </div>
-                            <div class="card-body " style="height:450px;overflow:auto;">
-                                <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
-                                <?php //echo $this->Highcharts->render($chartName6); ?> -->
-                                <table id="tblNiveles" class="table table-vcenter table-responsive table-condensed table-bordered display">
-                                    <thead>
-                                        <tr>
-                                            <th>Programa</th>
-                                            <th>Nivel</th>
-                                            <th>Alumnos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
+    <!--   Querys  -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="reporte view" id="reporte">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Reporte</h4>
 
-                                </table>
-                            </div>
-
-                            <div class="card-footer ">
-                                <hr>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o"></i> http://sing.com.co
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
+                                            <div class="stat-digit" id="profitBogota">  </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Alumnos</h4>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Alumnos Atendidos</div> -->
+                                            <div class="stat-digit" id="profitBogota"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Programas</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <div class="stat-digit" id="profitBogota"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Profesoras</h4>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
+                                            <div class="stat-digit" id="profitBogota"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="col-md-6">
-                        <div id="walkins">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card ">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Relación de Alumnos</h4>
-                                    <p class="card-category">Distribucion de Asistencias por dia de la semana</p>
+                                    <h4 class="card-title">Asistencia Alumnos</h4>
+                                    <p class="card-category">Distribucion de Asistencias por Programa y Nivel</p>
                                 </div>
                                 <div class="card-body " style="height:450px;overflow:auto;">
-                                    <table id="tblAlumnos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                    <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
+                                    <?php //echo $this->Highcharts->render($chartName6); ?> -->
+                                    <table id="tblNiveles" class="table table-vcenter table-responsive table-condensed table-bordered display">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Nombre</th>
-                                                <th>Acudiente</th>
-                                                <th>Asistencias</th>
+                                                <th>Programa</th>
+                                                <th>Nivel</th>
+                                                <th>Alumnos</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -140,204 +138,268 @@
 
                                     </table>
                                 </div>
+
                                 <div class="card-footer ">
                                     <hr>
                                     <div class="stats">
                                         <i class="fa fa-clock-o"></i> http://sing.com.co
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
+
+                        <div class="col-md-6">
+                            <div id="walkins">
                                 <div class="card ">
                                     <div class="card-header ">
-                                        <h4 class="card-title">Asistencias</h4>
+                                        <h4 class="card-title">Relación de Alumnos</h4>
                                         <p class="card-category">Distribucion de Asistencias por dia de la semana</p>
                                     </div>
-                                    <div class="card-body " style="height:450px;">
-                                        <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
+                                    <div class="card-body " style="height:450px;overflow:auto;">
+                                        <table id="tblAlumnos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acudiente</th>
+                                                    <th>Asistencias</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
 
+                                        </table>
                                     </div>
-
                                     <div class="card-footer ">
                                         <hr>
                                         <div class="stats">
                                             <i class="fa fa-clock-o"></i> http://sing.com.co
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Asistencias por Programa</h4>
-                                        <p class="card-category">Distribucion de Asistencias por Programa</p>
-                                    </div>
-                                    <div class="card-body " style="height:450px;">
-                                        <div id="columnwrapper1" style="width:100%; margin-bottom: 20px;"></div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Asistencias</h4>
+                                            <p class="card-category">Distribucion de Asistencias por dia de la semana</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;">
+                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
 
-                                    </div>
+                                        </div>
 
-                                    <div class="card-footer ">
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> http://sing.com.co
+                                        <div class="card-footer ">
+                                            <hr>
+                                            <div class="stats">
+                                                <i class="fa fa-clock-o"></i> http://sing.com.co
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Asistencias por Programa</h4>
+                                            <p class="card-category">Distribucion de Asistencias por Programa</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;">
+                                            <div id="columnwrapper1" style="width:100%; margin-bottom: 20px;"></div>
+
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                            <div class="stats">
+                                                <i class="fa fa-clock-o"></i> http://sing.com.co
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Asistencias por Profesor</h4>
+                                            <p class="card-category">Distribucion de Asistencias por Profesor</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;">
+                                            <div id="columnwrapper2" style="width:100%; margin-bottom: 20px;"></div>
+
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                            <div class="stats">
+                                                <i class="fa fa-clock-o"></i> http://sing.com.co
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Registro Asistencias por Nivel</h4>
+                                            <p class="card-category">Distribucion de Asistencias por Nivel</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;">
+                                            <div id="columnwrapper4" style="width:100%; margin-bottom: 20px;"></div>
+                                            <?php echo $this->Highcharts->render($chartName5); ?>
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                            <div class="stats">
+                                                <i class="fa fa-clock-o"></i> http://sing.com.co
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Asistencias por Alumno</h4>
+                                    <p class="card-category">Asistencias registradas en el periodo</p>
+                                </div>
+                                <div class="card-body " style="height:450px;">
+                                    <div id="columnwrapper5" style="width:100%; margin-bottom: 20px;"></div>
+
+                                </div>
+
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-clock-o"></i> http://sing.com.co
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
-
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Asistencias por Profesor</h4>
-                                        <p class="card-category">Distribucion de Asistencias por Profesor</p>
-                                    </div>
-                                    <div class="card-body " style="height:450px;">
-                                        <div id="columnwrapper2" style="width:100%; margin-bottom: 20px;"></div>
-
-                                    </div>
-
-                                    <div class="card-footer ">
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> http://sing.com.co
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Registro Asistencias por Nivel</h4>
-                                        <p class="card-category">Distribucion de Asistencias por Nivel</p>
-                                    </div>
-                                    <div class="card-body " style="height:450px;">
-                                        <div id="columnwrapper4" style="width:100%; margin-bottom: 20px;"></div>
-                                        <?php echo $this->Highcharts->render($chartName5); ?>
-                                    </div>
-
-                                    <div class="card-footer ">
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> http://sing.com.co
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">Asistencias por Alumno</h4>
-                                <p class="card-category">Asistencias registradas en el periodo</p>
-                            </div>
-                            <div class="card-body " style="height:450px;">
-                                <div id="columnwrapper5" style="width:100%; margin-bottom: 20px;"></div>
-
-                            </div>
-
-                            <div class="card-footer ">
-                                <hr>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o"></i> http://sing.com.co
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
         </div>
     </div>
-</div>
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">CONSULTAS</h4>
-            <br>
-            <select id="bind_device_id_select">
-                <option value="" data-token=""> Seleccione </option>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">CONSULTAS</h4>
+                <br>
+                <select id="bind_device_id_select">
+                    <option value="" data-token=""> Seleccione </option>
 
-                @foreach (dynamic device in ViewBag.Devices)
-                {
-                    <option value="@device.dev_id">@device.tag</option>
-                }
-            </select> <div class="input-group-append"></div>
-            <br>
-            <div class="row">
-                <form>
-                    <h5>Consulta por páginas</h5>
+                    @foreach (dynamic device in ViewBag.Devices)
+                    {
+                        <option value="@device.dev_id">@device.tag</option>
+                    }
+                </select> <div class="input-group-append"></div>
+                <br>
+                <div class="row">
+                    <form>
+                        <h5>Consulta por páginas</h5>
 
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input autocomplete="off" type="text" class="form-control" id="page" />
-                        <div class="input-group-append"><button class="btn btn-success" id="query_pages" style="width:165px;">REALIZAR CONSULTA</button></div>
-                    </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"> Cantidad de páginas </span></div><input autocomplete="off" type="text" class="form-control" id="page" />
+                            <div class="input-group-append"><button class="btn btn-success" id="query_pages" style="width:165px;">REALIZAR CONSULTA</button></div>
+                        </div>
 
-                    <div class="row">
+                        <div class="row">
 
-                    </div>
-                    <h5>Consulta por lote</h5>
+                        </div>
+                        <h5>Consulta por lote</h5>
 
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch" />
-                        <div class="input-group-append"><button class="btn btn-success" id="query_batch" style="width:165px;">CONSULTAR LOTE</button></div>
-                    </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"> ID del lote </span></div><input autocomplete="off" type="text" class="form-control" id="batch" />
+                            <div class="input-group-append"><button class="btn btn-success" id="query_batch" style="width:165px;">CONSULTAR LOTE</button></div>
+                        </div>
 
-                    <div class="row">
+                        <div class="row">
 
-                    </div>
-                    <h5>Consulta por usuario</h5>
+                        </div>
+                        <h5>Consulta por usuario</h5>
 
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user" />
-                        <div class="input-group-append"><button class="btn btn-success" id="query_user" style="width:165px;">CONSULTAR USUARIO</button></div>
-                    </div>
-                    <div class="row">
-                    </div>
-                </form>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"> ID del usuario </span></div><input autocomplete="off" type="text" class="form-control" id="user" />
+                            <div class="input-group-append"><button class="btn btn-success" id="query_user" style="width:165px;">CONSULTAR USUARIO</button></div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Carga las librerias de MQTT js -->
-    <!--  <script src="~/js/mqtt.js"></script> -->
+        <!-- Carga las librerias de MQTT js -->
+        <!--  <script src="~/js/mqtt.js"></script> -->
 
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
-    <script>
-
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js"></script>
+        <script>
+            var data;
         var device_tkn = "2385844285";
 
     $('#query_pages').on('click',queryPages);
     $('#query_batch').on('click', queryBatch);
     $('#query_user').on('click', queryUser);
     $('#bind_device_id_select').on('change', changeDevice);
+
+    $('#Query').on('click', getData);
+
+
+        function getData() {
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: "https://localhost:44313/Reporte/getEventos?tmin=40&hasId=1&start_date=2020-07-16",
+                success: function (data) {
+                    console.log("Se logró");
+                    console.log(data);
+                 
+                    /*
+                     * for (var [key, value] of Object.entries(data)) {
+                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
+                        console.log(value);
+                        $("#reporte").append("<li>" + value.name + "</li>");
+                    }
+                    */
+
+                    
+                    $.each(Object.entries(data), function (value) {
+                        // here you can do your magic
+                        console.log(value);
+                        $("#reporte").append("Linea" + value.id + "<br>");
+                    });
+                    
+                }
+            });
+        }
+
 
     /* device basic configuration example
     {
@@ -553,9 +615,9 @@
             }
         });
         }
-    </script>
+        </script>
 
-</div>
+    </div>
 
 
 
