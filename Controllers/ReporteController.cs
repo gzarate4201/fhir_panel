@@ -36,7 +36,7 @@ namespace AspStudio.Controllers
         public string tmax {get; set;}
         public string device_id {get; set;}
         public string similar {get; set;}
-        public string matched {get; set;}
+        public Boolean hasMatch {get; set;}
         public string mask {get; set;}
         public string hasId {get; set;}
 
@@ -118,6 +118,14 @@ namespace AspStudio.Controllers
 
             if (filter.hasId != null) 
             result = result.Where(c => c.UserId > 0);
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.RegisterTime >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.RegisterTime <= DateTime.Parse(filter.end_date));
+
 
             return new JsonResult ( new { Data = result} );
           
