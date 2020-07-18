@@ -26,6 +26,21 @@ using AspStudio.Data;
 namespace AspStudio.Controllers
 {
     
+     public class getFilter {
+        public string start_date {get; set;}
+        public string end_date {get; set;}
+        public string name {get; set;}
+        public string document {get; set;}
+        public string temperature {get; set;}
+        public string tmin {get; set;}
+        public string tmax {get; set;}
+        public string device_id {get; set;}
+        public string similar {get; set;}
+        public string matched {get; set;}
+        public string mask {get; set;}
+        public string hasId {get; set;}
+
+    }
 
     public class ReporteController : Controller
     {
@@ -73,5 +88,42 @@ namespace AspStudio.Controllers
             // System.Console.WriteLine(ViewBag.Dispositivos);
             return View();
         }
+
+
+        public JsonResult getEventos(getFilter filter) {
+
+            //var result = dbContext.Persons
+            //    .Where(t => t.DevId == filter.device_id);
+
+            var result = from o in dbContext.Persons
+                select o;
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name == filter.name);
+
+            if (filter.device_id != null) 
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.mask != null) 
+            result = result.Where(c => c.Mask == Int16.Parse(filter.mask));
+
+            if (filter.document != null) 
+            result = result.Where(c => c.UserId == Int16.Parse(filter.document));
+
+            if (filter.tmin != null) 
+            result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
+
+            if (filter.tmax != null) 
+            result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
+
+            if (filter.hasId != null) 
+            result = result.Where(c => c.UserId > 0);
+
+            return new JsonResult ( new { Data = result} );
+          
+        }
     }
 }
+
+
+// && ((filter.name == "") || (item.Name.Contains(filter.name)))
