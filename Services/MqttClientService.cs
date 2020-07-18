@@ -9,7 +9,9 @@
  *   and others as recnognizad or listed in the code.
  */
 using System;
+using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 // using System.DrawingCore;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -22,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
+using Mqtt.Client.AspNetCore.Settings;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 
@@ -68,6 +71,13 @@ namespace Mqtt.Client.AspNetCore.Services
     public class deviceDataObj {
         public string device_token {get; set;}
     }
+
+    public class picLibStatus {
+        public string pic_url {get; set;}
+        public int pic_status {get; set;}
+        public string user_id {get; set;}
+    }
+    
 
     public class deviceDataBasicObj {
         public string dev_pwd {get; set;}
@@ -179,7 +189,7 @@ namespace Mqtt.Client.AspNetCore.Services
         private void ConfigureHub() 
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/note")
+                .WithUrl("http://localhost:5050/note")
                 .Build();
             // Thread.Sleep(10000);
             
@@ -218,35 +228,40 @@ namespace Mqtt.Client.AspNetCore.Services
             // Reconstruccion del String Json para envio por el Hub de mensajeria interna (Cliente-Servidor)
             // msg.Property("imageFile").Remove();
             string JsonMsg = eventArgs.ApplicationMessage.ConvertPayloadToString();
-            var msg = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
-            if (msg.has("imageFile"))
-            {
-                ((JArray)msg.Property("imageFile")).Remove();
-            }            
-            string JsonSend = msg.ToString();
+            // dynamic mes = (JObject)JsonConvert.DeserializeObject(JsonMsg);
 
+            JObject msg = JObject.Parse(JsonMsg);
+            if ( msg.SelectToken("datas") is JObject )
+            {
+                JObject datas = (JObject)msg["datas"];
+                 // Si el mensaje contine una imagen la elimina
+                var tipo = msg["msg"];
+
+                System.Console.WriteLine(tipo);
+
+                if (tipo.ToString() == "Upload Person Info!")
+                {
+                    datas.Property("imageFile").Remove();
+                }
+
+            } 
             
+            string JsonSend = msg.ToString();
+            string Topic = eventArgs.ApplicationMessage.Topic;
+
+            System.Console.WriteLine("Mensaje enviado por el Hub");
             System.Console.WriteLine(JsonSend);
             //JsonMsg = JsonConvert.DeserializeObject(msg);
+
+            // Envio por SignalR paraa comunicacion con el Cliente
+            await SendByHub(Topic, JsonSend);
 
             // Se imprime el objeto por consola
             // System.Console.WriteLine("El mensaje recibido es: ");
             // System.Console.WriteLine(JsonMsg);
 
-            // Envio por SignalR paraa comunicacion con el Cliente
-            try {
-                System.Console.WriteLine("Conectando al Hub");
-                await connection.StartAsync();
-                System.Console.WriteLine("Enviando al Hub");
-                await connection.InvokeAsync("SendMessage", eventArgs.ApplicationMessage.Topic, JsonSend);
-                System.Console.WriteLine("DesConectando del Hub");
-                await connection.StopAsync();
-                System.Console.WriteLine("Mensaje enviado por el Hub");
-            } catch (System.Exception e)
-            {
-                System.Console.WriteLine("Error sending Hub Message" + e.Message + e.StackTrace );
-                // throw new System.NotImplementedException();
-            }
+            
+            
             
         
         }
@@ -264,139 +279,110 @@ namespace Mqtt.Client.AspNetCore.Services
                 // De acuerdo al contenido se realizan acciones
                 var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
 
-                // // Determinar las variables comunes a todos los mensajes
-                // var code = mensaje.code;
-                // var device_id = mensaje.device_id;
-                // var cur_pts = mensaje.dev_cur_pts;
-                // var tag = mensaje.tag;
-
-
-                // De acuerdo al valor de datas, asignar los datos a un objeto
-
-                // // Debug de las variables principales
-                // System.Console.WriteLine(code, device_id, cur_pts, tag);
-
-                
-
                 System.Console.WriteLine("Identificando respuesta:");
+                // System.Console.WriteLine(mensaje);
 
                 if (mensaje.code == -1)
                 {
                     System.Console.WriteLine("Error de comando, el dispositivo entregó código de error ");
                     System.Console.WriteLine(mensaje.msg);
+
                 }
                 if (mensaje.code == 0)
                 {
                     // Respuesta al evento Get All Params
                     if(mensaje.msg == "get param success")
                     {
-                        System.Console.WriteLine("Los parámetros del device son los siguientes: ");
+                        // System.Console.WriteLine("Los parámetros del device son los siguientes: ");
+                        // System.Console.WriteLine("Parámetros básicos: ");
+                        // System.Console.WriteLine("Nombre dispositivo: ");
+                        // System.Console.WriteLine(mensaje.datas.basic_parameters.dev_name);
+                        // System.Console.WriteLine("Contraseña dispositivo: ");
+                        // System.Console.WriteLine(mensaje.datas.basic_parameters.dev_pwd);
+                        // System.Console.WriteLine("Parámetros de red: ");
+                        // System.Console.WriteLine("Dirección IP: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.ip_addr);
+                        // System.Console.WriteLine("Máscara de Subred: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.net_mask);
+                        // System.Console.WriteLine("Puerta de enlace: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.gateway);
+                        // System.Console.WriteLine("DDNS1: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS1);
+                        // System.Console.WriteLine("DDNS2: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DDNS2);
+                        // System.Console.WriteLine("Bandera DHCP: ");
+                        // System.Console.WriteLine(mensaje.datas.network_cofnig.DHCP);
 
-                        System.Console.WriteLine("Parámetros básicos: ");
-                        System.Console.WriteLine("Nombre dispositivo: ");
-                        System.Console.WriteLine(mensaje.datas.basic_parameters.dev_name);
-                        System.Console.WriteLine("Contraseña dispositivo: ");
-                        System.Console.WriteLine(mensaje.datas.basic_parameters.dev_pwd);
-                        System.Console.WriteLine("Parámetros de red: ");
-                        System.Console.WriteLine("Dirección IP: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.ip_addr);
-                        System.Console.WriteLine("Máscara de Subred: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.net_mask);
-                        System.Console.WriteLine("Puerta de enlace: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.gateway);
-                        System.Console.WriteLine("DDNS1: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DDNS1);
-                        System.Console.WriteLine("DDNS2: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DDNS2);
-                        System.Console.WriteLine("Bandera DHCP: ");
-                        System.Console.WriteLine(mensaje.datas.network_config.DHCP);
+                        // System.Console.WriteLine("Información de versión: ");
+                        // System.Console.WriteLine("Versión del modélo: ");
+                        // System.Console.WriteLine(mensaje.datas.version_info.dev_model);
+                        // System.Console.WriteLine("Versión del firmware: ");
+                        // System.Console.WriteLine(mensaje.datas.version_info.firmware_ver);
+                        // System.Console.WriteLine("Fecha del firmware: ");
+                        // System.Console.WriteLine(mensaje.datas.version_info.firmware_date);
 
-                        System.Console.WriteLine("Parámetros de reconocimiento facial: ");
-                        System.Console.WriteLine("Número de rostros guardados: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_cur);
-                        System.Console.WriteLine("Intervalo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_cur);
-                        System.Console.WriteLine("Mínimo número de rostros a capturar: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_min);
-                        System.Console.WriteLine("Máximo número de rostros a capturar: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_face_num_max);
-                        System.Console.WriteLine("Intervalo mínimo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_min);
-                        System.Console.WriteLine("Intervalo máximo de misma persona: ");
-                        System.Console.WriteLine(mensaje.datas.face_recognition_cfg.dec_interval_max);
+                        // System.Console.WriteLine("Parámetros de temperatura: ");
+                        // System.Console.WriteLine("Detección de temperatura: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.temp_dec_en);
+                        // System.Console.WriteLine("Detección de visitantes: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.stranger_pass_en);
+                        // System.Console.WriteLine("Detección de tapabocas: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.make_check_en);
+                        // System.Console.WriteLine("Temperatura de alarma: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.alarm_temp);
+                        // System.Console.WriteLine("Compensación de temperatura: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.temp_comp);
+                        // System.Console.WriteLine("Tiempo de grabación: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.record_save_time);
+                        // System.Console.WriteLine("Grabación: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.save_record);
+                        // System.Console.WriteLine("Guardado de imágenes: ");
+                        // System.Console.WriteLine(mensaje.datas.fun_param.save_jpeg);
 
-                        System.Console.WriteLine("Información de versión: ");
-                        System.Console.WriteLine("Versión del modélo: ");
-                        System.Console.WriteLine(mensaje.datas.version_info.dev_model);
-                        System.Console.WriteLine("Versión del firmware: ");
-                        System.Console.WriteLine(mensaje.datas.version_info.firmware_ver);
-                        System.Console.WriteLine("Fecha del firmware: ");
-                        System.Console.WriteLine(mensaje.datas.version_info.firmware_date);
-
-                        System.Console.WriteLine("Parámetros de temperatura: ");
-                        System.Console.WriteLine("Detección de temperatura: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.temp_dec_en);
-                        System.Console.WriteLine("Detección de visitantes: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.stranger_pass_en);
-                        System.Console.WriteLine("Detección de tapabocas: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.make_check_en);
-                        System.Console.WriteLine("Temperatura de alarma: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.alarm_temp);
-                        System.Console.WriteLine("Compensación de temperatura: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.temp_comp);
-                        System.Console.WriteLine("Tiempo de grabación: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.record_save_time);
-                        System.Console.WriteLine("Grabación: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.save_record);
-                        System.Console.WriteLine("Guardado de imágenes: ");
-                        System.Console.WriteLine(mensaje.datas.fun_param.save_jpeg);
-
-                        System.Console.WriteLine("Parámetros MQTT: ");
-                        System.Console.WriteLine("Enable: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.enable);
-                        System.Console.WriteLine("Retain: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.retain);
-                        System.Console.WriteLine("Publish QoS: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.pqos);
-                        System.Console.WriteLine("Subscribe QoS: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.sqos);
-                        System.Console.WriteLine("Puerto: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.port);
-                        System.Console.WriteLine("Servidor: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.server);
-                        System.Console.WriteLine("Usuario: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.username);
-                        System.Console.WriteLine("Contraseña: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.passwd);                       
-                        System.Console.WriteLine("Tópico para publicar: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2publish);
-                        System.Console.WriteLine("Tópico para suscripción: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
-                        System.Console.WriteLine("HeartBeat: ");
-                        System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);
+                        // System.Console.WriteLine("Parámetros MQTT: ");
+                        // System.Console.WriteLine("Enable: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.enable);
+                        // System.Console.WriteLine("Retain: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.retain);
+                        // System.Console.WriteLine("Publish QoS: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.pqos);
+                        // System.Console.WriteLine("Subscribe QoS: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.sqos);
+                        // System.Console.WriteLine("Puerto: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.port);
+                        // System.Console.WriteLine("Servidor: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.server);
+                        // System.Console.WriteLine("Usuario: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.username);
+                        // System.Console.WriteLine("Contraseña: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.passwd);                       
+                        // System.Console.WriteLine("Tópico para publicar: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2pulish);
+                        // System.Console.WriteLine("Tópico para suscripción: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.topic2subscribe);
+                        // System.Console.WriteLine("HeartBeat: ");
+                        // System.Console.WriteLine(mensaje.datas.mqtt_protocol_set.heartbeat);
 
                         // Creación del objeto device para ser ingresado a la base de datos
                         // Se hace la recolección de parámetros de la trama recibida. 
                         var device = new Device()
                         {
-                            Id = 0,
                             DevId = mensaje.device_id,
-                            DevTag = "2",
-                            DevTkn = "3",
+                            DevTag = mensaje.tag,
                             DevPwd = mensaje.datas.basic_parameters.dev_pwd,
                             DevName = mensaje.datas.basic_parameters.dev_name,
-                            IpAddr = mensaje.datas.network_config.ip_addr,
-                            NetMsk = mensaje.datas.network_config.net_mask,
-                            NetGw = mensaje.datas.network_config.gateway,
-                            DDNS1 = mensaje.datas.network_config.DDNS1,
-                            DDNS2 = mensaje.datas.network_config.DDNS2,
-                            DHCP = mensaje.datas.network_config.DHCP,
+                            IpAddr = mensaje.datas.network_cofnig.ip_addr,
+                            NetMsk = mensaje.datas.network_cofnig.net_mask,
+                            NetGw = mensaje.datas.network_cofnig.gateway,
+                            DDNS1 = mensaje.datas.network_cofnig.DDNS1,
+                            DDNS2 = mensaje.datas.network_cofnig.DDNS2,
+                            DHCP = mensaje.datas.network_cofnig.DHCP,
                             DevMdl = mensaje.datas.version_info.dev_model,
                             FwrVer = mensaje.datas.version_info.firmware_ver,
                             FwrDate = mensaje.datas.version_info.firmware_ver,
                             TempDecEn = mensaje.datas.fun_param.temp_dec_en,
                             StrPassEn = mensaje.datas.fun_param.stranger_pass_en,
-                            MkeChkEn = mensaje.datas.fun_param.make_check_en,
+                            MskChkEn = mensaje.datas.fun_param.make_check_en,
                             AlarmTemp = mensaje.datas.fun_param.alarm_temp,
                             TempComp = mensaje.datas.fun_param.temp_comp,
                             RcrdTimeSv = mensaje.datas.fun_param.record_save_time,
@@ -410,9 +396,10 @@ namespace Mqtt.Client.AspNetCore.Services
                             MqttSrv = mensaje.datas.mqtt_protocol_set.server,
                             MqttUsr = mensaje.datas.mqtt_protocol_set.username,
                             MqttPwd = mensaje.datas.mqtt_protocol_set.passwd,
-                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2publish,
+                            Topic2Pub = mensaje.datas.mqtt_protocol_set.topic2pulish,
                             Topic2Sub = mensaje.datas.mqtt_protocol_set.topic2subscribe,
                             HeartBt = mensaje.datas.mqtt_protocol_set.heartbeat
+
                         };
 
                         StoreDevice(device);
@@ -423,13 +410,32 @@ namespace Mqtt.Client.AspNetCore.Services
                     if (mensaje.msg == "mqtt bind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo enlazado correctamente.");
-                        
 
+                        var device = new Device()
+                        {
+                            DevId = mensaje.device_id,
+                            DevTag = mensaje.tag,
+                            DevTkn = mensaje.datas.device_token,
+                            Bound = true
+                        };
+
+                        // Update token in table Devices
+                        StoreDeviceToken(device);
 
                     }
                     if (mensaje.msg == "mqtt unbind ctrl success")
                     {
                         System.Console.WriteLine("Dispositivo desenlazado correctamente.");
+                        var device = new Device()
+                        {
+                            DevId = mensaje.device_id,
+                            DevTag = mensaje.tag,
+                            DevTkn = "",
+                            Bound = false
+                        };
+
+                        // Update state in table Devices
+                        StoreDeviceToken(device);
                     }
                     if (mensaje.msg == "basic param set success")
                     {
@@ -455,6 +461,25 @@ namespace Mqtt.Client.AspNetCore.Services
                     {
                         System.Console.WriteLine("Datos guardados del dispositivo borrados correctamente");
                     }
+                    if (mensaje.msg == "download PicLib status")
+                    {
+                        System.Console.WriteLine("Librerías de imagenes actualizadas correctamente");
+
+                        foreach (var item in mensaje.datas)
+                        {
+                            System.Console.WriteLine(item);
+                            DateTime timestamp = DateTime.Now; 
+                            var de = new DeviceEmployee()
+                            {
+                                DevId = mensaje.device_id,
+                                UserId = item.user_id,
+                                Status  = (item.picture_statues == 10 ) ? true : false ,
+                                Created = timestamp
+                            };
+                            StoreDeviceEmployee(de);
+
+                        }
+                    }
                     if (mensaje.msg == "delete lib piclib success")
                     {
                         System.Console.WriteLine("Librerías de datos borrados correctamente");
@@ -471,7 +496,7 @@ namespace Mqtt.Client.AspNetCore.Services
                         };
 
                         // Convierte la imagen a jpeg y la graba en el directorio wwwroot
-                        var image_url = ExportToImage(mensaje.datas.imageFile.ToString());
+                        var image_url = ExportToImage(JsonMsg);
                         // System.Console.WriteLine(mensaje.datas.imageFile);
                         // Se envia a la base de datos el nombre de la imagen
                         mensaje.datas.imageFile = image_url;
@@ -484,14 +509,20 @@ namespace Mqtt.Client.AspNetCore.Services
                             Similar = (float)mensaje.datas.similar,
                             UserId = (Int32)mensaje.datas.user_id,
                             Name = mensaje.datas.name,
-                            RegisterTime = localDate,
+                            RegisterTime = mensaje.datas.time,
                             Temperature = (float)mensaje.datas.temperature,
                             Matched = (Int32)mensaje.datas.matched,
                             Mask = (Int32)mensaje.datas.mask,
                             DevId = mensaje.device_id.ToString(),
                             imageUrl = image_url
                         };
+
+                        System.Console.WriteLine("Registro en la tabla Upload_person ");
+                        // Crea el registro en la base de datos local de las personas que ingresan
                         StorePerson(persona);
+                        System.Console.WriteLine("Registro en la tabla Upload_person ");
+                        // Envia los datos a la tabla fhir_data para ser transmitidos por WS
+                        StoreFhirData(persona);
 
                     }
 
@@ -535,6 +566,8 @@ namespace Mqtt.Client.AspNetCore.Services
                 // e instanciar un scope
                 // revisar en el constructor la instanciacion de _scopeFactory
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                
                 try {
                     dbContext.Persons.Add(persona);
                     dbContext.SaveChanges();
@@ -546,6 +579,76 @@ namespace Mqtt.Client.AspNetCore.Services
         }
 
 
+        public void StoreDeviceEmployee(DeviceEmployee de) {
+            
+            using (var scope = _scopeFactory.CreateScope()) {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                
+                try {
+                    dbContext.DeviceEmployees.Add(de);
+                    dbContext.SaveChanges();
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error Guardando Dispositivo - Persona en la base de datos:" + e.Message + e.StackTrace);
+                }
+            }
+            
+        }
+
+        public void StoreFhirData(Person persona) {
+            
+            using (var scope = _scopeFactory.CreateScope()) {
+
+                // el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
+                // scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
+                // de lo contrario da un error 
+                // Para esto es necesario usar la clase Microsoft.Extensions.DependencyInjection
+                // e instanciar un scope
+                // revisar en el constructor la instanciacion de _scopeFactory
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                
+                // var device = dbContext.Devices.FirstOrDefault(p => p.DevId == persona.DevId);
+                var device_site = dbContext.DeviceSites.FirstOrDefault(p => p.DevId == persona.DevId);
+                var employee = dbContext.Empleados.FirstOrDefault(p => p.Id == persona.UserId);
+
+
+                var fhir_data_table = new FhirData() {
+                    TipoDoc = "CC",
+                    NumDoc = persona.UserId,
+                    FechaRegistro = persona.RegisterTime,
+                    Temperature = persona.Temperature,
+                    CiudadReg = device_site.CiudadReg,
+                    SitioReg = device_site.SitioReg,
+                    SitioRegId = device_site.SitioRegId.ToString(),
+                    Lat = device_site.Lat,
+                    Lon = device_site.Lon,
+                    Nit = device_site.Nit,
+                    Report = (persona.Temperature > 37.3) ? 1 : 0,
+                    IdLenel = 10101,
+                    Instrumento = "Indra-FK02GYW-" + device_site.DevId,
+                    TipoCal = "None",
+                    TipoMed = "None",
+                    ValCal = 37.3
+                };
+
+
+                try {
+                    dbContext.FhirDatas.Add(fhir_data_table);
+                    dbContext.SaveChanges();
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error Guardando FhirData en la base de datos:" + e.Message + e.StackTrace);
+                }
+            }
+            
+        }
+
         /// <summary>
         /// el servicio de base de datos a traves de ApplicationDbContext es del tipo singleton 
         /// scoped por lo tanto se requiere crearlo antes de hacer el envio a la base de datos
@@ -556,7 +659,7 @@ namespace Mqtt.Client.AspNetCore.Services
         /// <param name="dev"></param>
         public void StoreDevice(Device dev)
         {
-
+            System.Console.WriteLine("Arreglo dev" + dev);
             using (var scope = _scopeFactory.CreateScope())
             {
 
@@ -564,8 +667,45 @@ namespace Mqtt.Client.AspNetCore.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 try
                 {
-                    dbContext.Devices.Add(dev);
-                    dbContext.SaveChanges();
+                    var result = dbContext.Devices.FirstOrDefault(p => p.DevId == dev.DevId);
+                    if (result != null)
+                    {
+                        dev.Id = result.Id;
+                        dbContext.Devices.Update(dev);
+                        dbContext.SaveChanges();
+                    } else {
+                        dbContext.Devices.Add(dev);
+                        dbContext.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error :" + e.Message + e.StackTrace);
+                }
+            }
+
+        }
+
+        public void StoreDeviceToken(Device dev)
+        {
+            System.Console.WriteLine("Arreglo dev" + dev);
+            using (var scope = _scopeFactory.CreateScope())
+            {
+
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    var result = dbContext.Devices.FirstOrDefault(p => p.DevId == dev.DevId);
+                    if (result != null)
+                    {
+                        if (dev.DevTkn != "") {
+                            result.DevTkn = dev.DevTkn;
+                        }
+                        dbContext.SaveChanges();
+                    } else {
+                        dbContext.Devices.Add(dev);
+                        dbContext.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -601,11 +741,14 @@ namespace Mqtt.Client.AspNetCore.Services
         public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Broker Desconectado");
-
+            var clientSettings = AppSettingsProvider.ClientSettings;
+            var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
+            System.Console.WriteLine("MQTT Broker :" + brokerHostSettings );
             var connected = mqttClient.IsConnected;
             var options = new MqttClientOptionsBuilder()
-                .WithClientId("client_id")
-                .WithTcpServer("iot02.qaingenieros.com")
+                .WithCredentials(clientSettings.UserName, clientSettings.Password)
+                .WithClientId(clientSettings.Id)
+                .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port)
                 .WithCleanSession()
                 .Build();
 
@@ -620,7 +763,7 @@ namespace Mqtt.Client.AspNetCore.Services
                     System.Console.WriteLine("No connection to MQTT Broker " + e.Message + e.StackTrace);
                 }
                 connected = mqttClient.IsConnected;
-                await Task.Delay(10000);
+                await Task.Delay(30000);
             }
         }
 
@@ -674,14 +817,21 @@ namespace Mqtt.Client.AspNetCore.Services
         /// <returns>
         /// imagePath : Ruta en el sistema de archivos de la imagen jpeg, para ser almacenada en la base de datos
         /// </returns>
-        protected string ExportToImage(string base64)
+        protected string ExportToImage(string JsonMsg)
         {
-            DateTime localDate = DateTime.Now;
+            var mensaje = JsonConvert.DeserializeObject<dynamic>(JsonMsg);
+            string base64 = mensaje.datas.imageFile.ToString();
+            DateTime localDate = DateTime.Now;  
             var image64 = base64.Substring(base64.LastIndexOf(',') + 1);
             //  Convierte la cadena base64 en un arreglo de bytes
             byte[] bytes = Convert.FromBase64String(image64);
-            var imageName = "output" + localDate.ToString("yyyy_MM_dd_HH_mm_ss") + ".jpg";
-            var folderPath = "Media/Registers/";
+            var fecha = mensaje.datas.time.ToString();
+            fecha.Replace("/", "_");
+            System.Console.WriteLine(fecha);
+            var nombre = (mensaje.datas.name != "") ? mensaje.datas.name : "Desconocido";
+            var imageName =  mensaje.device_id + '_' + nombre  + '_' + mensaje.datas.temperature  + '_' + fecha + ".jpg";
+            System.Console.WriteLine(imageName);
+            var folderPath = "wwwroot/Registers/";
             var imagePath = folderPath + imageName;
             
             using(Image image = Image.FromStream(new MemoryStream(bytes)))
@@ -695,6 +845,27 @@ namespace Mqtt.Client.AspNetCore.Services
             }
             
             return (imagePath);
+        }
+
+        /// <summary>
+        /// Envio de mensajes entre el cliente y el servidor
+        /// </summary>
+        /// <param name="Topic"> Topico del mensaje MQTT</param>
+        /// <param name="JsonSend"> Contenido</param>
+        /// <returns></returns>
+        public async Task SendByHub(string Topic, string JsonSend) {
+            try {
+                System.Console.WriteLine("Conectando al Hub");
+                await connection.StartAsync();
+                System.Console.WriteLine("Enviando al Hub");
+                await connection.InvokeAsync("SendMessage", Topic, JsonSend);
+                System.Console.WriteLine("DesConectando del Hub");
+                await connection.StopAsync();
+                System.Console.WriteLine("Mensaje enviado por el Hub");
+            } catch (System.Exception e)
+            {
+                System.Console.WriteLine("Error sending Hub Message" + e.Message + e.StackTrace );
+            }
         }
     }
 }

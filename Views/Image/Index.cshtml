@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Image Page";
+    int counter = 0;
+}
+
+<script src="~/js/images.js"></script>
+<style>
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display:none;
+    background: #eee;
+}
+
+#ImageList{
+    margin-bottom: 20px;
+}
+
+.container img {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+</style>
+
+<h3> Registro de Entradas </h3>
+
+<div>
+    <select id="bind_device_id_select">
+            <option value="" data-token=""> Seleccione </option>
+
+            @foreach (dynamic device in ViewBag.Devices)
+            {
+                <option value="@device.dev_id">@device.tag</option>
+            }
+        </select>
+
+</div>
+
+<div id="imageList">
+    <div class="container">
+        
+            <div class="row">
+                @foreach (var image in ViewBag.Archivos)
+                {
+                    if (counter != 0 && counter % 4 == 0)
+                    {
+                        @:</div>
+                        @:<div class="row">
+                    }
+
+                    <div class="col-sm-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src='/Registers/@image.Name' alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">@image.Name</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    counter++;
+                }
+            </div>
+    
+    </div>
+
+
+</div>
+<div id="footer">Cargar mas imagenes</div>
+
+<script>
+    
+    
+</script>

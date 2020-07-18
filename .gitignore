@@ -29,6 +29,7 @@ node_modules/
 publish/
 Media/
 wwwroot/Uploads
+wwwroot/Registers
 
 ###################
 # Web publish log #
@@ -79,3 +80,4 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 @Assiance
+appsettings.json

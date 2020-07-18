@@ -16,10 +16,15 @@ namespace Mqtt.Client.AspNetCore.Extensions
             {
                 var clientSettinigs = AppSettingsProvider.ClientSettings;
                 var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
+                System.Console.WriteLine("MQTT Broker :" + brokerHostSettings.Host );
+                System.Console.WriteLine("MQTT Broker Port :" + brokerHostSettings.Port );
+                 // Generar un client_id aleatorio para evitar conflictos en mqtt
+                var client_id = Guid.NewGuid().ToString();
+
 
                 aspOptionBuilder
                 .WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)
-                .WithClientId(clientSettinigs.Id)
+                .WithClientId(client_id)
                 .WithTcpServer(brokerHostSettings.Host, brokerHostSettings.Port);
             });
             return services;
