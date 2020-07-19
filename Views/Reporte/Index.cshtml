@@ -7,38 +7,13 @@
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
     <li class="breadcrumb-item active">REPORTES</li>
 </ul> -->
+<div class="container-fluid">
+    
+    <div class="col-md-12 card-deck">
+            
 
-<h1 class="page-header">
-</h1>
-<div class="row">
-    <div class="card-deck">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-header ">
-                        <h4 class="card-title">Consulta de datos</h4>                        
-                            <label for="ID">ID Dispositivo: </label>
-                            <input type="text" id="ecp_id" name="ID"><br><br>
-                            <label for="Name">Nombre: </label>
-                            <input type="text" id="ecp_name" name="Name"><br><br>
-                            <label for="Temp">Temperatura: </label>
-                            <input type="text" id="ecp_temp" name="Temp"><br><br>
-                            <div class="input-group-append"><button class="btn btn-success" id="Query" style="width:165px;">Enviar</button></div>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-7">
-            <div class="card">
-                <div class="card-body" id="reporte">
-                    <div class="card-header">
-                        <h4 class="card-title">Datos obtenidos</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
+
 
     <!--   Querys  -->
     <div class="col-md-12">
@@ -46,18 +21,52 @@
             <div class="card-body">
                 <div class="reporte view" id="reporte">
                     <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Consulta de datos</h4>                        
+                                            <select id="bind_device_id_select">
+                                                <option value="" data-token=""> Seleccione </option>
+
+                                                @foreach (dynamic device in ViewBag.Devices)
+                                                {
+                                                    <option value="@device.dev_id">@device.tag</option>
+                                                }
+                                            </select>
+                                            <label for="Name">Nombre: </label>
+                                            <input type="text" id="ecp_name" name="Name"><br><br>
+                                            <label for="Temp">Temperatura: </label>
+                                            <input type="text" id="ecp_temp" name="Temp"><br><br>
+                                            <div class="input-group-append"><button class="btn btn-success" id="Query" style="width:165px;">Enviar</button></div>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card" style="max-height:330px;">
+                                <div class="card-header">
+                                    <h4 class="card-title">Datos obtenidos</h4>
+                                </div>
+                                <div class="card-body" id="dynReport" style="overflow:scroll" >
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Reporte</h4>
-
+                                    <h4 class="card-title">Eventos</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="stat-widget-one">
                                         <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
                                         <div class="stat-content dib" style="text-align:center">
                                             <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                            <div class="stat-digit" id="profitBogota">  </div>
+                                            <div class="stat-digit" id="eventosDia">  </div>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +83,7 @@
                                         <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
                                         <div class="stat-content dib" style="text-align:center">
                                             <!-- <div class="stat-text">Alumnos Atendidos</div> -->
-                                            <div class="stat-digit" id="profitBogota"> </div>
+                                            <div class="stat-digit" id="reconocimientosDia"> </div>
                                         </div>
                                     </div>
                                 </div>
@@ -355,32 +364,71 @@
                 </div>
             </div>
         </div>
+</div>
+<
         <!-- Carga las librerias de MQTT js -->
         <!--  <script src="~/js/mqtt.js"></script> -->
 
         <script src="~/js/signalr/dist/browser/signalr.js"></script>
         <script src="~/js/chat.js"></script>
         <script>
-            var data;
-        var device_tkn = "2385844285";
+        var result = [];
+        var device_tkn;
+        var eventosDia, reconocimientosDia, personasDia;
 
-    $('#query_pages').on('click',queryPages);
-    $('#query_batch').on('click', queryBatch);
-    $('#query_user').on('click', queryUser);
-    $('#bind_device_id_select').on('change', changeDevice);
+        $('#query_pages').on('click',queryPages);
+        $('#query_batch').on('click', queryBatch);
+        $('#query_user').on('click', queryUser);
+        $('#bind_device_id_select').on('change', changeDevice);
 
-    $('#Query').on('click', getData);
+        $('#Query').on('click', reportQuery);   
+
+        $(document).ready(function(){
+            reportQuery();
+            $("eventosDia").html = eventosDia.lenght();
+            $("reconocimientosDia").html = reconocimientosDia.lenght();
+        });
 
 
-        function getData() {
+        function reportQuery() {
+            let todayDate= new Date().toLocaleString();
+
+            console.log(todayDate);
+            // Total eventos del dia
+            data={
+                    //device_id: device_id,
+                    //tmin: 36,
+                    //hasId: 1,
+                    start_date:todayDate
+                },
+            eventosDia = getData(data);
+
+            data={
+                    //device_id: device_id,
+                    //tmin: 36,
+                    hasId: 1,
+                    start_date:todayDate
+                },
+            reconocimientosDia = getData(data);
+
+
+
+        }
+
+        function getData(data) {
+            // var t_min= $("#tmin").value();
             jQuery.ajax({
                 type: "GET",
                 format: "json",
-                url: "https://localhost:44313/Reporte/getEventos?tmin=40&hasId=1&start_date=2020-07-16",
+                url: '@Url.Action("getEventos", "Reporte")',
+                dataType: "json",
+                data: data,
                 success: function (data) {
-                    console.log("Se logró");
                     console.log(data);
-                 
+                    result = data;
+                    //result = jQuery.parseJSON(data);
+                    
+                    console.log(result);
                     /*
                      * for (var [key, value] of Object.entries(data)) {
                         //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
@@ -388,13 +436,20 @@
                         $("#reporte").append("<li>" + value.name + "</li>");
                     }
                     */
+                    $("#dynReport").empty();
+                    html = "<table class='table table-striped w-auto'><tr><th> Fecha </th><th> Device </th><th> Nombre </th><th> Temperatura </th></tr><tr>";
+                    $("#dynReport").append(html);
+                    $.each(data.data, function (index, value) {
+                        // here you can do your magic
+                        
+                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId +  "</td><td>" + value.name +  "</td><td>" + value.temperature +  "</td></tr>"
+                        console.log(html);
+                        $("#dynReport").append(html);
+                    });
+                    html = "</table>"
+                    $("#dynReport").append(html);
 
                     
-                    $.each(Object.entries(data), function (value) {
-                        // here you can do your magic
-                        console.log(value);
-                        $("#reporte").append("Linea" + value.id + "<br>");
-                    });
                     
                 }
             });

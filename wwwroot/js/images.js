@@ -11,12 +11,12 @@ function loadImages(files) {
                     "</div></div>";
     
 
-    // $.each(files, function(image){
-    //     console.log(image);
-    //     var cardImg = "<img class='card-img-top' src='{image}' alt='Card image cap'>";
-    //     var appendCard = cardDiv + cardImg + cardClose;
-    //     $("#imageList").append(appendCard);
-    // })
+    $.each(files, function(image){
+        console.log(image);
+        var cardImg = "<img class='card-img-top' src='{image}' alt='Card image cap'>";
+        var appendCard = cardDiv + cardImg + cardClose;
+        $("#imageList").append(appendCard);
+    })
 }
 
 
