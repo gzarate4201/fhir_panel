@@ -75,6 +75,7 @@ namespace AspStudio.Controllers
                     device.id = dispositivo.Id;
                     device.dev_id = dispositivo.DevId;
                     device.tag = dispositivo.DevTag;
+                    device.token = dispositivo.DevTkn;
                     Devices.Add(device);
                 }
             }
