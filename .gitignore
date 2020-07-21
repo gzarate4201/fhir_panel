@@ -81,3 +81,4 @@ _[Ss]cripts
 *.dot[Cc]over
 @Assiance
 appsettings.json
+.vs/AspStudio/DesignTimeBuild/.dtbcache.v2
