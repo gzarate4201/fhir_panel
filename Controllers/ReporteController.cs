@@ -127,10 +127,9 @@ namespace AspStudio.Controllers
             if (filter.end_date != null) 
             result = result.Where(c => c.RegisterTime <= DateTime.Parse(filter.end_date));
 
-            if (filter.count != null) 
-            result = result.Where(c => c.UserId > 0);
+           
 
-            return new JsonResult ( new { Data = result, Count = result.Data} );
+            return new JsonResult ( new { Data = result} );
           
         }
     }
