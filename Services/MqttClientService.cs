@@ -618,6 +618,19 @@ namespace Mqtt.Client.AspNetCore.Services
                 var device_site = dbContext.DeviceSites.FirstOrDefault(p => p.DevId == persona.DevId);
                 var employee = dbContext.Empleados.FirstOrDefault(p => p.Id == persona.UserId);
 
+                string reportAlarm = Environment.GetEnvironmentVariable("ALARM_REPORT");
+                string calInstrument = Environment.GetEnvironmentVariable("CALIBRATION_INSTRUMENT");
+                string calMethod = Environment.GetEnvironmentVariable("CALIBRATION_METHOD");
+                string calType = Environment.GetEnvironmentVariable("CALIBRATION_TYPE");
+                string calValue = Environment.GetEnvironmentVariable("CALIBRATION_VALUE");
+                
+
+                var setReport = 0;
+                if (reportAlarm == "True") {
+                    setReport = (persona.Temperature > 37.3) ? 1 : 0;
+                } else {
+                    setReport = 0;
+                }
 
                 var fhir_data_table = new FhirData() {
                     TipoDoc = "CC",
@@ -630,12 +643,12 @@ namespace Mqtt.Client.AspNetCore.Services
                     Lat = device_site.Lat,
                     Lon = device_site.Lon,
                     Nit = device_site.Nit,
-                    Report = (persona.Temperature > 37.3) ? 1 : 0,
+                    Report = setReport,
                     IdLenel = 10101,
                     Instrumento = "Indra-FK02GYW-" + device_site.DevId,
-                    TipoCal = "None",
-                    TipoMed = "None",
-                    ValCal = 37.3
+                    TipoCal = calType,
+                    TipoMed = calMethod,
+                    ValCal = Convert.ToDouble(calValue)
                 };
 
 
