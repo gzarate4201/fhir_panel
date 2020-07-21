@@ -75,6 +75,7 @@ namespace AspStudio.Controllers
                     device.id = dispositivo.Id;
                     device.dev_id = dispositivo.DevId;
                     device.tag = dispositivo.DevTag;
+                    device.token = dispositivo.DevTkn;
                     Devices.Add(device);
                 }
             }
@@ -126,6 +127,7 @@ namespace AspStudio.Controllers
             if (filter.end_date != null) 
             result = result.Where(c => c.RegisterTime <= DateTime.Parse(filter.end_date));
 
+           
 
             return new JsonResult ( new { Data = result} );
           
