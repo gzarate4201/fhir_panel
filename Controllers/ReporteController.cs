@@ -133,6 +133,8 @@ namespace AspStudio.Controllers
 
         }
 
+        [HttpPost]
+        [HttpGet]
         public JsonResult getRecoDia(getFilter filter) {
 
             var result = from o in dbContext.RecoDia
@@ -144,7 +146,8 @@ namespace AspStudio.Controllers
             if (filter.ciudad != null) 
             result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
 
-            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+
             if (filter.start_date != null) 
             result = result.Where(c => c.Fecha >= DateTime.Parse(filter.start_date));
 

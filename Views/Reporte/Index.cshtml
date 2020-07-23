@@ -40,6 +40,12 @@
                     <label for="repoEndTime">Fecha final: </label>
                     <input type="text" class="calendar" id="repoEndTime" name="repoEndTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="btn btn-primary" id ="consultBtn"> Consultar </a>
+
+                    <div class="">
+                        <label for="destinatario">Destinatario : </label>
+                        <input type="text" name="destinatario" id="destinatario">
+                        <a class="btn btn-primary" id ="sendEmail"> Enviar reporte por Email </a>
+                    </div>
                 </form>
             </div>
             <div class="card-body">
@@ -195,7 +201,7 @@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
-                                            <table id="tblRecos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                            <table id="tblRecos" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -236,7 +242,7 @@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
-                                            <table id="tblRecos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                            <table id="tblAlertas" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -410,22 +416,53 @@
 
     <!-- Carga las librerias de MQTT js -->
     <!--  <script src="~/js/mqtt.js"></script> -->
-
+    <script src="~/js/datatables.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
-    <script src="~/js/datatables.js"></script>
+    
     <script>
         
         var result = [];
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
+        var tblRecoDisp, tblSopReco;
 
         $('#query_pages').on('click',queryPages);
         $('#query_batch').on('click', queryBatch);
         $('#query_user').on('click', queryUser);
         $('#bind_device_id_select').on('change', changeDevice);
+        $("#sendEmail").on('click', sendEmail);
 
         $('#Query').on('click', reportQuery);
+
+        function sendEmail() {
+            console.log("Enviando email de reporte");
+            data = {
+                FromName: "Alejandro Mejia",
+                FromEmail: "alejandromejia@qaingenieros.com",
+                ToName: "Santiago Urueña",
+                ToEmail: "santiagouruena@qaingenieros.com",
+                Subject: "Reporte Diario",
+                Message: "Cordial saludo, <br> a continuacion encontrara el reporte del dia",
+                Attach: "reporte.pdf"
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("SendEmail", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+                    
+                    alert(data);
+        
+
+                }
+            });
+
+
+        }
 
         function formatDate(date) {
             var d = new Date(date),
@@ -468,6 +505,42 @@
                 format: 'YYYY-MM-DD',
                 dayOfWeekStart: 1,
                 locale: 'es',
+            });
+
+            tblRecoDisp = $('#tblRecoDisp').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopReco = $('#tblRecos').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopAlertas = $('#tblAlertas').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
             });
 
             getReport($('#repoInitTime').val(),$('#repoEndTime').val())
@@ -549,15 +622,24 @@
                     $("#totalReconocimientos").empty();                    
                     $("#totalReconocimientos").html(data.count);
 
-                    html = "";
-                    $("#soporteReconocimientos").empty(); 
-                    $("#soporteReconocimientos").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.dateTime + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td>" + value.docId +  "</td><td>" + value.name +  "</td><td>" + value.empresa +  "</td><td>" + value.similar.toFixed(2) +  "</td><td>" + value.temperature.toFixed(2) + "</td></tr>"
-                        //console.log(html);
-                        $("#soporteReconocimientos").append(html);
-                    });
+                    tblSopReco.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopReco.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopReco.draw();
         
 
                 }
@@ -566,11 +648,10 @@
         }
 
         function getDistReco(start, end) {
-            data = {
+            dataOut = {
                 start_date: start,
                 end_date: end
             };
-
             
 
             jQuery.ajax({
@@ -578,30 +659,34 @@
                 format: "json",
                 url: '@Url.Action("getRecoDia", "Reporte")',
                 dataType: "json",
-                data: data,
+                data: dataOut,
                 success: function (data) {
-                    
-                    
-                    result = JSON.stringify(data.data);
-                    console.log("DistRecon")
-                    console.log(JSON.parse(result));
-                    
-                    
-                    /*
-                    $('#tblRecoDisp').DataTable( {
-                        "ajax": JSON.parse(result) ,
-                        "columns": [
-                            { "data": "fecha" },
-                            { "data": "devId" },
-                            { "data": "ciudad" },
-                            { "data": "sitio" },
-                            { "data": "recos" },
-                            { "data": "personas" },
-                            { "data": "alertas" }
-                        ]
-                    } );
-                    */
+                    tblRecoDisp.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblRecoDisp.row.add(
+                            [
+                            value.fecha,
+                            value.devId,
+                            value.ciudad,
+                            value.sitio,
+                            value.recos,
+                            value.personas,
+                            value.alertas,
+                            ]
+                        )
+                    })
+                    tblRecoDisp.draw();
+                    console.log(data)
 
+                }   
+            });   
+                    
+            
+                
+                    
+
+                    /*
                     $('#tblRecoDisp').DataTable();
                     
                     html = "";
@@ -613,10 +698,8 @@
                         //console.log(html);
                         $("#distribReco").append(html);
                     });
+                    */
                                       
-
-                }
-            });
 
         }
 
@@ -642,14 +725,24 @@
                     $("#totalAlertas").empty();                    
                     $("#totalAlertas").html(data.count);
 
-                    html = "";
-                    $("#soporteAlertas").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.dateTime + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td>" + value.docId +  "</td><td>" + value.name +  "</td><td>" + value.empresa +  "</td><td>" + value.similar.toFixed(2) +  "</td><td>" + value.temperature.toFixed(2) + "</td></tr>"
-                        //console.log(html);
-                        $("#soporteAlertas").append(html);
-                    });
+                    tblSopAlertas.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopAlertas.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopAlertas.draw();
         
 
                 }
