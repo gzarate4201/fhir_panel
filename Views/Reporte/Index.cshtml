@@ -7,6 +7,7 @@
 <script type="text/javascript" src="@Url.Content("~/js/calendar.min.js")"></script>
 <!-- Calendar picker -->
 <link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/datatables.css")" rel="stylesheet" type="text/css" />
 
 <!-- <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
@@ -38,8 +39,13 @@
                     <input type="text" class="calendar" id="repoInitTime" name="repoInitTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label for="repoEndTime">Fecha final: </label>
                     <input type="text" class="calendar" id="repoEndTime" name="repoEndTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="btn btn-primary" id="consultBtn"> Consultar </a>
-                    <a class="btn btn-secondary" id="exportPDF"> Exportar a PDF </a>
+                    <a class="btn btn-primary" id ="consultBtn"> Consultar </a>
+
+                    <div class="">
+                        <label for="destinatario">Destinatario : </label>
+                        <input type="text" name="destinatario" id="destinatario">
+                        <a class="btn btn-primary" id ="sendEmail"> Enviar reporte por Email </a>
+                    </div>
                 </form>
             </div>
             <div class="card-body">
@@ -159,7 +165,7 @@
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
                                         <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a>
                                     </div>
-                                    <div class="card-body " style="height:450px;overflow:auto;">
+                                    <div class="card-body " style="height:450px;overflow:auto;width=100%;">
                                         <table id="tblRecoDisp" class="table table-vcenter table-responsive table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
@@ -198,23 +204,24 @@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
-                                            <table id="tblRecos" class="table table-vcenter table-responsive table-condensed table-bordered display">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Fecha</th>
-                                                        <th>Ciudad</th>
-                                                        <th>Puerta</th>                                                        
-                                                        <th>Doc</th>
-                                                        <th>Nombre</th>
-                                                        <th>Empresa</th>
-                                                        <th>Sim</th>
-                                                        <th>Temp</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="soporteReconocimientos">
-                                                </tbody>
+                                            <table id="tblRecos" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Puerta</th>
+                                                    <th>Disp.</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Sim</th>
+                                                    <th>Temp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteReconocimientos">
+                                            </tbody>
 
-                                            </table>
+                                        </table>
                                         </div>
 
                                         <div class="card-footer ">
@@ -239,24 +246,24 @@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
-                                            <table id="tblAlerts" class="table table-vcenter table-responsive table-condensed table-bordered display">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Fecha</th>
-                                                        <th>Ciudad</th>
-                                                        <th>Puerta</th>
-                                                        <th>Disp.</th>
-                                                        <th>Doc</th>
-                                                        <th>Nombre</th>
-                                                        <th>Empresa</th>
-                                                        <th>Sim</th>
-                                                        <th>Temp</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="soporteAlertas">
-                                                </tbody>
+                                            <table id="tblAlertas" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Puerta</th>
+                                                    <th>Disp.</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Sim</th>
+                                                    <th>Temp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteAlertas">
+                                            </tbody>
 
-                                            </table>
+                                        </table>
                                         </div>
 
                                         <div class="card-footer ">
@@ -393,12 +400,30 @@
             </div>
         </div>
     </div>
-    <
+    
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+        </div>
+        <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 600px;" >
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <!-- Carga las librerias de MQTT js -->
     <!--  <script src="~/js/mqtt.js"></script> -->
 
 
-
+    <script src="~/js/datatables.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
     <script src="~/js/jspdf.js"></script>
@@ -408,11 +433,13 @@
         var result = [];
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
+        var tblRecoDisp, tblSopReco;
 
         $('#query_pages').on('click',queryPages);
         $('#query_batch').on('click', queryBatch);
         $('#query_user').on('click', queryUser);
         $('#bind_device_id_select').on('change', changeDevice);
+        $("#sendEmail").on('click', sendEmail);
 
 
         $('#exportPDF').on('click', exportPDF);
@@ -661,6 +688,42 @@
                 locale: 'es',
             });
 
+            tblRecoDisp = $('#tblRecoDisp').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopReco = $('#tblRecos').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopAlertas = $('#tblAlertas').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
             getReport($('#repoInitTime').val(),$('#repoEndTime').val())
         });
 
@@ -747,16 +810,25 @@
                     $("#totalReconocimientos").empty();
                     $("#totalReconocimientos").html(data.count);
 
-                    html = "";
-                    $("#soporteReconocimientos").empty();
-                    $("#soporteReconocimientos").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic
-                        html = "<tr><td>" + value.dateTime + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.docId + "</td><td>" + value.name + "</td><td>" + value.empresa + "</td><td style='text-align:center;'>" + value.similar.toFixed(2) +  "</td><td style='text-align:center;'>" + value.temperature.toFixed(2) + "</td></tr>"
-                        //console.log(html);
-                        $("#soporteReconocimientos").append(html);
-                    });
-
+                    tblSopReco.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopReco.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopReco.draw();
+        
 
                 }
             });
@@ -764,23 +836,47 @@
         }
 
         function getDistReco(start, end) {
-            data = {
+            dataOut = {
                 start_date: start,
                 end_date: end
             };
+            
 
             jQuery.ajax({
                 type: "GET",
                 format: "json",
                 url: '@Url.Action("getRecoDia", "Reporte")',
                 dataType: "json",
-                data: data,
+                data: dataOut,
                 success: function (data) {
+                    tblRecoDisp.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblRecoDisp.row.add(
+                            [
+                            value.fecha,
+                            value.devId,
+                            value.ciudad,
+                            value.sitio,
+                            value.recos,
+                            value.personas,
+                            value.alertas,
+                            ]
+                        )
+                    })
+                    tblRecoDisp.draw();
+                    console.log(data)
 
-                    console.log(data);
-                    result = data.data;
+                }   
+            });   
+                    
+            
+                
+                    
 
-
+                    /*
+                    $('#tblRecoDisp').DataTable();
+                    
                     html = "";
                     $("#distribReco").empty();
                     $("#distribReco").append(html);
@@ -790,10 +886,8 @@
                         //console.log(html);
                         $("#distribReco").append(html);
                     });
-
-
-                }
-            });
+                    */
+                                      
 
         }
 
@@ -819,15 +913,25 @@
                     $("#totalAlertas").empty();
                     $("#totalAlertas").html(data.count);
 
-                    html = "";
-                    $("#soporteAlertas").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic
-                        html = "<tr><td>" + value.dateTime + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td>" + value.docId +  "</td><td>" + value.name +  "</td><td>" + value.empresa +  "</td><td>" + value.similar.toFixed(2) +  "</td><td>" + value.temperature.toFixed(2) + "</td></tr>"
-                        //console.log(html);
-                        $("#soporteAlertas").append(html);
-                    });
-
+                    tblSopAlertas.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopAlertas.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopAlertas.draw();
+        
 
                 }
             });
@@ -935,8 +1039,8 @@
                     $("#soporteEventos").empty();
                     $("#soporteEventos").append(html);
                     $.each(data.data, function (index, value) {
-                        // here you can do your magic
-                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' target='_blank'> Ver Imagen </a></td></tr>"
+                        // here you can do your magic                        
+                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' id='pop'> Ver Imagen </a></td></tr>"
                         //console.log(html);
                         $("#soporteEventos").append(html);
                     });
@@ -946,6 +1050,11 @@
                 }
             });
         }
+
+        $("#pop").on("click", function() {
+            $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
+            $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+        });
 
 
     /* device basic configuration example
