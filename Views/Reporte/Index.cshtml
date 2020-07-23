@@ -393,6 +393,7 @@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
     <script>
+        
         var result = [];
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
@@ -431,94 +432,69 @@
             console.log(todayDate);
             // Total eventos del dia
 
-            // Device ID
-            if ($('#ecp_dev_id').val() != 0) {
-                console.log("El valor del device id es: ");
-                console.log(device_id);
-                let initDev = $('#ecp_dev_id').val();
-                data = {
-                    device_id: initDev,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                },
-                    eventosDia = getData(data);
+            let initDev = null;
+            let initName = null;
+            let initTempMin = null;
+            let initTempMax = null;
+            let initDate = null;
+            let endDate = null;
+            let initHasId = null;
 
+            if(typeof device_id !== 'undefined') {
+                initDev = (device_id > 0) ? device_id : null;
+            } else {
+                initDev = null;
             }
+            
 
             //Nombre
             if ($('#ecp_name').val() != 0) {
                 console.log("El nombre a enviar es: ")
                 console.log($('#ecp_name').val());
-                let initName = $('#ecp_name').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    name: initName
-                },
-                    eventosDia = getData(data);
-
+                initName = $('#ecp_name').val();
             }
 
             //Temperatura minima 
             if ($('#ecp_temp_min').val() != 0) {
                 console.log("La temperatura mínima a enviar es: ")
                 console.log($('#ecp_temp_min').val());
-                let initTemp = $('#ecp_temp_min').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    tmin: initTemp
-                },
-                    eventosDia = getData(data);
-
+                initTempMin = $('#ecp_temp_min').val();
             }
 
             //Temperatura minima 
             if ($('#ecp_temp_max').val() != 0) {
                 console.log("La temperatura máxima a enviar es: ")
                 console.log($('#ecp_temp_max').val());
-                let initTemp = $('#ecp_temp_max').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    tmax: initTemp
-                },
-                    eventosDia = getData(data);
-
+                initTempMax = $('#ecp_temp_max').val();
             }
 
             //Fecha inicial
             if ($('#init').val() != 0) {
                 console.log("El valor del calendario es: ")
                 console.log($('#init').val());
-                let initDate = $('#init').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    start_date: initDate
-                },
-                    eventosDia = getData(data);
+                initDate = $('#init').val();
+            }
 
+            //Fecha final
+            if ($('#end').val() != 0) {
+                console.log("El valor del calendario es: ")
+                console.log($('#end').val());
+                endDate = $('#end').val();
             }
            
 
-           /* data={
-                    //device_id: device_id,
-                    //tmin: 36,
+            data={
+                    device_id: initDev,
+                    name: initName,
+                    tmin: initTempMin,
+                    tmax: initTempMax,
+                    start_date: initDate,
+                    end_date: endDate,
                     hasId: 1,
-                    start_date: "2020-07-16"
-                },
-            reconocimientosDia = getData(data);*/
 
-
+                };
+            
+            eventosDia = getData(data);
 
         }
 
