@@ -133,7 +133,7 @@
                                 <div class="card-body " style="height:450px;overflow:auto;">
                                     <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
                                     <?php //echo $this->Highcharts->render($chartName6); ?> -->
-                                    <table id="tblNiveles" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                    <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
                                         <thead>
                                             <tr>
                                                 <th>Fecha</th>
@@ -163,7 +163,7 @@
                                         <h4 class="card-title">Distribucion Reconocimientos</h4>
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
                                     </div>
-                                    <div class="card-body " style="height:450px;overflow:auto;width=100%;">
+                                    <div class="card-body " style="height:450px;overflow:auto;width='100%';">
                                         <table id="tblRecoDisp" class="table table-vcenter table-responsive table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
@@ -543,6 +543,18 @@
 
             });
 
+            tblEnroll = $('#tblEnroll').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
             getReport($('#repoInitTime').val(),$('#repoEndTime').val())
         });
 
@@ -835,27 +847,20 @@
                 data: data,
                 success: function (data) {
                     
-                    result = data;
-                    
-                    //result = jQuery.parseJSON(data);
-
-                    //console.log(result);
-                    /*
-                     * for (var [key, value] of Object.entries(data)) {
-                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
-                        console.log(value);
-                        $("#reporte").append("<li>" + value.name + "</li>");
-                    }
-                    */
-                    html = "";
-                    $("#soporteEventos").empty();
-                    $("#soporteEventos").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' id='pop'> Ver Imagen </a></td></tr>"
-                        //console.log(html);
-                        $("#soporteEventos").append(html);
-                    });
+                    tblEnroll.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblEnroll.row.add(
+                            [
+                            value.fecha,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.hasPhoto
+                            ]
+                        )
+                    })
+                    tblEnroll.draw();
 
 
 
