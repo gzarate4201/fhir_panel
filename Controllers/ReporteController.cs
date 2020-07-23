@@ -1,11 +1,21 @@
+using System.Reflection.PortableExecutable;
+// using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
+
+// Email 
+using MailKit.Net.Imap;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 // Hub Chat
 using Microsoft.AspNetCore.SignalR;
@@ -320,6 +330,39 @@ namespace AspStudio.Controllers
             return new JsonResult ( new { Count = count, Data = result} );
           
         }
+
+
+        public JsonResult SendEmail (EmailFormModel model) {
+
+            var message = new MimeMessage ();
+			message.From.Add (new MailboxAddress ("Alejandro", "alejandromejia@qaingenieros.com"));
+			message.To.Add (new MailboxAddress (model.ToName, model.ToEmail));
+			message.Subject = model.Subject;
+
+			// message.Body = new TextPart ("plain") {
+			// 	Text = model.Message
+			// };
+
+            //Fetch the attachments from db
+            //considering one or more attachments
+            var builder = new BodyBuilder { TextBody = model.Message };
+            builder.Attachments.Add(@"wwwroot/Reports/reporte.pdf");
+            message.Body = builder.ToMessageBody();
+            
+            using (var client = new SmtpClient ()){
+                client.Connect ("mail.qaingenieros.com", 587, false);
+
+				// Note: only needed if the SMTP server requires authentication
+				client.Authenticate ("alejandromejia@qaingenieros.com", "Al3j0@17");
+
+				client.Send (message);
+				client.Disconnect (true);
+            }
+
+            return new JsonResult ( new { Status = "Success"} );
+        }
+
+
     }
 }
 
