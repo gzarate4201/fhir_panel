@@ -209,13 +209,14 @@ namespace AspStudio.Controllers
 
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
-            result = result.Where(c => c.Fecha >= DateTime.Parse(filter.start_date));
+            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
 
             if (filter.end_date != null) 
-            result = result.Where(c => c.Fecha <= DateTime.Parse(filter.end_date));
+            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
 
             if (filter.hasPhoto != null) {
-                var hasPhoto = (filter.hasPhoto == "true") ? true : false;
+                Console.WriteLine("Filtro enrolamiento:" + filter.hasPhoto);
+                var hasPhoto = (filter.hasPhoto == "1") ? true : false;
                 result = result.Where(c => c.hasPhoto == hasPhoto);
             }
 
@@ -241,7 +242,8 @@ namespace AspStudio.Controllers
             result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
 
             if (filter.hasPhoto != null) {
-                var hasPhoto = (filter.hasPhoto == "true") ? true : false;
+                Console.WriteLine("Filtro enrolamiento:" + filter.hasPhoto);
+                var hasPhoto = (filter.hasPhoto == "1") ? true : false;
                 result = result.Where(c => c.hasPhoto == hasPhoto);
             }
 

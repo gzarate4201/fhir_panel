@@ -14,6 +14,9 @@ namespace AspStudio.Models
         [Column("Fecha")]
         public DateTime Fecha {get; set;}
 
+        [Column("time")]
+        public DateTime Time {get; set;}
+
         [Column("documento")]
         public String DocId {get; set;}
 
