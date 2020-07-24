@@ -533,6 +533,8 @@
         function exportPDF() {
             var doc = new jsPDF();
             var totalEnrol = $('#totalEnrolados').html();
+            var totalReg = $('#totalRegistros').html();          
+            var totalPeriodo = $('#totalEnroladosPeriodo').html()
             var totalRec = $('#totalReconocimientos').html();
             var totalPerson = $('#totalPersonas').html();
             var alert = $('#totalAlertas').html();
@@ -547,17 +549,23 @@
             doc.text(90, 20, 'INFORME');
             doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
 
-            doc.text(15, limitY +10, 'Total de personas que han enviado datos en el periodo: ' + totalEnrol);
-            doc.text(15, limitY + 15, 'Total Eventos de reconocimiento en el periodo: ' + totalRec);
-            doc.text(15, limitY + 20, 'Total personas reconocidas en el periodo: ' + totalPerson);
-            doc.text(15, limitY + 25, 'Total alertas de temperatura en el periodo: ' + alert);           
+            doc.text(15, limitY + 10, 'Total de personas que han enviado datos en el periodo: ' + totalReg);
+            doc.text(15, limitY + 15, 'Total de personas enrroladas correctamente: ' + totalEnrol);
+            doc.text(15, limitY + 20, 'Total de personas enrroladas en el periodo: ' + totalPeriodo);
+
+            doc.text(15, limitY + 25, 'Total Eventos de reconocimiento en el periodo: ' + totalRec);
+            doc.text(15, limitY + 30, 'Total personas reconocidas en el periodo: ' + totalPerson);
+            doc.text(15, limitY + 35, 'Total alertas de temperatura en el periodo: ' + alert);      
+            
 
             //var finalY = doc.lastAutoTable.finalY;
 
-            doc.text(15, limitY + 35, 'Distribución de eventos de reconocimiento en el periodo: ');
-            doc.autoTable({ startY: limitY + 40, theme: 'plain', html: '#tblRecoDisp' });
+            doc.text(15, limitY + 45, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.autoTable({ startY: limitY + 50, theme: 'plain', html: '#tblRecoDisp' });
 
-            //finalY = doc.lastAutoTable.finalY;          
+            finalY = doc.lastAutoTable.finalY;    
+            doc.text(15, finalY + 10, 'Total Alertas de temperatura en el periodo: ');
+            doc.autoTable({ startY: finalY+ 20, theme: 'plain', html: '#tblAlertas' });
 
 
             // Add new page
