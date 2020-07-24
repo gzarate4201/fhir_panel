@@ -243,6 +243,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Personas Reconocidas</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
+                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoRecoPerso"> Exportar a PDF </a>
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -502,8 +503,12 @@
         $('#exportSopoEnro').on('click', SopoEnroPDF);
         $('#exportDistriReco').on('click', DistriRecoPDF);
         $('#exportSopoReco').on('click', SopoRecoPDF);
+        $('#exportSopoRecoPerso').on('click', SopoRecoPersoPDF);
         $('#exportSoporAlert').on('click', SopoAlertPDF);
         $('#exportDatos').on('click', DatosPDF);
+        
+
+        
 
         $('#Query').on('click', reportQuery);
 
@@ -628,6 +633,36 @@
             // footerPDF(doc);
             // Save the PDF
             doc.save('SoporteReco_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del soporte de reconocimiento
+        function SopoRecoPersoPDF() {
+            var doc = new jsPDF('landscape');
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+            var totalPer = $('#totalPersonas').html();
+
+            doc.setProperties({
+                title: 'Soporte Personas reconocidas'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'SOPORTE RECONOCIMIENTO DE PERSONAS');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());            
+            doc.text(15, limitY + 10, 'Total eventos de reconocimiento: ' + totalRec);
+            doc.text(15, limitY + 15, 'Total Personas reconocidas: ' + totalPer);
+
+            doc.text(15, limitY + 30, 'Soporte reconocimiento ');
+            doc.autoTable({ startY: limitY + 35, theme: 'plain', html: '#tblSopRecoPerso' });           
+
+            // Add new page
+            // footerPDF(doc);
+            // Save the PDF
+            doc.save('SoporteRecoPerso_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
 
         }
 
