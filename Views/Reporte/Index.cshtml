@@ -87,7 +87,7 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Personas</h4>
+                                    <h4 class="card-title">Personas reconocidas</h4>
 
                                 </div>
                                 <div class="card-body">
@@ -104,7 +104,7 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Alertas</h4>
+                                    <h4 class="card-title">Alertas de temperatura</h4>
 
                                 </div>
                                 <div class="card-body">
@@ -518,7 +518,8 @@
             var doc = new jsPDF();
             var totalEnrol = $('#totalEnrolados').html();
             var totalRec = $('#totalReconocimientos').html();
-            
+            var totalPerson = $('#totalPersonas').html();
+            var alert = $('#totalAlertas').html();
             doc.setProperties({
                 title: 'Reporte de datos'
             });
@@ -532,9 +533,11 @@
 
             doc.text(15, limitY +10, 'Total Enrolados: ' + totalEnrol);
             doc.text(15, limitY + 15, 'Total Eventos de reconocimiento: ' + totalRec);
+            doc.text(15, limitY + 20, 'Total personas reconocidas: ' + totalPerson);
+            doc.text(15, limitY + 25, 'Total alertas de temperatura: ' + alert);
 
-            doc.text(15, limitY+25, 'Soporte Enrolamiento ');
-            doc.autoTable({ startY: limitY +30, theme: 'plain', html: '#tblEnroll' });
+            doc.text(15, limitY+35, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY +40, theme: 'plain', html: '#tblEnroll' });
 
             var finalY = doc.lastAutoTable.finalY;
 
@@ -571,7 +574,7 @@
             doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
 
             doc.text(15, limitY + 20, 'Soporte Enrolamiento ');
-            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#SopEnrol' });
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblEnroll' });
 
             // Add new page
             footerPDF(doc);
