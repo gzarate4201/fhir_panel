@@ -176,7 +176,7 @@
                                                     <th>Puerta</th>
                                                     <th>Recon.</th>
                                                     <th>Personas</th>
-                                                    <th>Alertas</th>
+                                                    <th>Alertas Temp</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="distribReco">
@@ -531,23 +531,18 @@
             doc.text(90, 20, 'INFORME');
             doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
 
-            doc.text(15, limitY +10, 'Total Enrolados: ' + totalEnrol);
-            doc.text(15, limitY + 15, 'Total Eventos de reconocimiento: ' + totalRec);
-            doc.text(15, limitY + 20, 'Total personas reconocidas: ' + totalPerson);
-            doc.text(15, limitY + 25, 'Total alertas de temperatura: ' + alert);
+            doc.text(15, limitY +10, 'Total de personas que han enviado datos en el periodo: ' + totalEnrol);
+            doc.text(15, limitY + 15, 'Total Eventos de reconocimiento en el periodo: ' + totalRec);
+            doc.text(15, limitY + 20, 'Total personas reconocidas en el periodo: ' + totalPerson);
+            doc.text(15, limitY + 25, 'Total alertas de temperatura en el periodo: ' + alert);           
 
-            doc.text(15, limitY+35, 'Soporte Enrolamiento ');
-            doc.autoTable({ startY: limitY +40, theme: 'plain', html: '#tblEnroll' });
+            //var finalY = doc.lastAutoTable.finalY;
 
-            var finalY = doc.lastAutoTable.finalY;
+            doc.text(15, limitY + 35, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.autoTable({ startY: limitY + 40, theme: 'plain', html: '#tblRecoDisp' });
 
-            doc.text(15, finalY + 15, 'Eventos reconocimiento ');
-            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblRecoDisp' });
+            //finalY = doc.lastAutoTable.finalY;          
 
-            finalY = doc.lastAutoTable.finalY;          
-
-            doc.text(15, finalY + 15, 'Soporte Alertas');
-            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblAlerts' });
 
             // Add new page
             footerPDF(doc);
