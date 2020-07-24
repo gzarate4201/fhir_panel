@@ -817,11 +817,71 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                fixedHeader: {
+                    header: true,
+                    footer: true
+                },
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
+                    'copy', 
+                    'excel', 
+                    {
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Reporte de reconocimientos general";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            // Styling the table: create style object
+                            //var objLayout = {};
+                            // Horizontal line thickness
+                            //objLayout['hLineWidth'] = function(i) { return .5; };
+                            // Vertikal line thickness
+                            //objLayout['vLineWidth'] = function(i) { return .5; };
+                            // Horizontal line color
+                            //objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                            // Vertical line color
+                            //objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                            // Left padding of the cell
+                            //objLayout['paddingLeft'] = function(i) { return 4; };
+                            // Right padding of the cell
+                            //objLayout['paddingRight'] = function(i) { return 4; };
+                            // Inject the object in the document
+                            //doc.content[1].layout = objLayout;
+                        }
+                    }
+        
+                ],
+                
 
             });
+
+            let todayDate = new Date().toLocaleString();
 
             tblSopReco = $('#tblRecos').DataTable({
                 "bPaginate": true,
@@ -830,7 +890,44 @@
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 
+                    'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Reporte de reconocimientos general";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            
+                        }
+                    }
                 ]
 
             });
@@ -842,7 +939,45 @@
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 
+                    'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Soporte de reconocimiento de personas";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            
+                        }
+                    }
+                    
                 ]
 
             });
@@ -854,7 +989,43 @@
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy',  'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Soporte de Alertas de temperatura";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            
+                        }
+                    }
                 ]
 
             });
@@ -866,7 +1037,58 @@
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Soporte de enrolamiento general";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            // Styling the table: create style object
+                            //var objLayout = {};
+                            // Horizontal line thickness
+                            //objLayout['hLineWidth'] = function(i) { return .5; };
+                            // Vertikal line thickness
+                            //objLayout['vLineWidth'] = function(i) { return .5; };
+                            // Horizontal line color
+                            //objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                            // Vertical line color
+                            //objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                            // Left padding of the cell
+                            //objLayout['paddingLeft'] = function(i) { return 4; };
+                            // Right padding of the cell
+                            //objLayout['paddingRight'] = function(i) { return 4; };
+                            // Inject the object in the document
+                            //doc.content[1].layout = objLayout;
+                        }
+                    }
                 ]
 
             });
@@ -878,7 +1100,57 @@
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel',{
+                        extend: 'pdfHtml5',
+                        customize: function (doc) {
+                            //doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 7;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 18;
+                            // Remove spaces around page title
+                            doc.content[0].text = " Soporte eventos registrados";
+                            doc.content[0].text = doc.content[0].text.trim();
+                            // Create a footer
+                    
+                            doc['header']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'INDRA - ' + todayDate,
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'Informe impreso por QA Ingenieros - Fecha : ',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+                            // Styling the table: create style object
+                            //var objLayout = {};
+                            // Horizontal line thickness
+                            //objLayout['hLineWidth'] = function(i) { return .5; };
+                            // Vertikal line thickness
+                            //objLayout['vLineWidth'] = function(i) { return .5; };
+                            // Horizontal line color
+                            //objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                            // Vertical line color
+                            //objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                            // Left padding of the cell
+                            //objLayout['paddingLeft'] = function(i) { return 4; };
+                            // Right padding of the cell
+                            //objLayout['paddingRight'] = function(i) { return 4; };
+                            // Inject the object in the document
+                            //doc.content[1].layout = objLayout;
+                        }
+                    }
                 ]
 
             });
