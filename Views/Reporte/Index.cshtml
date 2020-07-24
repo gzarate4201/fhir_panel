@@ -529,7 +529,6 @@
         $('#Query').on('click', reportQuery);
 
         // Exportación General del reporte
-
         function exportPDF() {
             var doc = new jsPDF();
             var totalEnrol = $('#totalEnrolados').html();
@@ -547,6 +546,66 @@
             doc.setFontType("bold");
             var limitY = 30;
             doc.text(90, 20, 'INFORME');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+
+            doc.text(15, limitY + 10, 'Total de personas que han enviado datos (Desde 13-07-2020):     ' + totalReg);
+            doc.text(15, limitY + 20, 'Nota: Los valores anteriores son desde el inicio hasta la fecha de generacion del reporte:');
+            doc.text(15, limitY + 15, 'Total de personas enroladas correctamente: (Desde 13-07-2020): ' + totalEnrol);
+            doc.text(15, limitY + 25, 'Total de personas nuevas enroladas en el periodo:                              ' + totalPeriodo);
+
+            doc.text(15, limitY + 30, 'Total Eventos de reconocimiento en el periodo:                                  ' + totalRec);
+            doc.text(15, limitY + 35, 'Total personas reconocidas en el periodo:                                           ' + totalPerson);
+            doc.text(15, limitY + 40, 'Total alertas de temperatura en el periodo:                                           ' + alert);      
+            
+
+            //var finalY = doc.lastAutoTable.finalY;
+
+            doc.text(15, limitY + 50, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.autoTable({ startY: limitY + 55, theme: 'plain', html: '#tblRecoDisp' });
+
+            /*
+            finalY = doc.lastAutoTable.finalY;    
+            doc.text(15, finalY + 10, 'Total Alertas de temperatura en el periodo: ');
+            doc.autoTable({ startY: finalY+ 20, theme: 'plain', html: '#tblAlertas' });
+            */
+
+            // Add new page
+            footerPDF(doc);
+            saveLocal(doc);
+            // Save the PDF
+            doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+        /*
+        function exportPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalReg = $('#totalRegistros').html();          
+            var totalPeriodo = $('#totalEnroladosPeriodo').html()
+            var totalRec = $('#totalReconocimientos').html();
+            var totalPerson = $('#totalPersonas').html();
+            var alert = $('#totalAlertas').html();
+            doc.setProperties({
+                title: 'Reporte de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);        
+            doc.setFontStyle('normal');           
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(90, 20, 'INFORME');
+            
+            html = "<table>";
+            html += "<tr><td> Periodo: </td> <td>" + $('#repoInitTime').val() + "</td> <td>" + $('#repoEndTime').val() + "</td><tr>";
+            html += "<tr><td> Total de personas que han enviado datos en el periodo: </td> <td></td> <td>" + totalReg + "</td><tr>";
+            html += "<tr><td> Total de personas enrroladas correctamente: </td> <td></td> <td>" + totalEnrol + "</td><tr>";
+            html += "<tr><td> Total de personas enrroladas en el periodo: </td> <td></td> <td>" + totalPeriodo + "</td><tr>";
+            html += "<tr><td> Total Eventos de reconocimiento en el periodo: </td> <td></td> <td>" + totalRec + "</td><tr>";
+            html += "<tr><td> Total personas reconocidas en el periodo: </td> <td></td> <td>" + totalPerson + "</td><tr>";
+            html += "<tr><td> Total alertas de temperatura en el periodo: </td> <td></td> <td>" + alert + "</td><tr>";
+            html += "</table>";
+
+
             doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
 
             doc.text(15, limitY + 10, 'Total de personas que han enviado datos en el periodo: ' + totalReg);
@@ -574,7 +633,7 @@
             doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
 
         }
-
+        */
         // Exportación del soporte de Enrrolamiento
         function SopoEnroPDF() {
             var doc = new jsPDF();
@@ -759,7 +818,8 @@
                 // Go to page i
                 doc.setPage(i);
                 //Print Page 1 of 4 for example
-                doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-20,297-30,null,null,"right");
+                doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-10,300-20,null,null,"right");
+                //doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-20,297-30,null,null,"right");
             }
 
             return doc;
@@ -767,11 +827,10 @@
         };
 
         function saveLocal(pdf) {
-            var binary = pdf;
-            var binario = binary ? btoa(binary) : "";
+            
             $.ajax({
                 url: url,
-                data: JSON.stringify({ data: binario }),
+                data: JSON.stringify({ data: pdf }),
                 dataType: "json",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -1238,7 +1297,7 @@
             dataOut = {
                 FromEmail:"alejandromejia@qaingenieros.com",
                 FromName:"Alejandro Mejia",
-                ToEmail:"mauriciogavira@qaingenieros.com",
+                ToEmail:"alejandromejia@qaingenieros.com",
                 ToName:"Mauricio Gaviria",
                 Attach:"Reporte.pdf",
                 Subject:"Reporte diario piloto Acceso por Temperatura y Reconocimiento",
@@ -1250,7 +1309,7 @@
                 format: "json",
                 url: '@Url.Action("SendEmail", "Reporte")',
                 dataType: "json",
-                data: data,
+                data: dataOut,
                 success: function (data) {
 
                     console.log(data);

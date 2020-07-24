@@ -459,6 +459,51 @@ namespace AspStudio.Controllers
         }
 
 
+                         
+            
+
+        // public ActionResult YourMethod(string data)
+        // {
+            // //create pdf
+            // var pdfBinary = Convert.FromBase64String(data);
+            // var folderPath = "wwwroot/Reports/";
+            // var imagePath = folderPath + imageName;
+
+
+            /*
+            
+            using(Image image = Image.FromStream(new MemoryStream(bytes)))
+            {
+                try {
+                    image.Save(imagePath, ImageFormat.Jpeg);  // Or Png
+                } catch(System.Exception e){
+                    System.Console.WriteLine("Error saving " + imagePath + " in filesystem" + e.Message + e.StackTrace );
+                }
+                
+            }
+
+            */
+
+        //     var dir = Server.MapPath("wwwroot/Reports/");
+
+        //     if (!Directory.Exists(dir))
+        //         Directory.CreateDirectory(dir);
+
+        //     var fileName = dir + "Reporte-" + DateTime.Now.ToString("yyyyMMdd-HHMMss") + ".pdf";
+
+        //     // write content to the pdf
+        //     using (var fs = new FileStream(fileName, FileMode.Create))
+        //     using (var writer = new BinaryWriter(fs))
+        //     {
+        //         writer.Write(pdfBinary, 0, pdfBinary.Length);
+        //         writer.Close();
+        //     }
+        //     //Mail the pdf and delete it
+        //     // .... call mail method here 
+        //    return null; 
+        // }
+
+
     }
 }
 
