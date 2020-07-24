@@ -1251,7 +1251,7 @@
             getTotalRegistros("2020-07-13 00:00:00", end, null)
             getTotalRegistros("2020-07-13 00:00:00", end, true)
             getTotalEnroll(start, end, null)
-            getTotalEnroll(start, end, "false")
+            getTotalEnroll(start, end, true)
             getTotalReco(start, end)
             getTotalPersonas(start,end)
             getDistReco(start, end)
@@ -1335,6 +1335,7 @@
 
                         const result1 = data.data.filter(h => h.hasPhoto = true);
                         console.log(result1.length);
+                    }
                         
                 } 
                 
