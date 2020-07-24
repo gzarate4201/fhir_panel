@@ -40,7 +40,7 @@
                     <label for="repoEndTime">Fecha final: </label>
                     <input type="text" class="calendar" id="repoEndTime" name="repoEndTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="btn btn-primary" id ="consultBtn"> Consultar </a>
-                    <a class="btn btn-secondary" id ="exportPDF"> Exportar PDF </a>
+                    <a class="btn btn-secondary" id ="exportPDF"> Resumen en PDF </a>
 
                     <div class="">
                         <label for="destinatario">Destinatario : </label>
@@ -131,12 +131,12 @@
                                 <div class="card-header ">
                                     <h4 class="card-title">Soporte Enrolamiento</h4>
                                     <p class="card-category">Registro de enrolamiento del periodo</p>
-                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a>
+                                    @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a> *@
                                 </div>
                                 <div class="card-body " style="height:450px;overflow:auto;">
                                     <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
                                     <?php //echo $this->Highcharts->render($chartName6); ?> -->
-                                    <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                    <table id="tblEnroll" class="table table-vcenter table-condensed table-bordered display">
                                         <thead>
                                             <tr>
                                                 <th>Fecha</th>
@@ -165,7 +165,7 @@
                                     <div class="card-header ">
                                         <h4 class="card-title">Distribucion Reconocimientos</h4>
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
-                                        <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a>
+                                        @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a> *@
                                     </div>
                                     <div class="card-body " style="height:450px;overflow:auto;width='100%';">
                                         <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
@@ -201,7 +201,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Eventos de Reconocimientos</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -243,7 +243,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Personas Reconocidas</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoRecoPerso"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoRecoPerso"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -281,7 +281,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Alertas</h4>
                                             <p class="card-category">Registro de alertas por personas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -360,7 +360,7 @@
                             <div class="card" style="max-height:600px;">
                                 <div class="card-header">
                                     <h4 class="card-title">Datos obtenidos</h4>
-                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a>
+                                    @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a> *@
                                 </div>
                                 <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
                                     <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
@@ -370,10 +370,10 @@
                                                     <th>Disp</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
-                                                    <th>Temp</th>
                                                     <th>Masc</th>
                                                     <th>Match</th>
                                                     <th>Similar</th>
+                                                    <th>Temp</th>
                                                     <th>imageUrl</th>
                                                 </tr>
                                             </thead>
@@ -1184,6 +1184,33 @@
 
         });
 
+        function sendEmail() {
+            dataOut = {
+                FromEmail:"alejandromejia@qaingenieros.com",
+                FromName:"Alejandro Mejia",
+                ToEmail:"mauriciogavira@qaingenieros.com",
+                ToName:"Mauricio Gaviria",
+                Attach:"Reporte.pdf",
+                Subject:"Reporte diario piloto Acceso por Temperatura y Reconocimiento",
+                Message:"Cordial Saludo, \n A continuacion encontrara la informacion del periodo"
+            }
+
+            jQuery.ajax({
+                type: "POST",
+                format: "json",
+                url: '@Url.Action("SendEmail", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                            
+
+                }
+            });
+
+        }
+
         function getReport(start, end) {
             getTotalEnroll(start, end, null)
             getTotalEnroll(start, end, "false")
@@ -1504,7 +1531,7 @@
                     
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
-                        url = String(value.imageUrl).substring(7);
+                        url = "<a href='" + String(value.imageUrl).substring(7) + "'  target='_blank'> Ver imagen </a>";
                         tblEvents.row.add(
                             [
                             value.registerTime,
