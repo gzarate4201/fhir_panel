@@ -68,7 +68,6 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
@@ -85,26 +84,6 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-=======
-                        @* <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Rechazos</h4>
-
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="stat-widget-one">
-                                            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                            <div class="stat-content dib" style="text-align:center">
-                                                <!-- <div class="stat-text">Alumnos Atendidos</div> -->
-                                                <div class="stat-digit" id="reconocimientosDia"> </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> *@
-                        <div class="col-md-4">
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Personas</h4>
@@ -156,11 +135,7 @@
                                 <div class="card-body " style="height:450px;overflow:auto;">
                                     <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
                                     <?php //echo $this->Highcharts->render($chartName6); ?> -->
-<<<<<<< HEAD
                                     <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
-=======
-                                    <table id="SopEnrol" class="table table-vcenter table-responsive table-condensed table-bordered display">
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                                         <thead>
                                             <tr>
                                                 <th>Fecha</th>
@@ -386,7 +361,6 @@
                                     <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a>
                                 </div>
                                 <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
-<<<<<<< HEAD
                                     <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
@@ -403,24 +377,6 @@
                                             </thead>
                                             <tbody id="soporteEventos">
                                             </tbody>
-=======
-                                    <table id="tblDatos" class="table table-vcenter table-responsive table-condensed table-bordered display">
-                                        <thead>
-                                            <tr>
-                                                <th>Fecha</th>
-                                                <th>Disp</th>
-                                                <th>Doc</th>
-                                                <th>Nombre</th>
-                                                <th>Temp</th>
-                                                <th>Masc</th>
-                                                <th>Match</th>
-                                                <th>Similar</th>
-                                                <th>imageUrl</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="soporteEventos">
-                                        </tbody>
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
                                     </table>
                                 </div>
@@ -745,11 +701,7 @@
 
         $(function () {
             var calendarRepoInit = new CalendarPopup('#repoInitTime', {
-<<<<<<< HEAD
                 format: 'YYYY-MM-DD HH:MM',
-=======
-                format: 'YYYY-MM-DD ',
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
@@ -761,11 +713,7 @@
 
 
             var calendarRepoEnd = new CalendarPopup('#repoEndTime', {
-<<<<<<< HEAD
                 format: 'YYYY-MM-DD HH:MM',
-=======
-                format: 'YYYY-MM-DD ',
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
@@ -882,11 +830,7 @@
 
         function getReport(start, end) {
             getTotalEnroll(start, end, null)
-<<<<<<< HEAD
             getTotalEnroll(start, end, "false")
-=======
-            getTotalEnroll(start, end, false)
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
             getTotalReco(start, end)
             getTotalPersonas(start,end)
             getDistReco(start, end)
@@ -910,7 +854,6 @@
 
                     console.log(data);
                     result = data.data;
-<<<<<<< HEAD
                     
                     if (hasPhoto == null) {
                             // Se muestra el total
@@ -939,28 +882,6 @@
                     }
                     
         
-=======
-
-                    // Se muestra el total
-                    if (hasPhoto == null) {
-                        $("#totalEnrolados").empty();
-                        $("#totalEnrolados").html(data.count);
-
-                        html = "";
-                        $("#soporteEnrolados").empty();
-                        $("#soporteEnrolados").append(html);
-                        $.each(data.data, function (index, value) {
-                            // here you can do your magic
-                            html = "<tr><td>" + value.fecha + "</td><td>" + value.docId + "</td><td>" + value.name + "</td><td>" + value.empresa + "</td><td>" + value.hasPhoto + "</td></tr>"
-                            //console.log(html);
-                            $("#soporteEnrolados").append(html);
-                        });
-                    }
-                    else {
-                        console.log("Fallos: " + data.count);
-                    }                                         
-
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
                 }
             });
@@ -1241,7 +1162,6 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-<<<<<<< HEAD
                     
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
@@ -1262,30 +1182,6 @@
                         )
                     })
                     tblEvents.draw();
-=======
-
-                    result = data;
-
-                    //result = jQuery.parseJSON(data);
-
-                    //console.log(result);
-                    /*
-                     * for (var [key, value] of Object.entries(data)) {
-                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
-                        console.log(value);
-                        $("#reporte").append("<li>" + value.name + "</li>");
-                    }
-                    */
-                    html = "";
-                    $("#soporteEventos").empty();
-                    $("#soporteEventos").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' id='pop'> Ver Imagen </a></td></tr>"
-                        //console.log(html);
-                        $("#soporteEventos").append(html);
-                    });
->>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
 
 
