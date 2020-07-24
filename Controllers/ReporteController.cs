@@ -344,7 +344,6 @@ namespace AspStudio.Controllers
             if (filter.smax != null) 
             result = result.Where(c => c.Similar <= Double.Parse(filter.smax));
 
-
             var count = result.Count();
 
 
