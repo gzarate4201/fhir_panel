@@ -1,11 +1,21 @@
+using System.Reflection.PortableExecutable;
+// using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
+
+// Email 
+using MailKit.Net.Imap;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 // Hub Chat
 using Microsoft.AspNetCore.SignalR;
@@ -30,15 +40,24 @@ namespace AspStudio.Controllers
         public string start_date {get; set;}
         public string end_date {get; set;}
         public string name {get; set;}
+        public string company {get; set;}
+        public string eXcompany {get; set;}
         public string document {get; set;}
         public string temperature {get; set;}
         public string tmin {get; set;}
         public string tmax {get; set;}
+        public string smin {get; set;}
+        public string smax {get; set;}
         public string device_id {get; set;}
         public string similar {get; set;}
         public Boolean hasMatch {get; set;}
         public string mask {get; set;}
         public string hasId {get; set;}
+        public string persons {get; set;}
+        public string hasPhoto {get; set;}
+        public string groupBy {get; set;}
+        public string ciudad {get; set;}
+        public string sitio {get; set;}
 
     }
 
@@ -91,18 +110,262 @@ namespace AspStudio.Controllers
         }
 
 
+        public JsonResult getReconocimientos(getFilter filter) {
+
+            var result = from o in dbContext.Reconocimientos
+                select o;
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.DateTime >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.DateTime <= DateTime.Parse(filter.end_date));
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public JsonResult getRecoDia(getFilter filter) {
+
+            var result = from o in dbContext.RecoDia
+                select o;
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+
+            if (filter.start_date != null) 
+            result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public JsonResult getSopoRecoPersona(getFilter filter) {
+
+            var result = from o in dbContext.SopoRecoPersonas
+                select o;
+
+
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+
+            if (filter.start_date != null) 
+            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        public JsonResult getRepoEnroll(getFilter filter) {
+
+            var result = from o in dbContext.RepoEnrolamientos
+                select o;
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.Fecha >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.Fecha <= DateTime.Parse(filter.end_date));
+
+            if (filter.hasPhoto != null) {
+                var hasPhoto = (filter.hasPhoto == "true") ? true : false;
+                result = result.Where(c => c.hasPhoto == hasPhoto);
+            }
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        public JsonResult getRepoEnrollDev(getFilter filter) {
+
+            var result = from o in dbContext.RepoEnrollDevices
+                select o;
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            if (filter.hasPhoto != null) {
+                var hasPhoto = (filter.hasPhoto == "true") ? true : false;
+                result = result.Where(c => c.hasPhoto == hasPhoto);
+            }
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        public JsonResult getSopoRecoDia(getFilter filter) {
+
+            var result = from o in dbContext.SopoRecoDias
+                select o;
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.document != null) 
+            result = result.Where(c => c.DocId.Contains(filter.document));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.DateTime >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.DateTime <= DateTime.Parse(filter.end_date));
+
+            if (filter.tmin != null) 
+            result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
+                            
+
+            if (filter.tmax != null) 
+            result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
+
+
+            if (filter.smin != null) 
+            result = result.Where(c => c.Similar >= Double.Parse(filter.smin));
+                            
+
+            if (filter.smax != null) 
+            result = result.Where(c => c.Similar <= Double.Parse(filter.smax));
+
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        public JsonResult getSopoEvRecoDia(getFilter filter) {
+
+            var result = from o in dbContext.SopoEvRecoDias
+                select o;
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.document != null) 
+            result = result.Where(c => c.DocId.Contains(filter.document));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.DateTime >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.DateTime <= DateTime.Parse(filter.end_date));
+
+            if (filter.tmin != null) 
+            result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
+                            
+
+            if (filter.tmax != null) 
+            result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
+
+
+            if (filter.smin != null) 
+            result = result.Where(c => c.Similar >= Double.Parse(filter.smin));
+                            
+
+            if (filter.smax != null) 
+            result = result.Where(c => c.Similar <= Double.Parse(filter.smax));
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+
         public JsonResult getEventos(getFilter filter) {
 
             //var result = dbContext.Persons
             //    .Where(t => t.DevId == filter.device_id);
 
+            
+
             var result = from o in dbContext.Persons
                 select o;
 
             if (filter.name != null) 
-            result = result.Where(c => c.Name == filter.name);
+            result = result.Where(c => c.Name.Contains(filter.name));
 
-            if (filter.device_id != null) 
+            if (filter.device_id != null)
             result = result.Where(c => c.DevId == filter.device_id);
 
             if (filter.mask != null) 
@@ -113,12 +376,13 @@ namespace AspStudio.Controllers
 
             if (filter.tmin != null) 
             result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
+                            
 
             if (filter.tmax != null) 
             result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
 
-            if (filter.hasId != null) 
-            result = result.Where(c => c.UserId > 0);
+            
+            
 
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
@@ -126,12 +390,67 @@ namespace AspStudio.Controllers
 
             if (filter.end_date != null) 
             result = result.Where(c => c.RegisterTime <= DateTime.Parse(filter.end_date));
-
            
+            
+            // if (filter.groupBy != null) {
+            //     switch (filter.groupBy)
+            //     {
+            //         case "name":
+            //             result = result.GroupBy(n => new { n.Name });
+            //             break;
+            //         case "device":
+            //             result = result.GroupBy(n => new { n.DevId });
+            //             break;
+            //         default:
+            //     }
+            // }
 
-            return new JsonResult ( new { Data = result} );
+            
+            
+            // IQueryable<IGrouping<int, Person>> groups = result.GroupBy(x => x.UserId);
+
+            if (filter.hasId != null) {
+                result = result.Where(c => c.UserId > 0);
+            }
+
+            var count = result.Count();
+
+            return new JsonResult ( new { Count = count, Data = result} );
           
         }
+
+
+        public JsonResult SendEmail (EmailFormModel model) {
+
+            var message = new MimeMessage ();
+			message.From.Add (new MailboxAddress ("Alejandro", "alejandromejia@qaingenieros.com"));
+			message.To.Add (new MailboxAddress (model.ToName, model.ToEmail));
+			message.Subject = model.Subject;
+
+			// message.Body = new TextPart ("plain") {
+			// 	Text = model.Message
+			// };
+
+            //Fetch the attachments from db
+            //considering one or more attachments
+            var builder = new BodyBuilder { TextBody = model.Message };
+            builder.Attachments.Add(@"wwwroot/Reports/reporte.pdf");
+            message.Body = builder.ToMessageBody();
+            
+            using (var client = new SmtpClient ()){
+                client.Connect ("mail.qaingenieros.com", 587, false);
+
+				// Note: only needed if the SMTP server requires authentication
+				client.Authenticate ("alejandromejia@qaingenieros.com", "Al3j0@17");
+
+				client.Send (message);
+				client.Disconnect (true);
+            }
+
+            return new JsonResult ( new { Status = "Success"} );
+        }
+
+
     }
 }
 

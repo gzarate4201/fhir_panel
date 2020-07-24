@@ -646,8 +646,8 @@ namespace Mqtt.Client.AspNetCore.Services
                     Report = setReport,
                     IdLenel = 10101,
                     Instrumento = "Indra-FK02GYW-" + device_site.DevId,
-                    TipoCal = calType,
-                    TipoMed = calMethod,
+                    TipoCal = "None",
+                    TipoMed = "None",
                     ValCal = Convert.ToDouble(calValue)
                 };
 

@@ -7,11 +7,20 @@
 <script type="text/javascript" src="@Url.Content("~/js/calendar.min.js")"></script>
 <!-- Calendar picker -->
 <link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/datatables.css")" rel="stylesheet" type="text/css" />
 
 <!-- <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
     <li class="breadcrumb-item active">REPORTES</li>
 </ul> -->
+
+<style>
+    .stat-digit {
+        font-size: 32px;
+        font-weight: bold;
+    }
+</style>
+
 <div class="container-fluid">
 
     <div class="col-md-12 card-deck">
@@ -23,9 +32,349 @@
     <!--   Querys  -->
     <div class="col-md-12">
         <div class="card">
+            <div class="card-header">
+                <form class="form-inline" action="">
+                    <h2> Rango del Reporte </h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for="repoInitTime">Fecha inicial: </label>
+                    <input type="text" class="calendar" id="repoInitTime" name="repoInitTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for="repoEndTime">Fecha final: </label>
+                    <input type="text" class="calendar" id="repoEndTime" name="repoEndTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-primary" id ="consultBtn"> Consultar </a>
+
+                    <div class="">
+                        <label for="destinatario">Destinatario : </label>
+                        <input type="text" name="destinatario" id="destinatario">
+                        <a class="btn btn-primary" id ="sendEmail"> Enviar reporte por Email </a>
+                    </div>
+                </form>
+            </div>
             <div class="card-body">
                 <div class="reporte view" id="reporte">
                     <div class="row">
+<<<<<<< HEAD
+                        <div class="col-md-3">
+=======
+                        <div class="col-md-4">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Enrolados</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
+                                            <div class="stat-digit" id="totalEnrolados">  </div>
+<<<<<<< HEAD
+                                            <div class="stat-digit" id="totalFallaEnrol">  </div>
+=======
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<<<<<<< HEAD
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Eventos de Reconocimientos</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <div class="stat-digit" id="totalReconocimientos"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Personas</h4>
+
+=======
+                        @* <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Rechazos</h4>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="stat-widget-one">
+                                            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                            <div class="stat-content dib" style="text-align:center">
+                                                <!-- <div class="stat-text">Alumnos Atendidos</div> -->
+                                                <div class="stat-digit" id="reconocimientosDia"> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Reconocimientos</h4>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+<<<<<<< HEAD
+                                            <!-- <div class="stat-text">Alumnos Atendidos</div> -->
+                                            <div class="stat-digit" id="totalPersonas"> </div>
+=======
+                                            <div class="stat-digit" id="totalReconocimientos"></div>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<<<<<<< HEAD
+                        <div class="col-md-3">
+=======
+                        <div class="col-md-4">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Alertas</h4>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
+                                            <div class="stat-digit" id="totalAlertas"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Soporte Enrolamiento</h4>
+                                    <p class="card-category">Registro de enrolamiento del periodo</p>
+                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a>
+                                </div>
+                                <div class="card-body " style="height:450px;overflow:auto;">
+                                    <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
+                                    <?php //echo $this->Highcharts->render($chartName6); ?> -->
+<<<<<<< HEAD
+                                    <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
+=======
+                                    <table id="SopEnrol" class="table table-vcenter table-responsive table-condensed table-bordered display">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Doc</th>
+                                                <th>Nombre</th>
+                                                <th>Empresa</th>
+                                                <th>Foto?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="soporteEnrolados">
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div class="card-footer ">
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div id="walkins">
+                                <div class="card ">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Distribucion Reconocimientos</h4>
+                                        <p class="card-category">Registro de reconocimientos del periodo</p>
+                                        <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a>
+                                    </div>
+<<<<<<< HEAD
+                                    <div class="card-body " style="height:450px;overflow:auto;width='100%';">
+                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
+=======
+                                    <div class="card-body " style="height:450px;overflow:auto;width=100%;">
+                                        <table id="tblRecoDisp" class="table table-vcenter table-responsive table-condensed table-bordered display">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Puerta</th>
+<<<<<<< HEAD
+=======
+                                                    <th>Disp.</th>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                                    <th>Recon.</th>
+                                                    <th>Personas</th>
+                                                    <th>Alertas</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="distribReco">
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+                                    <div class="card-footer ">
+                                        <hr>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+<<<<<<< HEAD
+                                            <h4 class="card-title">Soporte Eventos de Reconocimientos</h4>
+=======
+                                            <h4 class="card-title">Soporte Reconocimientos</h4>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                            <p class="card-category">Registro de personas reconocidas</p>
+                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a>
+                                        </div>
+                                        <div class="card-body " style="height:450px;overflow:auto;">
+                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
+                                            <table id="tblRecos" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Puerta</th>
+                                                    <th>Disp.</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Sim</th>
+                                                    <th>Temp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteReconocimientos">
+                                            </tbody>
+
+                                        </table>
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+<<<<<<< HEAD
+                                            <h4 class="card-title">Soporte Personas Reconocidas</h4>
+                                            <p class="card-category">Registro de personas reconocidas</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;overflow:auto;">
+                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
+                                            <table id="tblSopRecoPerso" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteReconocimientos">
+                                            </tbody>
+
+                                        </table>
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+=======
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+                                            <h4 class="card-title">Soporte Alertas</h4>
+                                            <p class="card-category">Registro de alertas por personas</p>
+                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a>
+                                        </div>
+                                        <div class="card-body " style="height:450px;overflow:auto;">
+                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
+                                            <table id="tblAlertas" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Puerta</th>
+                                                    <th>Disp.</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
+                                                    <th>Sim</th>
+                                                    <th>Temp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteAlertas">
+                                            </tbody>
+
+                                        </table>
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row card-deck">
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
@@ -64,273 +413,53 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
-                            <div class="card" style="max-height:330px;">
+                        <div class="col-md-9">
+                            <div class="card" style="max-height:600px;">
                                 <div class="card-header">
                                     <h4 class="card-title">Datos obtenidos</h4>
+                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a>
                                 </div>
-                                <div class="card-body" id="dynReport" style="overflow:scroll">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Eventos</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                            <div class="stat-digit" id="eventosDia">  </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Reconocimientos</h4>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Alumnos Atendidos</div> -->
-                                            <div class="stat-digit" id="reconocimientosDia"> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Programas</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <div class="stat-digit" id="profitBogota"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Profesoras</h4>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                            <div class="stat-digit" id="profitBogota"> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card ">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Asistencia Alumnos</h4>
-                                    <p class="card-category">Distribucion de Asistencias por Programa y Nivel</p>
-                                </div>
-                                <div class="card-body " style="height:450px;overflow:auto;">
-                                    <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
-                                    <?php //echo $this->Highcharts->render($chartName6); ?> -->
-                                    <table id="tblNiveles" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
+<<<<<<< HEAD
+                                    <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Disp</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Temp</th>
+                                                    <th>Masc</th>
+                                                    <th>Match</th>
+                                                    <th>Similar</th>
+                                                    <th>imageUrl</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteEventos">
+                                            </tbody>
+=======
+                                    <table id="tblDatos" class="table table-vcenter table-responsive table-condensed table-bordered display">
                                         <thead>
                                             <tr>
-                                                <th>Programa</th>
-                                                <th>Nivel</th>
-                                                <th>Alumnos</th>
+                                                <th>Fecha</th>
+                                                <th>Disp</th>
+                                                <th>Doc</th>
+                                                <th>Nombre</th>
+                                                <th>Temp</th>
+                                                <th>Masc</th>
+                                                <th>Match</th>
+                                                <th>Similar</th>
+                                                <th>imageUrl</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="soporteEventos">
                                         </tbody>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
                                     </table>
                                 </div>
-
-                                <div class="card-footer ">
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-clock-o"></i> http://sing.com.co
-                                    </div>
-                                </div>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div id="walkins">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Relación de Alumnos</h4>
-                                        <p class="card-category">Distribucion de Asistencias por dia de la semana</p>
-                                    </div>
-                                    <div class="card-body " style="height:450px;overflow:auto;">
-                                        <table id="tblAlumnos" class="table table-vcenter table-responsive table-condensed table-bordered display">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Nombre</th>
-                                                    <th>Acudiente</th>
-                                                    <th>Asistencias</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                    <div class="card-footer ">
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> http://sing.com.co
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card ">
-                                        <div class="card-header ">
-                                            <h4 class="card-title">Asistencias</h4>
-                                            <p class="card-category">Distribucion de Asistencias por dia de la semana</p>
-                                        </div>
-                                        <div class="card-body " style="height:450px;">
-                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
-
-                                        </div>
-
-                                        <div class="card-footer ">
-                                            <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-clock-o"></i> http://sing.com.co
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card ">
-                                        <div class="card-header ">
-                                            <h4 class="card-title">Asistencias por Programa</h4>
-                                            <p class="card-category">Distribucion de Asistencias por Programa</p>
-                                        </div>
-                                        <div class="card-body " style="height:450px;">
-                                            <div id="columnwrapper1" style="width:100%; margin-bottom: 20px;"></div>
-
-                                        </div>
-
-                                        <div class="card-footer ">
-                                            <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-clock-o"></i> http://sing.com.co
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card ">
-                                        <div class="card-header ">
-                                            <h4 class="card-title">Asistencias por Profesor</h4>
-                                            <p class="card-category">Distribucion de Asistencias por Profesor</p>
-                                        </div>
-                                        <div class="card-body " style="height:450px;">
-                                            <div id="columnwrapper2" style="width:100%; margin-bottom: 20px;"></div>
-
-                                        </div>
-
-                                        <div class="card-footer ">
-                                            <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-clock-o"></i> http://sing.com.co
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card ">
-                                        <div class="card-header ">
-                                            <h4 class="card-title">Registro Asistencias por Nivel</h4>
-                                            <p class="card-category">Distribucion de Asistencias por Nivel</p>
-                                        </div>
-                                        <div class="card-body " style="height:450px;">
-                                            <div id="columnwrapper4" style="width:100%; margin-bottom: 20px;"></div>
-                                            <?php echo $this->Highcharts->render($chartName5); ?>
-                                        </div>
-
-                                        <div class="card-footer ">
-                                            <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-clock-o"></i> http://sing.com.co
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card ">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Asistencias por Alumno</h4>
-                                    <p class="card-category">Asistencias registradas en el periodo</p>
-                                </div>
-                                <div class="card-body " style="height:450px;">
-                                    <div id="columnwrapper5" style="width:100%; margin-bottom: 20px;"></div>
-
-                                </div>
-
-                                <div class="card-footer ">
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-clock-o"></i> http://sing.com.co
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
@@ -384,141 +513,1594 @@
                     </form>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
     </div>
-    <
+    
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+        </div>
+        <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 600px;" >
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+=======
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
+        </div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Creates the bootstrap modal where the image will appear -->
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+        </div>
+        <div class="modal-body">
+            <img src="" id="imagepreview" style="width: 400px; height: 600px;" >
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <!-- Carga las librerias de MQTT js -->
     <!--  <script src="~/js/mqtt.js"></script> -->
 
+
+    <script src="~/js/datatables.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
+    <script src="~/js/jspdf.js"></script>
+    <script src="~/js/jspdf.plugin.autotable.js"></script>
     <script>
+
         var result = [];
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
+        var tblRecoDisp, tblSopReco;
 
         $('#query_pages').on('click',queryPages);
         $('#query_batch').on('click', queryBatch);
         $('#query_user').on('click', queryUser);
         $('#bind_device_id_select').on('change', changeDevice);
+        $("#sendEmail").on('click', sendEmail);
+
+
+        $('#exportPDF').on('click', exportPDF);
+        $('#exportSopoEnro').on('click', SopoEnroPDF);
+        $('#exportDistriReco').on('click', DistriRecoPDF);
+        $('#exportSopoReco').on('click', SopoRecoPDF);
+        $('#exportSoporAlert').on('click', SopoAlertPDF);
+        $('#exportDatos').on('click', DatosPDF);
 
         $('#Query').on('click', reportQuery);
 
+        // Exportación General del reporte
+
+        function exportPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+            
+            doc.setProperties({
+                title: 'Reporte de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);        
+            doc.setFontStyle('normal');           
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(90, 20, 'INFORME');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+
+            doc.text(15, limitY +10, 'Total Enrolados: ' + totalEnrol);
+            doc.text(15, limitY + 15, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY+25, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY +30, theme: 'plain', html: '#SopEnrol' });
+
+            var finalY = doc.lastAutoTable.finalY;
+
+            doc.text(15, finalY + 15, 'Eventos reconocimiento ');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblRecoDisp' });
+
+            finalY = doc.lastAutoTable.finalY;          
+
+            doc.text(15, finalY + 15, 'Soporte Alertas');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del soporte de Enrrolamiento
+        function SopoEnroPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Soporte Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'SOPORTE ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#SopEnrol' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Enro.pdf');
+
+        }
+
+        // Exportación de la distribución de Enrolamiento
+        function DistriRecoPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Distribución Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'DISTRIBUCIÓN ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Distribución Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecoDisp' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Distribucion Enrolamiento_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación del soporte de reconocimiento
+        function SopoRecoPDF() {
+            var doc = new jsPDF('landscape');
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+
+            doc.setProperties({
+                title: 'Soporte Reconocimiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'SOPORTE RECONOCIMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());            
+            doc.text(15, limitY + 10, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY + 20, 'Soporte reconocimiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecos' });           
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('SoporteReco_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del Soporte de Alertas
+        function SopoAlertPDF() {
+            var doc = new jsPDF();
+            var alertas = $('#totalAlertas').html();
+
+            doc.setProperties({
+                title: 'Soporte de alertas'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(70, 20, 'SOPORTE DE ALERTAS DE TEMPERATURA');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Alertas: ' + alertas);
+
+            doc.text(15, limitY + 20, 'Soporte Alertas ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Alertas Temp_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación de datos consultados
+        function DatosPDF() {
+            var doc = new jsPDF('landscape');         
+
+            doc.setProperties({
+                title: 'Consulta de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'CONSULTA DE DATOS');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());          
+
+            doc.text(15, limitY + 20, 'Datos Consultados');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblDatos' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Consulta _' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        function saveLocal(pdf) {
+            var binary = pdf;
+            var binario = binary ? btoa(binary) : "";
+            $.ajax({
+                url: url,
+                data: JSON.stringify({ data: binario }),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    console.log("Se envió el archivo al servidor")
+                }
+            });
+
+        }
+
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
         $(function () {
+            var calendarRepoInit = new CalendarPopup('#repoInitTime', {
+                format: 'YYYY-MM-DD ',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+            var today = new Date();
+
+            $('#repoInitTime').val(formatDate(today));
+
+
+            var calendarRepoEnd = new CalendarPopup('#repoEndTime', {
+                format: 'YYYY-MM-DD ',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+            $('#repoEndTime').val(formatDate(today));
+
             var calendarInit = new CalendarPopup('#init', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
             var calendarEnd = new CalendarPopup('#end', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
+
+            tblRecoDisp = $('#tblRecoDisp').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopReco = $('#tblRecos').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopAlertas = $('#tblAlertas').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            getReport($('#repoInitTime').val(),$('#repoEndTime').val())
         });
+
+        $("#consultBtn").on('click', function(){
+            getReport($('#repoInitTime').val(),$('#repoEndTime').val())
+        })
 
         $(document).ready(function(){
             reportQuery();
             $("eventosDia").html = eventosDia.lenght();
             $("reconocimientosDia").html = reconocimientosDia.lenght();
-           
+
         });
+
+        function getReport(start, end) {
+            getTotalEnroll(start, end, null)
+            getTotalEnroll(start, end, false)
+            getTotalReco(start, end)
+            getDistReco(start, end)
+            getTotalAlertas(start, end)
+        }
+
+        function getTotalEnroll(start, end, hasPhoto) {
+            data = {
+                start_date: start,
+                end_date: end,
+                hasPhoto: hasPhoto
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRepoEnroll", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+
+                    // Se muestra el total
+                    if (hasPhoto == null) {
+                        $("#totalEnrolados").empty();
+                        $("#totalEnrolados").html(data.count);
+
+                        html = "";
+                        $("#soporteEnrolados").empty();
+                        $("#soporteEnrolados").append(html);
+                        $.each(data.data, function (index, value) {
+                            // here you can do your magic
+                            html = "<tr><td>" + value.fecha + "</td><td>" + value.docId + "</td><td>" + value.name + "</td><td>" + value.empresa + "</td><td>" + value.hasPhoto + "</td></tr>"
+                            //console.log(html);
+                            $("#soporteEnrolados").append(html);
+                        });
+                    }
+                    else {
+                        console.log("Fallos: " + data.count);
+                    }                                         
+
+
+                }
+            });
+
+        }
+
+        function getTotalReco(start, end) {
+            data = {
+                start_date: start,
+                end_date: end
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoDia", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+
+                    // Se muestra el total
+                    $("#totalReconocimientos").empty();
+                    $("#totalReconocimientos").html(data.count);
+
+                    tblSopReco.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopReco.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopReco.draw();
+        
+
+                }
+            });
+
+        }
+
+        function getDistReco(start, end) {
+            dataOut = {
+                start_date: start,
+                end_date: end
+            };
+            
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRecoDia", "Reporte")',
+                dataType: "json",
+                data: dataOut,
+                success: function (data) {
+                    tblRecoDisp.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblRecoDisp.row.add(
+                            [
+                            value.fecha,
+                            value.devId,
+                            value.ciudad,
+                            value.sitio,
+                            value.recos,
+                            value.personas,
+                            value.alertas,
+                            ]
+                        )
+                    })
+                    tblRecoDisp.draw();
+                    console.log(data)
+
+                }   
+            });   
+                    
+            
+                
+                    
+
+                    /*
+                    $('#tblRecoDisp').DataTable();
+                    
+                    html = "";
+                    $("#distribReco").empty();
+                    $("#distribReco").append(html);
+                    $.each(data.data, function (index, value) {
+                        // here you can do your magic
+                        html = "<tr><td>" + value.fecha.substring(0, 10) + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td style='text-align:center;'>" + value.recos + "</td><td style='text-align:center;'>" + value.personas +  "</td><td style='text-align:center;'>" + value.alertas + "</td></tr>"
+                        //console.log(html);
+                        $("#distribReco").append(html);
+                    });
+                    */
+                                      
+
+        }
+
+        function getTotalAlertas(start, end) {
+            data = {
+                start_date: start,
+                end_date: end,
+                tmin: 37.3
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoDia", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+
+                    // Se muestra el total
+                    $("#totalAlertas").empty();
+                    $("#totalAlertas").html(data.count);
+
+                    tblSopAlertas.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopAlertas.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopAlertas.draw();
+        
+
+                }
+            });
+
+        }
 
 
         function reportQuery() {
-            let todayDate = new Date().toLocaleString();           
+            let todayDate = new Date().toLocaleString();
 
             console.log(todayDate);
             // Total eventos del dia
 
-            // Device ID
-            if ($('#ecp_dev_id').val() != 0) {
-                console.log("El valor del device id es: ");
-                console.log(device_id);
-                let initDev = $('#ecp_dev_id').val();
-                data = {
-                    device_id: initDev,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                },
-                    eventosDia = getData(data);
+            let initDev = null;
+            let initName = null;
+            let initTempMin = null;
+            let initTempMax = null;
+            let initDate = null;
+            let endDate = null;
+            let initHasId = null;
 
+            if(typeof device_id !== 'undefined') {
+                initDev = (device_id > 0) ? device_id : null;
+            } else {
+                initDev = null;
             }
+
 
             //Nombre
             if ($('#ecp_name').val() != 0) {
                 console.log("El nombre a enviar es: ")
                 console.log($('#ecp_name').val());
-                let initName = $('#ecp_name').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    name: initName
-                },
-                    eventosDia = getData(data);
-
+                initName = $('#ecp_name').val();
             }
 
-            //Temperatura minima 
+            //Temperatura minima
             if ($('#ecp_temp_min').val() != 0) {
                 console.log("La temperatura mínima a enviar es: ")
                 console.log($('#ecp_temp_min').val());
-                let initTemp = $('#ecp_temp_min').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    tmin: initTemp
-                },
-                    eventosDia = getData(data);
-
+                initTempMin = $('#ecp_temp_min').val();
             }
 
-            //Temperatura minima 
+            //Temperatura minima
             if ($('#ecp_temp_max').val() != 0) {
                 console.log("La temperatura máxima a enviar es: ")
                 console.log($('#ecp_temp_max').val());
-                let initTemp = $('#ecp_temp_max').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    //start_date: initDate
-                    tmax: initTemp
-                },
-                    eventosDia = getData(data);
-
+                initTempMax = $('#ecp_temp_max').val();
             }
 
             //Fecha inicial
             if ($('#init').val() != 0) {
                 console.log("El valor del calendario es: ")
                 console.log($('#init').val());
-                let initDate = $('#init').val();
-                data = {
-                    //device_id: device_id,
-                    //tmin: 36,
-                    //hasId: 1,
-                    start_date: initDate
-                },
-                    eventosDia = getData(data);
-
+                initDate = $('#init').val();
             }
-           
 
-           /* data={
-                    //device_id: device_id,
-                    //tmin: 36,
+            //Fecha final
+            if ($('#end').val() != 0) {
+                console.log("El valor del calendario es: ")
+                console.log($('#end').val());
+                endDate = $('#end').val();
+            }
+
+
+            data={
+                    device_id: initDev,
+                    name: initName,
+                    tmin: initTempMin,
+                    tmax: initTempMax,
+                    start_date: initDate,
+                    end_date: endDate,
                     hasId: 1,
-                    start_date: "2020-07-16"
-                },
-            reconocimientosDia = getData(data);*/
+
+                };
+
+            eventosDia = getData(data);
+
+        }
+
+        function getData(data) {
+            // var t_min= $("#tmin").value();
 
 
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getEventos", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    result = data;
+
+                    //result = jQuery.parseJSON(data);
+
+                    //console.log(result);
+                    /*
+                     * for (var [key, value] of Object.entries(data)) {
+                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
+                        console.log(value);
+                        $("#reporte").append("<li>" + value.name + "</li>");
+                    }
+                    */
+                    html = "";
+                    $("#soporteEventos").empty();
+                    $("#soporteEventos").append(html);
+                    $.each(data.data, function (index, value) {
+                        // here you can do your magic                        
+                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' id='pop'> Ver Imagen </a></td></tr>"
+                        //console.log(html);
+                        $("#soporteEventos").append(html);
+                    });
+
+
+
+                }
+            });
+        }
+
+        $("#pop").on("click", function() {
+            $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
+            $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+        });
+
+
+    /* device basic configuration example
+    {
+        "mqtt_cmd":1,
+        "mqtt_operate_id":1,
+        "device_token":"1057628122",
+        "device_id":"7101389947744",
+        "tag":"platfrom define",
+        "basic_config":
+        {
+            "dev_name":"12315456445864",
+            "dev_pwd":"YWRtaW4=",
+            "sync_server_pts_en":true,
+            "server_cur_pts":"2020/05/18 11:07"
+        }
+    }
+
+    */
+
+    // Se dispara cuando se selecciona una tableta de la lista desplegable
+    function changeDevice() {
+        device_id = $(this).val();
+        console.log("Device_id : " + device_id);
+        $.get("/Device/getDeviceToken?device_id=" + device_id, function (data) {
+            device_tkn = data.token;
+            device_tag = data.tag;
+            console.log("Data : ")
+            console.log(data);
+            console.log("Dev Tkn : " + device_tkn);
+            console.log("Device_tag : " + device_tag);
+        });
+
+    }
+
+    function queryPages() {
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";
+        var pages = parseInt($('#page').val());
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:4,
+				page: pages
+        }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying pages");
+            }
+        });
+    }
+
+    /* device basic configuration example
+    {
+            "mqtt_cmd": 1,
+            "mqtt_operate_id": 7,
+            "device_token": "1514348271",
+            "device_id": "7101389947744",
+            "tag": "platfrom define",
+            "piclib_manage": 5,
+            "param": {
+                "lib": [
+                    {
+                        "lib_id": "8"
+                    },
+                    {
+                        "lib_id": "9"
+                    }
+                ]
+            }
+        }
+
+    */
+
+        function queryBatch() {
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";
+        var batchs = $('#batch').val()
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:5,
+                param: {
+
+                    lib:
+                    [
+                    {
+                        lib_id: batchs
+                    }
+                    ]
+                }
+            }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying batchs");
+            }
+        });
+        }
+
+    /* query individual or multiple user face database information
+  {
+				"mqtt_cmd":1,
+				"mqtt_operate_id":7,
+				"device_token":"1057628122",
+				"device_id":"7101389947744",
+				"tag":"platfrom define",
+				"piclib_manage":6,
+				"param":{
+					"users":[
+						{
+							"user_id":"1"
+						},
+						{
+							"user_id":"2"
+						}
+					]
+				}
+			}
+
+
+    */
+
+        function queryUser() {
+        var dev_id = "7101076854037";
+        var dev_tag = "DEV02";
+        var users = $('#user').val()
+        console.log(dev_id, dev_tag);
+        jsonMsg =
+            {
+				mqtt_cmd:1,
+                mqtt_operate_id: 7,
+                device_token: device_tkn,
+                device_id: dev_id,
+                tag: dev_tag,
+			    piclib_manage:6,
+                param:
+                {
+                    users:
+                    [
+                    {
+                        user_id: users
+                    }
+                    ]
+
+                }
+            }
+        ;
+        jsonMsg = JSON.stringify(jsonMsg);
+        console.log(jsonMsg);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("publishMQTT", "Device")',
+            dataType: "json",
+            data:{
+                topic:"SubscribeTest",
+                msg: jsonMsg,
+            },
+            async: false,
+            success: function(data) {
+
+                var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                $('#mqtt_send').html(
+                    jsonPretty
+                )
+            },
+            error: function() {
+                console.log("Error querying users");
+            }
+        });
+        }
+    </script>
+
+    <!-- Carga las librerias de MQTT js -->
+    <!--  <script src="~/js/mqtt.js"></script> -->
+
+
+    <script src="~/js/datatables.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/js/jspdf.js"></script>
+    <script src="~/js/jspdf.plugin.autotable.js"></script>
+    <script>
+
+        var result = [];
+        var device_tkn;
+        var eventosDia, reconocimientosDia, personasDia;
+        var tblRecoDisp, tblSopReco;
+
+
+
+
+        $('#query_pages').on('click',queryPages);
+        $('#query_batch').on('click', queryBatch);
+        $('#query_user').on('click', queryUser);
+        $('#bind_device_id_select').on('change', changeDevice);
+        $("#sendEmail").on('click', sendEmail);
+
+
+        $('#exportPDF').on('click', exportPDF);
+        $('#exportSopoEnro').on('click', SopoEnroPDF);
+        $('#exportDistriReco').on('click', DistriRecoPDF);
+        $('#exportSopoReco').on('click', SopoRecoPDF);
+        $('#exportSoporAlert').on('click', SopoAlertPDF);
+        $('#exportDatos').on('click', DatosPDF);
+
+        $('#Query').on('click', reportQuery);
+
+        // Exportación General del reporte
+
+        function exportPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+            
+            doc.setProperties({
+                title: 'Reporte de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);        
+            doc.setFontStyle('normal');           
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(90, 20, 'INFORME');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+
+            doc.text(15, limitY +10, 'Total Enrolados: ' + totalEnrol);
+            doc.text(15, limitY + 15, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY+25, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY +30, theme: 'plain', html: '#SopEnrol' });
+
+            var finalY = doc.lastAutoTable.finalY;
+
+            doc.text(15, finalY + 15, 'Eventos reconocimiento ');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblRecoDisp' });
+
+            finalY = doc.lastAutoTable.finalY;          
+
+            doc.text(15, finalY + 15, 'Soporte Alertas');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del soporte de Enrrolamiento
+        function SopoEnroPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Soporte Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'SOPORTE ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#SopEnrol' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Enro.pdf');
+
+        }
+
+        // Exportación de la distribución de Enrolamiento
+        function DistriRecoPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Distribución Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'DISTRIBUCIÓN ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Distribución Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecoDisp' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Distribucion Enrolamiento_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación del soporte de reconocimiento
+        function SopoRecoPDF() {
+            var doc = new jsPDF('landscape');
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+
+            doc.setProperties({
+                title: 'Soporte Reconocimiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'SOPORTE RECONOCIMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());            
+            doc.text(15, limitY + 10, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY + 20, 'Soporte reconocimiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecos' });           
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('SoporteReco_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del Soporte de Alertas
+        function SopoAlertPDF() {
+            var doc = new jsPDF();
+            var alertas = $('#totalAlertas').html();
+
+            doc.setProperties({
+                title: 'Soporte de alertas'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(70, 20, 'SOPORTE DE ALERTAS DE TEMPERATURA');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Alertas: ' + alertas);
+
+            doc.text(15, limitY + 20, 'Soporte Alertas ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Alertas Temp_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación de datos consultados
+        function DatosPDF() {
+            var doc = new jsPDF('landscape');         
+
+            doc.setProperties({
+                title: 'Consulta de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'CONSULTA DE DATOS');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());          
+
+            doc.text(15, limitY + 20, 'Datos Consultados');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblDatos' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Consulta _' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        function saveLocal(pdf) {
+            var binary = pdf;
+            var binario = binary ? btoa(binary) : "";
+            $.ajax({
+                url: url,
+                data: JSON.stringify({ data: binario }),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    console.log("Se envió el archivo al servidor")
+                }
+            });
+
+        }
+
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        $(function () {
+            var calendarRepoInit = new CalendarPopup('#repoInitTime', {
+                format: 'YYYY-MM-DD HH:MM',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+            var today = new Date();
+            var todayStart = today.setHours(0,0,0,0);
+            var todayEnd = today.setHours(23,59,59,999);
+
+            $('#repoInitTime').val(formatDate(todayStart));
+
+
+            var calendarRepoEnd = new CalendarPopup('#repoEndTime', {
+                format: 'YYYY-MM-DD HH:MM',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+            $('#repoEndTime').val(formatDate(todayEnd));
+
+            var calendarInit = new CalendarPopup('#init', {
+                format: 'YYYY-MM-DD hh:mm:ss',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+            var calendarEnd = new CalendarPopup('#end', {
+                format: 'YYYY-MM-DD hh:mm:ss',
+                dayOfWeekStart: 1,
+                locale: 'es',
+            });
+
+            tblRecoDisp = $('#tblRecoDisp').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopReco = $('#tblRecos').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopRecoPerso = $('#tblSopRecoPerso').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblSopAlertas = $('#tblAlertas').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblEnroll = $('#tblEnroll').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            tblEvents = $('#tblEvents').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            var start = $('#repoInitTime').val();
+            var end = $('#repoEndTime').val();
+
+            console.log("Lectura fecha :" + start, end);
+
+            if (start.length == 10)
+                start += " 00:00:00"
+            if (end.length == 10)
+                end += " 23:59:59"
+
+            console.log("Nueva fechahora :" + start, end);
+
+            getReport(start, end)
+        });
+
+        $("#consultBtn").on('click', function(){
+            getReport($('#repoInitTime').val(),$('#repoEndTime').val())
+        })
+
+        $(document).ready(function(){
+            reportQuery();
+            $("eventosDia").html = eventosDia.lenght();
+            $("reconocimientosDia").html = reconocimientosDia.lenght();
+
+        });
+
+        function getReport(start, end) {
+            getTotalEnroll(start, end, null)
+            getTotalEnroll(start, end, "false")
+            getTotalReco(start, end)
+            getTotalPersonas(start,end)
+            getDistReco(start, end)
+            getTotalAlertas(start, end)
+        }
+
+        function getTotalEnroll(start, end, hasPhoto) {
+            data = {
+                start_date: start,
+                end_date: end,
+                hasPhoto: hasPhoto
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRepoEnroll", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+                    
+                    if (hasPhoto == null) {
+                            // Se muestra el total
+                        $("#totalEnrolados").empty();                    
+                        $("#totalEnrolados").html(data.count);
+
+                        tblEnroll.clear();
+                        $.each(data.data, function(key,value){
+                            
+                            tblEnroll.row.add(
+                                [
+                                value.fecha,
+                                value.docId,
+                                value.name,
+                                value.empresa,
+                                value.hasPhoto
+                                ]
+                            )
+                        })
+                        tblEnroll.draw();
+                    } else {
+                        if (hasPhoto == false) {
+                            $("#totalFallaEnrol").empty();                    
+                            $("#totalFallaEnrol").html(data.count);
+                        }
+                    }
+                    
+        
+
+                }
+            });
+
+        }
+
+        function getTotalReco(start, end) {
+            data = {
+                start_date: start,
+                end_date: end
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoDia", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+
+                    // Se muestra el total
+                    $("#totalReconocimientos").empty();
+                    $("#totalReconocimientos").html(data.count);
+
+                    tblSopReco.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopReco.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopReco.draw();
+        
+
+                }
+            });
+
+        }
+
+        function getTotalPersonas(start, end) {
+            data = {
+                start_date: start,
+                end_date: end
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoPersona", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+                    
+                    console.log(data);
+                    result = data.data;
+                    
+                    // Se muestra el total
+                    $("#totalPersonas").empty();                    
+                    $("#totalPersonas").html(data.count);
+
+                    tblSopRecoPerso.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopRecoPerso.row.add(
+                            [
+                            value.fecha,
+                            value.ciudad,
+                            value.userId,
+                            value.name,
+                            value.empresa
+                            ]
+                        )
+                    })
+                    tblSopRecoPerso.draw();
+        
+
+                }
+            });
+
+        }
+
+        function getDistReco(start, end) {
+            dataOut = {
+                start_date: start,
+                end_date: end
+            };
+            
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRecoDia", "Reporte")',
+                dataType: "json",
+                data: dataOut,
+                success: function (data) {
+                    tblRecoDisp.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblRecoDisp.row.add(
+                            [
+                            value.fecha,
+                            value.ciudad,
+                            value.sitio,
+                            value.recos,
+                            value.personas,
+                            value.alertas,
+                            ]
+                        )
+                    })
+                    tblRecoDisp.draw();
+                    console.log(data)
+
+                }   
+            });   
+                    
+            
+                
+                    
+
+                    /*
+                    $('#tblRecoDisp').DataTable();
+                    
+                    html = "";
+                    $("#distribReco").empty();
+                    $("#distribReco").append(html);
+                    $.each(data.data, function (index, value) {
+                        // here you can do your magic
+                        html = "<tr><td>" + value.fecha.substring(0, 10) + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td style='text-align:center;'>" + value.recos + "</td><td style='text-align:center;'>" + value.personas +  "</td><td style='text-align:center;'>" + value.alertas + "</td></tr>"
+                        //console.log(html);
+                        $("#distribReco").append(html);
+                    });
+                    */
+                                      
+
+        }
+
+        function getTotalAlertas(start, end) {
+            data = {
+                start_date: start,
+                end_date: end,
+                tmin: 37.3
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoDia", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log(data);
+                    result = data.data;
+
+                    // Se muestra el total
+                    $("#totalAlertas").empty();
+                    $("#totalAlertas").html(data.count);
+
+                    tblSopAlertas.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopAlertas.row.add(
+                            [
+                            value.dateTime,
+                            value.ciudad,
+                            value.sitio,
+                            value.devId,
+                            value.docId,
+                            value.name,
+                            value.empresa,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            ]
+                        )
+                    })
+                    tblSopAlertas.draw();
+        
+
+                }
+            });
+
+        }
+
+
+        function reportQuery() {
+            let todayDate = new Date().toLocaleString();
+
+            console.log(todayDate);
+            // Total eventos del dia
+
+            let initDev = null;
+            let initName = null;
+            let initTempMin = null;
+            let initTempMax = null;
+            let initDate = null;
+            let endDate = null;
+            let initHasId = null;
+
+            if(typeof device_id !== 'undefined') {
+                initDev = (device_id > 0) ? device_id : null;
+            } else {
+                initDev = null;
+            }
+
+
+            //Nombre
+            if ($('#ecp_name').val() != 0) {
+                console.log("El nombre a enviar es: ")
+                console.log($('#ecp_name').val());
+                initName = $('#ecp_name').val();
+            }
+
+            //Temperatura minima
+            if ($('#ecp_temp_min').val() != 0) {
+                console.log("La temperatura mínima a enviar es: ")
+                console.log($('#ecp_temp_min').val());
+                initTempMin = $('#ecp_temp_min').val();
+            }
+
+            //Temperatura minima
+            if ($('#ecp_temp_max').val() != 0) {
+                console.log("La temperatura máxima a enviar es: ")
+                console.log($('#ecp_temp_max').val());
+                initTempMax = $('#ecp_temp_max').val();
+            }
+
+            //Fecha inicial
+            if ($('#init').val() != 0) {
+                console.log("El valor del calendario es: ")
+                console.log($('#init').val());
+                initDate = $('#init').val();
+            }
+
+            //Fecha final
+            if ($('#end').val() != 0) {
+                console.log("El valor del calendario es: ")
+                console.log($('#end').val());
+                endDate = $('#end').val();
+            }
+
+
+            data={
+                    device_id: initDev,
+                    name: initName,
+                    tmin: initTempMin,
+                    tmax: initTempMax,
+                    start_date: initDate,
+                    end_date: endDate,
+                    hasId: 1,
+
+                };
+
+            eventosDia = getData(data);
 
         }
 
@@ -534,35 +2116,36 @@
                 data: data,
                 success: function (data) {
                     
-                    result = data;
-                    
-                    //result = jQuery.parseJSON(data);
-
-                    //console.log(result);
-                    /*
-                     * for (var [key, value] of Object.entries(data)) {
-                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
-                        console.log(value);
-                        $("#reporte").append("<li>" + value.name + "</li>");
-                    }
-                    */
-                    $("#dynReport").empty();                    
-                    html = "<table class='table table-striped w-auto'><tr><th> Fecha </th><th> Device </th><th> Nombre </th><th> Temperatura </th></tr>";
-                    $("#dynReport").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId +  "</td><td>" + value.name +  "</td><td>" + value.temperature +  "</td></tr>"
-                        //console.log(html);
-                        $("#dynReport").append(html);
-                    });
-                    html = "</table>"
-                    $("#dynReport").append(html);
+                    tblEvents.clear();
+                    $.each(data.data, function(key,value){
+                        url = String(value.imageUrl).substring(7);
+                        tblEvents.row.add(
+                            [
+                            value.registerTime,
+                            value.devId,
+                            value.userId,
+                            value.name,
+                            value.mask,
+                            value.matched,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            url
+                            
+                            ]
+                        )
+                    })
+                    tblEvents.draw();
 
 
 
                 }
             });
         }
+
+        $("#pop").on("click", function() {
+            $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
+            $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+        });
 
 
     /* device basic configuration example
