@@ -845,6 +845,10 @@
                     'excel', 
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Distribucion_reconocimientos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -876,6 +880,7 @@
                                     margin: [10, 0]
                                 }
                             });
+                            
                             // Styling the table: create style object
                             //var objLayout = {};
                             // Horizontal line thickness
@@ -913,6 +918,10 @@
                     'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_reconocimientos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -962,6 +971,10 @@
                     'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_personas_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1011,6 +1024,10 @@
                     'copy',  'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_alertas'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1059,6 +1076,10 @@
                     'copy', 'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_enrolamiento_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1121,6 +1142,10 @@
                 buttons: [
                     'copy', 'csv', 'excel',{
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Consulta_eventos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1259,7 +1284,7 @@
                         $("#totalRegistros").empty();                    
                         $("#totalRegistros").html(data.count);
                     } 
-                    if (hasPhoto == "true") {
+                    if (hasPhoto == false) {
                         $("#totalEnrolados").empty();                    
                         $("#totalEnrolados").html(data.count);
                     } 
@@ -1298,7 +1323,7 @@
                             
                             tblEnroll.row.add(
                                 [
-                                value.fecha,
+                                value.time,
                                 value.docId,
                                 value.name,
                                 value.empresa,
