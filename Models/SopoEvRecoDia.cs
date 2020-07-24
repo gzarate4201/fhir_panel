@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 namespace AspStudio.Models
 {
     
-    [Table("SOPO_RECON_DIAS")]
-    public class SopoRecoDia
+    [Table("SOPO_EVRECON_DIAS")]
+    public class SopoEvRecoDia
     {
-        [Column("Fecha")]
-        public String Fecha {get; set;}
 
         [Column("time")]
         public DateTime DateTime {get; set;}

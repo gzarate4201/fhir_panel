@@ -41,6 +41,7 @@ namespace AspStudio.Controllers
         public string end_date {get; set;}
         public string name {get; set;}
         public string company {get; set;}
+        public string eXcompany {get; set;}
         public string document {get; set;}
         public string temperature {get; set;}
         public string tmin {get; set;}
@@ -52,6 +53,7 @@ namespace AspStudio.Controllers
         public Boolean hasMatch {get; set;}
         public string mask {get; set;}
         public string hasId {get; set;}
+        public string persons {get; set;}
         public string hasPhoto {get; set;}
         public string groupBy {get; set;}
         public string ciudad {get; set;}
@@ -146,13 +148,46 @@ namespace AspStudio.Controllers
             if (filter.ciudad != null) 
             result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
 
-            Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+            // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
 
             if (filter.start_date != null) 
-            result = result.Where(c => c.Fecha >= DateTime.Parse(filter.start_date));
+            result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
 
             if (filter.end_date != null) 
-            result = result.Where(c => c.Fecha <= DateTime.Parse(filter.end_date));
+            result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public JsonResult getSopoRecoPersona(getFilter filter) {
+
+            var result = from o in dbContext.SopoRecoPersonas
+                select o;
+
+
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+
+            if (filter.start_date != null) 
+            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
 
             var count = result.Count();
 
@@ -239,10 +274,10 @@ namespace AspStudio.Controllers
 
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
-            result = result.Where(c => c.Fecha >= DateTime.Parse(filter.start_date));
+            result = result.Where(c => c.DateTime >= DateTime.Parse(filter.start_date));
 
             if (filter.end_date != null) 
-            result = result.Where(c => c.Fecha <= DateTime.Parse(filter.end_date));
+            result = result.Where(c => c.DateTime <= DateTime.Parse(filter.end_date));
 
             if (filter.tmin != null) 
             result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
@@ -258,6 +293,57 @@ namespace AspStudio.Controllers
 
             if (filter.smax != null) 
             result = result.Where(c => c.Similar <= Double.Parse(filter.smax));
+
+
+            var count = result.Count();
+
+
+            return new JsonResult ( new { Count = count, Data = result} );
+
+        }
+
+        public JsonResult getSopoEvRecoDia(getFilter filter) {
+
+            var result = from o in dbContext.SopoEvRecoDias
+                select o;
+
+            if (filter.device_id != null)
+            result = result.Where(c => c.DevId == filter.device_id);
+
+            if (filter.document != null) 
+            result = result.Where(c => c.DocId.Contains(filter.document));
+
+            if (filter.company != null) 
+            result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            if (filter.name != null) 
+            result = result.Where(c => c.Name.Contains(filter.name));
+            
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
+            if (filter.start_date != null) 
+            result = result.Where(c => c.DateTime >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.DateTime <= DateTime.Parse(filter.end_date));
+
+            if (filter.tmin != null) 
+            result = result.Where(c => c.Temperature >= Double.Parse(filter.tmin));
+                            
+
+            if (filter.tmax != null) 
+            result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
+
+
+            if (filter.smin != null) 
+            result = result.Where(c => c.Similar >= Double.Parse(filter.smin));
+                            
+
+            if (filter.smax != null) 
+            result = result.Where(c => c.Similar <= Double.Parse(filter.smax));
+
 
             var count = result.Count();
 

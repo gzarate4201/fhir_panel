@@ -12,7 +12,10 @@ namespace AspStudio.Models
     public class RecoDia
     {
         [Column("Fecha")]
-        public DateTime Fecha {get; set;}
+        public String Fecha {get; set;}
+
+        [Column("time")]
+        public DateTime time {get; set;}
 
         [Column("device_id")]
         public String DevId {get; set;}

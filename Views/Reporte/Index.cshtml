@@ -51,7 +51,7 @@
             <div class="card-body">
                 <div class="reporte view" id="reporte">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Enrolados</h4>
@@ -62,32 +62,16 @@
                                         <div class="stat-content dib" style="text-align:center">
                                             <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
                                             <div class="stat-digit" id="totalEnrolados">  </div>
+                                            <div class="stat-digit" id="totalFallaEnrol">  </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @* <div class="col-md-3">
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Rechazos</h4>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="stat-widget-one">
-                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Alumnos Atendidos</div> -->
-                                            <div class="stat-digit" id="reconocimientosDia"> </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> *@
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Reconocimientos</h4>
+                                    <h4 class="card-title">Eventos de Reconocimientos</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="stat-widget-one">
@@ -99,7 +83,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Personas</h4>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="stat-widget-one">
+                                        <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                        <div class="stat-content dib" style="text-align:center">
+                                            <!-- <div class="stat-text">Alumnos Atendidos</div> -->
+                                            <div class="stat-digit" id="totalPersonas"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Alertas</h4>
@@ -164,13 +165,12 @@
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
                                     </div>
                                     <div class="card-body " style="height:450px;overflow:auto;width='100%';">
-                                        <table id="tblRecoDisp" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
                                                     <th>Ciudad</th>
                                                     <th>Puerta</th>
-                                                    <th>Disp.</th>
                                                     <th>Recon.</th>
                                                     <th>Personas</th>
                                                     <th>Alertas</th>
@@ -196,7 +196,7 @@
                                 <div class="col-md-12">
                                     <div class="card ">
                                         <div class="card-header ">
-                                            <h4 class="card-title">Soporte Reconocimientos</h4>
+                                            <h4 class="card-title">Soporte Eventos de Reconocimientos</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
@@ -213,6 +213,43 @@
                                                     <th>Empresa</th>
                                                     <th>Sim</th>
                                                     <th>Temp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="soporteReconocimientos">
+                                            </tbody>
+
+                                        </table>
+                                        </div>
+
+                                        <div class="card-footer ">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card ">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Soporte Personas Reconocidas</h4>
+                                            <p class="card-category">Registro de personas reconocidas</p>
+                                        </div>
+                                        <div class="card-body " style="height:450px;overflow:auto;">
+                                            <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
+                                            <table id="tblSopRecoPerso" class="table table-vcenter table-condensed table-bordered display">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Ciudad</th>
+                                                    <th>Doc</th>
+                                                    <th>Nombre</th>
+                                                    <th>Empresa</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="soporteReconocimientos">
@@ -319,7 +356,7 @@
                                     <h4 class="card-title">Datos obtenidos</h4>
                                 </div>
                                 <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
-                                    <table id="tblRecos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                    <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -427,6 +464,9 @@
         var eventosDia, reconocimientosDia, personasDia;
         var tblRecoDisp, tblSopReco;
 
+
+
+
         $('#query_pages').on('click',queryPages);
         $('#query_batch').on('click', queryBatch);
         $('#query_user').on('click', queryUser);
@@ -480,21 +520,23 @@
 
         $(function () {
             var calendarRepoInit = new CalendarPopup('#repoInitTime', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD HH:MM',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
             var today = new Date();
+            var todayStart = today.setHours(0,0,0,0);
+            var todayEnd = today.setHours(23,59,59,999);
 
-            $('#repoInitTime').val(formatDate(today));
+            $('#repoInitTime').val(formatDate(todayStart));
 
 
             var calendarRepoEnd = new CalendarPopup('#repoEndTime', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD HH:MM',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
-            $('#repoEndTime').val(formatDate(today));
+            $('#repoEndTime').val(formatDate(todayEnd));
 
             var calendarInit = new CalendarPopup('#init', {
                 format: 'YYYY-MM-DD',
@@ -531,6 +573,18 @@
 
             });
 
+            tblSopRecoPerso = $('#tblSopRecoPerso').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
             tblSopAlertas = $('#tblAlertas').DataTable({
                 "bPaginate": true,
                 aaSorting:[],
@@ -555,7 +609,31 @@
 
             });
 
-            getReport($('#repoInitTime').val(),$('#repoEndTime').val())
+            tblEvents = $('#tblEvents').DataTable({
+                "bPaginate": true,
+                aaSorting:[],
+                "processing": true,
+                "sPaginationType": "full_numbers",
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+
+            var start = $('#repoInitTime').val();
+            var end = $('#repoEndTime').val();
+
+            console.log("Lectura fecha :" + start, end);
+
+            if (start.length == 10)
+                start += " 00:00:00"
+            if (end.length == 10)
+                end += " 23:59:59"
+
+            console.log("Nueva fechahora :" + start, end);
+
+            getReport(start, end)
         });
 
         $("#consultBtn").on('click', function(){
@@ -570,13 +648,15 @@
         });
 
         function getReport(start, end) {
-            getTotalEnroll(start, end)
+            getTotalEnroll(start, end, null)
+            getTotalEnroll(start, end, "false")
             getTotalReco(start, end)
+            getTotalPersonas(start,end)
             getDistReco(start, end)
             getTotalAlertas(start, end)
         }
 
-        function getTotalEnroll(start, end) {
+        function getTotalEnroll(start, end, hasPhoto) {
             data = {
                 start_date: start,
                 end_date: end
@@ -593,19 +673,32 @@
                     console.log(data);
                     result = data.data;
                     
-                    // Se muestra el total
-                    $("#totalEnrolados").empty();                    
-                    $("#totalEnrolados").html(data.count);
+                    if (hasPhoto == null) {
+                            // Se muestra el total
+                        $("#totalEnrolados").empty();                    
+                        $("#totalEnrolados").html(data.count);
 
-                    html = "";
-                    $("#soporteEnrolados").empty();
-                    $("#soporteEnrolados").append(html);
-                    $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.fecha + "</td><td>" + value.docId +  "</td><td>" + value.name +  "</td><td>" + value.empresa +  "</td><td>" + value.hasPhoto +  "</td></tr>"
-                        //console.log(html);
-                        $("#soporteEnrolados").append(html);
-                    });
+                        tblEnroll.clear();
+                        $.each(data.data, function(key,value){
+                            
+                            tblEnroll.row.add(
+                                [
+                                value.fecha,
+                                value.docId,
+                                value.name,
+                                value.empresa,
+                                value.hasPhoto
+                                ]
+                            )
+                        })
+                        tblEnroll.draw();
+                    } else {
+                        if (hasPhoto == false) {
+                            $("#totalFallaEnrol").empty();                    
+                            $("#totalFallaEnrol").html(data.count);
+                        }
+                    }
+                    
         
 
                 }
@@ -659,6 +752,48 @@
 
         }
 
+        function getTotalPersonas(start, end) {
+            data = {
+                start_date: start,
+                end_date: end
+            };
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getSopoRecoPersona", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+                    
+                    console.log(data);
+                    result = data.data;
+                    
+                    // Se muestra el total
+                    $("#totalPersonas").empty();                    
+                    $("#totalPersonas").html(data.count);
+
+                    tblSopRecoPerso.clear();
+                    $.each(data.data, function(key,value){
+                        
+                        tblSopRecoPerso.row.add(
+                            [
+                            value.fecha,
+                            value.ciudad,
+                            value.userId,
+                            value.name,
+                            value.empresa
+                            ]
+                        )
+                    })
+                    tblSopRecoPerso.draw();
+        
+
+                }
+            });
+
+        }
+
         function getDistReco(start, end) {
             dataOut = {
                 start_date: start,
@@ -679,7 +814,6 @@
                         tblRecoDisp.row.add(
                             [
                             value.fecha,
-                            value.devId,
                             value.ciudad,
                             value.sitio,
                             value.recos,
@@ -847,20 +981,25 @@
                 data: data,
                 success: function (data) {
                     
-                    tblEnroll.clear();
+                    tblEvents.clear();
                     $.each(data.data, function(key,value){
-                        
-                        tblEnroll.row.add(
+                        url = String(value.imageUrl).substring(7);
+                        tblEvents.row.add(
                             [
-                            value.fecha,
-                            value.docId,
+                            value.registerTime,
+                            value.devId,
+                            value.userId,
                             value.name,
-                            value.empresa,
-                            value.hasPhoto
+                            value.mask,
+                            value.matched,
+                            value.similar.toFixed(2),
+                            value.temperature.toFixed(2),
+                            url
+                            
                             ]
                         )
                     })
-                    tblEnroll.draw();
+                    tblEvents.draw();
 
 
 
