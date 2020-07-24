@@ -68,6 +68,7 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-header ">
@@ -84,6 +85,26 @@
                             </div>
                         </div>
                         <div class="col-md-3">
+=======
+                        @* <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Rechazos</h4>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="stat-widget-one">
+                                            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                                            <div class="stat-content dib" style="text-align:center">
+                                                <!-- <div class="stat-text">Alumnos Atendidos</div> -->
+                                                <div class="stat-digit" id="reconocimientosDia"> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                        <div class="col-md-4">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Personas</h4>
@@ -120,9 +141,9 @@
 
                     </div>
 
-                    
 
-                    
+
+
 
                     <div class="row">
                         <div class="col-md-6">
@@ -130,11 +151,16 @@
                                 <div class="card-header ">
                                     <h4 class="card-title">Soporte Enrolamiento</h4>
                                     <p class="card-category">Registro de enrolamiento del periodo</p>
+                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a>
                                 </div>
                                 <div class="card-body " style="height:450px;overflow:auto;">
                                     <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
                                     <?php //echo $this->Highcharts->render($chartName6); ?> -->
+<<<<<<< HEAD
                                     <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
+=======
+                                    <table id="SopEnrol" class="table table-vcenter table-responsive table-condensed table-bordered display">
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                                         <thead>
                                             <tr>
                                                 <th>Fecha</th>
@@ -152,7 +178,7 @@
 
                                 <div class="card-footer ">
                                     <hr>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -163,6 +189,7 @@
                                     <div class="card-header ">
                                         <h4 class="card-title">Distribucion Reconocimientos</h4>
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
+                                        <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a>
                                     </div>
                                     <div class="card-body " style="height:450px;overflow:auto;width='100%';">
                                         <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
@@ -180,7 +207,7 @@
                                             </tbody>
 
                                         </table>
-                                        
+
                                     </div>
                                     <div class="card-footer ">
                                         <hr>
@@ -198,6 +225,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Eventos de Reconocimientos</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
+                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a>
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -228,7 +256,7 @@
                                 </div>
                             </div>
                         </div>
-        
+
                     </div>
 
                     <div class="row">
@@ -276,6 +304,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Alertas</h4>
                                             <p class="card-category">Registro de alertas por personas</p>
+                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a>
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -306,10 +335,10 @@
                                 </div>
                             </div>
                         </div>
-        
+
                     </div>
 
-                
+
 
                     <div class="row card-deck">
                         <div class="col-md-3">
@@ -354,8 +383,10 @@
                             <div class="card" style="max-height:600px;">
                                 <div class="card-header">
                                     <h4 class="card-title">Datos obtenidos</h4>
+                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a>
                                 </div>
                                 <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
+<<<<<<< HEAD
                                     <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
                                             <thead>
                                                 <tr>
@@ -372,8 +403,26 @@
                                             </thead>
                                             <tbody id="soporteEventos">
                                             </tbody>
+=======
+                                    <table id="tblDatos" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Disp</th>
+                                                <th>Doc</th>
+                                                <th>Nombre</th>
+                                                <th>Temp</th>
+                                                <th>Masc</th>
+                                                <th>Match</th>
+                                                <th>Similar</th>
+                                                <th>imageUrl</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="soporteEventos">
+                                        </tbody>
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
-                                        </table>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -453,12 +502,15 @@
 
     <!-- Carga las librerias de MQTT js -->
     <!--  <script src="~/js/mqtt.js"></script> -->
+
+
     <script src="~/js/datatables.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
-    
+    <script src="~/js/jspdf.js"></script>
+    <script src="~/js/jspdf.plugin.autotable.js"></script>
     <script>
-        
+
         var result = [];
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
@@ -473,36 +525,209 @@
         $('#bind_device_id_select').on('change', changeDevice);
         $("#sendEmail").on('click', sendEmail);
 
+
+        $('#exportPDF').on('click', exportPDF);
+        $('#exportSopoEnro').on('click', SopoEnroPDF);
+        $('#exportDistriReco').on('click', DistriRecoPDF);
+        $('#exportSopoReco').on('click', SopoRecoPDF);
+        $('#exportSoporAlert').on('click', SopoAlertPDF);
+        $('#exportDatos').on('click', DatosPDF);
+
         $('#Query').on('click', reportQuery);
 
-        function sendEmail() {
-            console.log("Enviando email de reporte");
-            data = {
-                FromName: "Alejandro Mejia",
-                FromEmail: "alejandromejia@qaingenieros.com",
-                ToName: "Santiago Urueña",
-                ToEmail: "santiagouruena@qaingenieros.com",
-                Subject: "Reporte Diario",
-                Message: "Cordial saludo, <br> a continuacion encontrara el reporte del dia",
-                Attach: "reporte.pdf"
-            };
+        // Exportación General del reporte
 
-            jQuery.ajax({
-                type: "GET",
-                format: "json",
-                url: '@Url.Action("SendEmail", "Reporte")',
+        function exportPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+            
+            doc.setProperties({
+                title: 'Reporte de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);        
+            doc.setFontStyle('normal');           
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(90, 20, 'INFORME');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+
+            doc.text(15, limitY +10, 'Total Enrolados: ' + totalEnrol);
+            doc.text(15, limitY + 15, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY+25, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY +30, theme: 'plain', html: '#SopEnrol' });
+
+            var finalY = doc.lastAutoTable.finalY;
+
+            doc.text(15, finalY + 15, 'Eventos reconocimiento ');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblRecoDisp' });
+
+            finalY = doc.lastAutoTable.finalY;          
+
+            doc.text(15, finalY + 15, 'Soporte Alertas');
+            doc.autoTable({ startY: finalY + 20, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del soporte de Enrrolamiento
+        function SopoEnroPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Soporte Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'SOPORTE ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Soporte Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#SopEnrol' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Enro.pdf');
+
+        }
+
+        // Exportación de la distribución de Enrolamiento
+        function DistriRecoPDF() {
+            var doc = new jsPDF();
+            var totalEnrol = $('#totalEnrolados').html();
+
+            doc.setProperties({
+                title: 'Distribución Enrolamiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(80, 20, 'DISTRIBUCIÓN ENROLAMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Enrolados: ' + totalEnrol);
+
+            doc.text(15, limitY + 20, 'Distribución Enrolamiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecoDisp' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Distribucion Enrolamiento_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación del soporte de reconocimiento
+        function SopoRecoPDF() {
+            var doc = new jsPDF('landscape');
+            var totalEnrol = $('#totalEnrolados').html();
+            var totalRec = $('#totalReconocimientos').html();
+
+            doc.setProperties({
+                title: 'Soporte Reconocimiento'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'SOPORTE RECONOCIMIENTO');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());            
+            doc.text(15, limitY + 10, 'Total reconocimientos: ' + totalRec);
+
+            doc.text(15, limitY + 20, 'Soporte reconocimiento ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblRecos' });           
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('SoporteReco_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        // Exportación del Soporte de Alertas
+        function SopoAlertPDF() {
+            var doc = new jsPDF();
+            var alertas = $('#totalAlertas').html();
+
+            doc.setProperties({
+                title: 'Soporte de alertas'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(70, 20, 'SOPORTE DE ALERTAS DE TEMPERATURA');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 10, 'Total Alertas: ' + alertas);
+
+            doc.text(15, limitY + 20, 'Soporte Alertas ');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblAlerts' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Soporte Alertas Temp_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+
+        // Exportación de datos consultados
+        function DatosPDF() {
+            var doc = new jsPDF('landscape');         
+
+            doc.setProperties({
+                title: 'Consulta de datos'
+            });
+            // doc.addFont('ArialMS', 'Arial', 'normal');   
+            doc.setFontSize(10);
+            doc.setFontStyle('normal');
+            doc.setFontType("bold");
+            var limitY = 30;
+            doc.text(120, 20, 'CONSULTA DE DATOS');
+            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());          
+
+            doc.text(15, limitY + 20, 'Datos Consultados');
+            doc.autoTable({ startY: limitY + 25, theme: 'plain', html: '#tblDatos' });
+
+            // Add new page
+
+            // Save the PDF
+            doc.save('Consulta _' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+
+        }
+
+        function saveLocal(pdf) {
+            var binary = pdf;
+            var binario = binary ? btoa(binary) : "";
+            $.ajax({
+                url: url,
+                data: JSON.stringify({ data: binario }),
                 dataType: "json",
-                data: data,
-                success: function (data) {
-                    
-                    alert(data);
-        
-
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    console.log("Se envió el archivo al servidor")
                 }
             });
 
-
         }
+
 
         function formatDate(date) {
             var d = new Date(date),
@@ -510,9 +735,9 @@
                 day = '' + d.getDate(),
                 year = d.getFullYear();
 
-            if (month.length < 2) 
+            if (month.length < 2)
                 month = '0' + month;
-            if (day.length < 2) 
+            if (day.length < 2)
                 day = '0' + day;
 
             return [year, month, day].join('-');
@@ -520,7 +745,11 @@
 
         $(function () {
             var calendarRepoInit = new CalendarPopup('#repoInitTime', {
+<<<<<<< HEAD
                 format: 'YYYY-MM-DD HH:MM',
+=======
+                format: 'YYYY-MM-DD ',
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
@@ -532,19 +761,23 @@
 
 
             var calendarRepoEnd = new CalendarPopup('#repoEndTime', {
+<<<<<<< HEAD
                 format: 'YYYY-MM-DD HH:MM',
+=======
+                format: 'YYYY-MM-DD ',
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
             $('#repoEndTime').val(formatDate(todayEnd));
 
             var calendarInit = new CalendarPopup('#init', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
             var calendarEnd = new CalendarPopup('#end', {
-                format: 'YYYY-MM-DD',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
@@ -639,17 +872,21 @@
         $("#consultBtn").on('click', function(){
             getReport($('#repoInitTime').val(),$('#repoEndTime').val())
         })
-        
+
         $(document).ready(function(){
             reportQuery();
             $("eventosDia").html = eventosDia.lenght();
             $("reconocimientosDia").html = reconocimientosDia.lenght();
-           
+
         });
 
         function getReport(start, end) {
             getTotalEnroll(start, end, null)
+<<<<<<< HEAD
             getTotalEnroll(start, end, "false")
+=======
+            getTotalEnroll(start, end, false)
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
             getTotalReco(start, end)
             getTotalPersonas(start,end)
             getDistReco(start, end)
@@ -659,7 +896,8 @@
         function getTotalEnroll(start, end, hasPhoto) {
             data = {
                 start_date: start,
-                end_date: end
+                end_date: end,
+                hasPhoto: hasPhoto
             };
 
             jQuery.ajax({
@@ -669,9 +907,10 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-                    
+
                     console.log(data);
                     result = data.data;
+<<<<<<< HEAD
                     
                     if (hasPhoto == null) {
                             // Se muestra el total
@@ -700,6 +939,28 @@
                     }
                     
         
+=======
+
+                    // Se muestra el total
+                    if (hasPhoto == null) {
+                        $("#totalEnrolados").empty();
+                        $("#totalEnrolados").html(data.count);
+
+                        html = "";
+                        $("#soporteEnrolados").empty();
+                        $("#soporteEnrolados").append(html);
+                        $.each(data.data, function (index, value) {
+                            // here you can do your magic
+                            html = "<tr><td>" + value.fecha + "</td><td>" + value.docId + "</td><td>" + value.name + "</td><td>" + value.empresa + "</td><td>" + value.hasPhoto + "</td></tr>"
+                            //console.log(html);
+                            $("#soporteEnrolados").append(html);
+                        });
+                    }
+                    else {
+                        console.log("Fallos: " + data.count);
+                    }                                         
+
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
                 }
             });
@@ -719,12 +980,12 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-                    
+
                     console.log(data);
                     result = data.data;
-                    
+
                     // Se muestra el total
-                    $("#totalReconocimientos").empty();                    
+                    $("#totalReconocimientos").empty();
                     $("#totalReconocimientos").html(data.count);
 
                     tblSopReco.clear();
@@ -836,11 +1097,11 @@
                     $('#tblRecoDisp').DataTable();
                     
                     html = "";
-                    $("#distribReco").empty(); 
+                    $("#distribReco").empty();
                     $("#distribReco").append(html);
                     $.each(data.data, function (index, value) {
-                        // here you can do your magic                        
-                        html = "<tr><td>" + value.fecha + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td>" + value.recos +  "</td><td>" + value.personas +  "</td><td>" + value.alertas + "</td></tr>"
+                        // here you can do your magic
+                        html = "<tr><td>" + value.fecha.substring(0, 10) + "</td><td>" + value.ciudad + "</td><td>" + value.sitio + "</td><td>" + value.devId + "</td><td style='text-align:center;'>" + value.recos + "</td><td style='text-align:center;'>" + value.personas +  "</td><td style='text-align:center;'>" + value.alertas + "</td></tr>"
                         //console.log(html);
                         $("#distribReco").append(html);
                     });
@@ -863,12 +1124,12 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-                    
+
                     console.log(data);
                     result = data.data;
-                    
+
                     // Se muestra el total
-                    $("#totalAlertas").empty();                    
+                    $("#totalAlertas").empty();
                     $("#totalAlertas").html(data.count);
 
                     tblSopAlertas.clear();
@@ -898,7 +1159,7 @@
 
 
         function reportQuery() {
-            let todayDate = new Date().toLocaleString();           
+            let todayDate = new Date().toLocaleString();
 
             console.log(todayDate);
             // Total eventos del dia
@@ -916,7 +1177,7 @@
             } else {
                 initDev = null;
             }
-            
+
 
             //Nombre
             if ($('#ecp_name').val() != 0) {
@@ -925,14 +1186,14 @@
                 initName = $('#ecp_name').val();
             }
 
-            //Temperatura minima 
+            //Temperatura minima
             if ($('#ecp_temp_min').val() != 0) {
                 console.log("La temperatura mínima a enviar es: ")
                 console.log($('#ecp_temp_min').val());
                 initTempMin = $('#ecp_temp_min').val();
             }
 
-            //Temperatura minima 
+            //Temperatura minima
             if ($('#ecp_temp_max').val() != 0) {
                 console.log("La temperatura máxima a enviar es: ")
                 console.log($('#ecp_temp_max').val());
@@ -952,7 +1213,7 @@
                 console.log($('#end').val());
                 endDate = $('#end').val();
             }
-           
+
 
             data={
                     device_id: initDev,
@@ -964,7 +1225,7 @@
                     hasId: 1,
 
                 };
-            
+
             eventosDia = getData(data);
 
         }
@@ -980,6 +1241,7 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
+<<<<<<< HEAD
                     
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
@@ -1000,6 +1262,30 @@
                         )
                     })
                     tblEvents.draw();
+=======
+
+                    result = data;
+
+                    //result = jQuery.parseJSON(data);
+
+                    //console.log(result);
+                    /*
+                     * for (var [key, value] of Object.entries(data)) {
+                        //console.log(key + ' ' + value); // "a 5", "b 7", "c 9"
+                        console.log(value);
+                        $("#reporte").append("<li>" + value.name + "</li>");
+                    }
+                    */
+                    html = "";
+                    $("#soporteEventos").empty();
+                    $("#soporteEventos").append(html);
+                    $.each(data.data, function (index, value) {
+                        // here you can do your magic                        
+                        html = "<tr><td>" + value.registerTime + "</td><td>" + value.devId + "</td><td>" + value.userId + "</td><td>" + value.name + "</td><td>" + value.temperature.toFixed(2) +  "</td><td>" + value.mask +  "</td><td>" + value.matched +  "</td><td>" + value.similar.toFixed(2) +  "</td><td><a href='" + value.imageUrl.substring(7) + "' id='pop'> Ver Imagen </a></td></tr>"
+                        //console.log(html);
+                        $("#soporteEventos").append(html);
+                    });
+>>>>>>> 09892769802d08efe23afa4eddecd692970a4f33
 
 
 
