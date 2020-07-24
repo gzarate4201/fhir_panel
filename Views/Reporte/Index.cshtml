@@ -80,12 +80,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                            <div class="stat-digit" id="totalEnrolados">  </div>
-                                            <div class="stat-digit" id="totalFallaEnrol">  </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -1284,7 +1279,7 @@
                         $("#totalRegistros").empty();                    
                         $("#totalRegistros").html(data.count);
                     } 
-                    if (hasPhoto == false) {
+                    if (hasPhoto == true) {
                         $("#totalEnrolados").empty();                    
                         $("#totalEnrolados").html(data.count);
                     } 
@@ -1296,11 +1291,16 @@
         }
 
         function getTotalEnroll(start, end, hasPhoto) {
+
             data = {
                 start_date: start,
                 end_date: end,
-                hasPhoto: hasPhoto
             };
+
+            if(hasPhoto != null) {
+                data.hasPhoto = hasPhoto
+            }
+            console.log(data)
 
             jQuery.ajax({
                 type: "GET",
@@ -1332,16 +1332,13 @@
                             )
                         })
                         tblEnroll.draw();
-                    } else {
-                        if (hasPhoto == false) {
-                            $("#totalFallaEnrol").empty();                    
-                            $("#totalFallaEnrol").html(data.count);
-                        }
-                    }
-                    
-        
 
-                }
+                        const result1 = data.data.filter(h => h.hasPhoto = true);
+                        console.log(result1.length);
+                        
+                } 
+                
+
             });
 
         }

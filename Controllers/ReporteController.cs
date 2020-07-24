@@ -215,9 +215,15 @@ namespace AspStudio.Controllers
             result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
 
             if (filter.hasPhoto != null) {
-                Console.WriteLine("Filtro enrolamiento:" + filter.hasPhoto);
-                var hasPhoto = (filter.hasPhoto == "1") ? true : false;
-                result = result.Where(c => c.hasPhoto == hasPhoto);
+                
+                var hasFoto = (filter.hasPhoto == "true") ? true : false;
+                Console.WriteLine("El filtro es :" + filter.hasPhoto);
+                if (filter.hasPhoto == "true") {
+                    result = result.Where(c => c.hasPhoto == true);
+                } else {
+                    result = result.Where(c => c.hasPhoto == false);
+                }
+                
             }
 
             var count = result.Count();
