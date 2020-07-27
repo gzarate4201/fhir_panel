@@ -1,21 +1,37 @@
-using System.Reflection.PortableExecutable;
+//using System.Reflection.Metadata;
+using System.Security.AccessControl;
+using System.Net.Http;
+using System.Web;
+
+using System.Net.Mime;
+// using System.Reflection.PortableExecutable;
 // using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
-using System.Web;
+using Microsoft.AspNetCore.Http;
+
 
 // Email 
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
+
+// JSON
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+// Regular Expresion
+using System.Text.RegularExpressions;
 
 // Hub Chat
 using Microsoft.AspNetCore.SignalR;
@@ -28,6 +44,18 @@ using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using Mqtt.Client.AspNetCore.Settings;
+
+// C# PDF Generator
+using PdfSharpCore.Drawing;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
+using MigraDoc.Rendering;
+using PdfSharpCore.Pdf;
+
+
+using IronPdf;
+using HandlebarsDotNet;
+
 
 // Modelos para Base de datos
 using AspStudio.Models;
@@ -59,6 +87,27 @@ namespace AspStudio.Controllers
         public string ciudad {get; set;}
         public string sitio {get; set;}
 
+    }
+
+    
+    public class pdfData {
+
+        public string pdfName {get; set;}
+        public string data {get; set;}
+    }
+
+
+    public class MailData
+    {
+        public string to { get; set; }
+        public string attachment { get; set; }
+    }
+
+
+    public class responseJson
+    {
+        public string count { get; set; }
+        public string data { get; set; }
     }
 
     public class ReporteController : Controller
@@ -459,53 +508,210 @@ namespace AspStudio.Controllers
         }
 
 
-                         
-            
+    
 
-        // public ActionResult YourMethod(string data)
-        // {
-            // //create pdf
-            // var pdfBinary = Convert.FromBase64String(data);
-            // var folderPath = "wwwroot/Reports/";
-            // var imagePath = folderPath + imageName;
+ 
+        /// <summary>
+        /// Recibe un PDF desde la vista de reportes
+        /// Lo guarda en el directorio wwwrott/Reports
+        /// Lo envia por email
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+		public ActionResult Export(MailData data)
+		{
+            // Parse JSON
+            // MailData data = JsonConvert.DeserializeObject<MailData>(content);
+
+			//create pdf
+            Console.WriteLine(data);
+			var pdfBinary = Convert.FromBase64String(data.attachment);
+			// var dir = Server.MapPath("~/DataDump");
+            var folderPath = "wwwroot/Reports/";
+            var pdfPath = folderPath + "generated.pdf";
 
 
-            /*
-            
-            using(Image image = Image.FromStream(new MemoryStream(bytes)))
+			if (!Directory.Exists(folderPath))
+				Directory.CreateDirectory(folderPath);
+
+			var fileName =  folderPath + DateTime.Now.ToString("yyyyMMdd-HHMMss") + ".pdf";
+
+			// write content to the pdf
+			using (var stream = System.IO.File.Create(fileName))
             {
                 try {
-                    image.Save(imagePath, ImageFormat.Jpeg);  // Or Png
+                    stream.Write(pdfBinary, 0, pdfBinary.Length);
                 } catch(System.Exception e){
-                    System.Console.WriteLine("Error saving " + imagePath + " in filesystem" + e.Message + e.StackTrace );
+                    System.Console.WriteLine("Error saving " + fileName + " in filesystem" + e.Message + e.StackTrace );
                 }
-                
             }
 
-            */
+			//Send mail
+			var status = SendMail(fileName, data.to);
+    		//Delete file from file system
+			//System.IO.File.Delete(fileName);
 
-        //     var dir = Server.MapPath("wwwroot/Reports/");
+			//Return result to client
+			return Json(status ? new { result = "success" } : new { result = "failed" });
+		}
 
-        //     if (!Directory.Exists(dir))
-        //         Directory.CreateDirectory(dir);
+        private static bool SendMail(string filePath, string recipient)
+		{
+            var message = new MimeMessage ();
+			message.From.Add (new MailboxAddress ("Alejandro", "alejandromejia@qaingenieros.com"));
+			message.To.Add (new MailboxAddress ("Alejandro Mejia",recipient));
+			message.Subject = "Informe diario";
 
-        //     var fileName = dir + "Reporte-" + DateTime.Now.ToString("yyyyMMdd-HHMMss") + ".pdf";
+            Console.WriteLine("Archivo: " + filePath);
+            //Fetch the attachments from db
+            //considering one or more attachments
+            var builder = new BodyBuilder { TextBody = "PFA"};
+            builder.Attachments.Add(filePath);
+            message.Body = builder.ToMessageBody();
+            
+            using (var client = new SmtpClient ()){
+                client.Connect ("mail.qaingenieros.com", 587, false);
 
-        //     // write content to the pdf
-        //     using (var fs = new FileStream(fileName, FileMode.Create))
-        //     using (var writer = new BinaryWriter(fs))
-        //     {
-        //         writer.Write(pdfBinary, 0, pdfBinary.Length);
-        //         writer.Close();
-        //     }
-        //     //Mail the pdf and delete it
-        //     // .... call mail method here 
-        //    return null; 
-        // }
+				// Note: only needed if the SMTP server requires authentication
+				client.Authenticate ("alejandromejia@qaingenieros.com", "Al3j0@17");
+
+                try
+				{
+					client.Send(message);
+					return true;
+				}
+				catch (Exception)
+				{
+					return false;
+				}
+            }
+
+		}
+
+        public JsonResult dailyPdf() {
+
+            var Renderer = new IronPdf.HtmlToPdf();
+            Renderer.PrintOptions.MarginTop = 20;  //millimeters
+            Renderer.PrintOptions.MarginBottom = 40;
+            Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
+
+            Renderer.PrintOptions.Header = new SimpleHeaderFooter()
+            {
+                CenterText = "{pdf-title}",
+                DrawDividerLine = true,
+                FontSize = 16
+            };
+            Renderer.PrintOptions.Footer = new SimpleHeaderFooter()
+            {
+                LeftText = "{date} {time}",
+                RightText = "Pagina {page} de {total-pages}",
+                DrawDividerLine = true,
+                FontSize = 14
+            };
+
+            var html = System.IO.File.ReadAllText(Path.Combine("wwwroot/Assets", "Informe.html"));
+            //Console.WriteLine(html);
+
+            
+            var filter = new getFilter();
+            // var today = DateTime.Now.ToString("yyyy-MM-dd 12:00");
+            
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+            var yesterday = today.AddDays(-1);
+            Console.WriteLine("Hoy:" + today.ToString("yyyy-MM-dd 12:00"));
+            Console.WriteLine("Ayer:" + yesterday.ToString("yyyy-MM-dd 12:00"));
+
+            filter.start_date = yesterday.ToString("yyyy-MM-dd 12:00");
+            filter.end_date = today.ToString("yyyy-MM-dd 12:00");
+
+            var result = from o in dbContext.RecoDia
+                select o;
+
+            var enrolados = from e in dbContext.RepoEnrolamientos
+                select e;
+
+            var eventosPersona = from e in dbContext.SopoRecoPersonas
+                select e;
+            
+            var eventosRecon = from e in dbContext.SopoEvRecoDias
+                select e;
+
+            var alarmas = eventosRecon.Where(c => c.Temperature >= 37.3);
+
+            var totalPersonas = eventosPersona.Count();
+            var totalEventos = eventosRecon.Count();
+            var totalAlarmas = alarmas.Count();
+
+            if (filter.start_date != null) 
+            result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
+
+            if (filter.end_date != null) 
+            result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
+
+            result = result.OrderBy(c => c.Ciudad).ThenBy(c =>c.Sitio);
+
+            var count = result.Count();
+
+            var totalEnrolados = enrolados.Count();
+
+            var enroladosOk = enrolados.Where(c => c.hasPhoto == true);
+
+            var okEnrolados = enroladosOk.Count();
+
+            var enroladosNew = enrolados.Where(c => c.Time >= DateTime.Parse(filter.start_date));
+            enroladosNew = enroladosNew.Where(c => c.Time <= DateTime.Parse(filter.end_date));
+
+            var newEnrolados = enroladosNew.Count();
+
+            string htmlTable = "";
+
+            int tEventos = 0;
+            int tPersonas = 0;
+            int tAlarmas = 0;
+
+            foreach (var item in result)
+            {
+                Console.WriteLine("{0} {1} {2} {3}\n", item.Fecha, item.time, 
+                    item.Sitio, item.Recos, item.Personas);
+                htmlTable += "<tr><td>" + item.time + "</td><td>" + item.Ciudad + "</td>" + "<td>" + item.Sitio + "</td>" + "<td class='numero'>" + item.Recos + "</td>" + "<td class='numero'>" + item.Personas + "</td>" + "<td class='numero'>" + item.Alertas + "</td></tr>";
+                tEventos+= item.Recos;
+                tPersonas+= item.Personas;
+                tAlarmas+= item.Alertas;
+            }
+
+            htmlTable += "<tr><td> Totales </td><td></td><td></td><td class='numero'>" + tEventos + "</td>" + "<td class='numero'>" + tPersonas + " ** </td>" + "<td class='numero'>" + tAlarmas + "</td></tr>";
+            Console.WriteLine(htmlTable);
+            
+
+            // Cargar los datos
+            html = html.Replace("{{start_date}}", filter.start_date.ToString());
+            html = html.Replace("{{end_date}}"  , filter.end_date.ToString());
+            html = html.Replace("{{totalDatos}}"       , totalEnrolados.ToString());
+            html = html.Replace("{{totalEnrolados}}"   , okEnrolados.ToString());
+            html = html.Replace("{{nuevosEnrolados}}"  , newEnrolados.ToString());
+            html = html.Replace("{{tablaEventos}}"     , htmlTable);
+            html = html.Replace("{{totalEventos}}"     , totalEventos.ToString());
+            html = html.Replace("{{totalPersonas}}"    , totalPersonas.ToString());
+            html = html.Replace("{{totalAlertas}}"     , totalAlarmas.ToString());
+            html = html.Replace("{{totalEventosP}}"     , tEventos.ToString());
+            html = html.Replace("{{totalPersonasP}}"    , tPersonas.ToString());
+            html = html.Replace("{{totalAlertasP}}"     , tAlarmas.ToString());
 
 
+            var PDF = Renderer.RenderHtmlAsPdf(html);
+            var OutputPath = "wwwroot/Reports/ReporteDiario.pdf";
+            PDF.SaveAs(OutputPath);
+
+            SendMail(OutputPath,"alejomejia1@gmail.com");
+            SendMail(OutputPath,"mauriciogaviria@qaingenieros.com");
+            SendMail(OutputPath,"santiagouruena@qaingenieros.com");
+            // This neat trick opens our PDF file so we can see the result in our default PDF viewer
+            // System.Diagnostics.Process.Start(OutputPath);
+            return new JsonResult ( new { Status = "Success"} );
+        }
+	
+    
     }
 }
-
-
-// && ((filter.name == "") || (item.Name.Contains(filter.name)))
