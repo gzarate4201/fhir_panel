@@ -1710,7 +1710,7 @@
                     
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
-                        url = "<a href='" + String(value.imageUrl).substring(7) + "'  target='_blank'> Ver imagen </a>";
+                        url = "<a href='" + String(value.imageUrl).substring(7) + "'  target='_blank' id='pop'> Ver imagen </a>";
                         tblEvents.row.add(
                             [
                             value.registerTime,
@@ -1734,7 +1734,8 @@
             });
         }
 
-        $("#pop").on("click", function() {
+        $("#pop").on("click", function(e) {
+            e.preventDefault();
             $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
             $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
         });
