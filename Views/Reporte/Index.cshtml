@@ -551,21 +551,24 @@
             doc.text(90, 20, 'INFORME');
             doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
 
-            doc.text(15, limitY + 10, 'Total de personas que han enviado datos (Desde 13-07-2020):     ' + totalReg);
+            doc.text(15, limitY + 10, 'Total de personas que han enviado datos hasta la fecha de generacion del reporte:     ' + totalReg);
             doc.text(15, limitY + 20, 'Nota: Los valores anteriores son desde el inicio hasta la fecha de generacion del reporte:');
-            doc.text(15, limitY + 15, 'Total de personas enroladas correctamente: (Desde 13-07-2020): ' + totalEnrol);
-            doc.text(15, limitY + 25, 'Total de personas nuevas enroladas en el periodo:                              ' + totalPeriodo);
+            doc.text(15, limitY + 15, 'Total de personas enroladas correctamente hasta la fecha de generacion del reporte: ' + totalEnrol);
+            doc.text(15, limitY + 25, 'Total de personas nuevas enroladas en el periodo del reporte:                              ' + totalPeriodo);
 
-            doc.text(15, limitY + 30, 'Total Eventos de reconocimiento en el periodo:                                  ' + totalRec);
-            doc.text(15, limitY + 35, 'Total personas reconocidas en el periodo:                                           ' + totalPerson);
-            doc.text(15, limitY + 40, 'Total alertas de temperatura en el periodo:                                           ' + alert);      
+            doc.text(15, limitY + 30, 'Total Eventos de reconocimiento en el periodo del reporte:                                  ' + totalRec);
+            doc.text(15, limitY + 35, 'Total personas reconocidas en el periodo del reporte:                                           ' + totalPerson);
+            doc.text(15, limitY + 35, 'ATENCION : Este total corresponde a personas únicas reconocidas por el sistema independientemente de la puerta ');
+            doc.text(15, limitY + 45, 'Total alertas de temperatura en el periodo del reporte:                                           ' + alert);      
             
+            var finalY = doc.lastAutoTable.finalY;
+            doc.text(15, finalY + 5, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por dispositivo o puerta');      
+            doc.text(15, finalY + 10, 'una misma persona uede ser reconocida por mas de un dispositivo, cada dispositivo lo reporta una vez.');      
 
-            //var finalY = doc.lastAutoTable.finalY;
+            doc.text(15, limitY + 60, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.autoTable({ startY: limitY + 65, theme: 'plain', html: '#tblRecoDisp' });
 
-            doc.text(15, limitY + 50, 'Distribución de eventos de reconocimiento en el periodo: ');
-            doc.autoTable({ startY: limitY + 55, theme: 'plain', html: '#tblRecoDisp' });
-
+            
             /*
             finalY = doc.lastAutoTable.finalY;    
             doc.text(15, finalY + 10, 'Total Alertas de temperatura en el periodo: ');
