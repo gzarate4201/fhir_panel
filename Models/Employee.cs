@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -40,14 +41,27 @@ namespace AspStudio.Models
         [Column("empresa")]
         public string Empresa { get; set; }
 
+        [Column("nit")]
+        public string Nit { get; set; }
+
         [Column("imageUrl")]
         public string imageUrl { get; set; }
 
         [Column("start_time")]
         public DateTime? StartTime { get; set; }
 
+        [Column("hasPhoto")]
+        public bool hasPhoto { get; set; }
+
         [Column("end_time")]
         public DateTime? EndTime { get; set; }
+
+        [Column("created")]
+        public DateTime? Created { get; set; }
+
+        [Column("ciudadEnroll")]
+        public string Ciudad { get; set; }
+        
 
         
     }

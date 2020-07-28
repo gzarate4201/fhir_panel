@@ -368,6 +368,8 @@
                                         <input type="text" id="mask_en" name="msk"><br><br>
                                         <label for="rec">Reconocidos: </label>
                                         <input type="text" id="rec_en" name="rec"><br><br>
+                                    
+                                        <a type="text" id="imageresource" src=""> </a>
                                         <div class="input-group-append"><button class="btn btn-success" id="Query" style="width:165px;">Enviar</button></div>
                                     </div>
                                 </div>
@@ -475,24 +477,6 @@
     </div>
     </div>
     
-    <!-- Creates the bootstrap modal where the image will appear -->
-    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
-        </div>
-        <div class="modal-body">
-            <img src="" id="imagepreview" style="width: 400px; height: 600px;" >
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-    </div>
-
 
     <script src="~/js/datatables.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
@@ -507,6 +491,7 @@
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
         var tblRecoDisp, tblSopReco;
+        var totalEnrolPeriodo;
 
 
 
@@ -544,29 +529,52 @@
                 title: 'Reporte de datos'
             });
             // doc.addFont('ArialMS', 'Arial', 'normal');   
-            doc.setFontSize(10);        
+                   
             doc.setFontStyle('normal');           
             doc.setFontType("bold");
-            var limitY = 30;
-            doc.text(90, 20, 'INFORME');
-            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
-
-            doc.text(15, limitY + 10, 'Total de personas que han enviado datos hasta la fecha de generacion del reporte:     ' + totalReg);
-            doc.text(15, limitY + 20, 'Nota: Los valores anteriores son desde el inicio hasta la fecha de generacion del reporte:');
-            doc.text(15, limitY + 15, 'Total de personas enroladas correctamente hasta la fecha de generacion del reporte: ' + totalEnrol);
-            doc.text(15, limitY + 25, 'Total de personas nuevas enroladas en el periodo del reporte:                              ' + totalPeriodo);
-
-            doc.text(15, limitY + 30, 'Total Eventos de reconocimiento en el periodo del reporte:                                  ' + totalRec);
-            doc.text(15, limitY + 35, 'Total personas reconocidas en el periodo del reporte:                                           ' + totalPerson);
-            doc.text(15, limitY + 35, 'ATENCION : Este total corresponde a personas únicas reconocidas por el sistema independientemente de la puerta ');
-            doc.text(15, limitY + 45, 'Total alertas de temperatura en el periodo del reporte:                                           ' + alert);      
             
-            var finalY = doc.lastAutoTable.finalY;
-            doc.text(15, finalY + 5, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por dispositivo o puerta');      
-            doc.text(15, finalY + 10, 'una misma persona uede ser reconocida por mas de un dispositivo, cada dispositivo lo reporta una vez.');      
+            doc.setFontSize(18); 
+            doc.text(80, 20, 'INFORME DIARIO');
+            doc.setFontSize(10); 
+            doc.text(15, 30, 'LUGAR : GENERAL'); 
+            var limitY = 30;
 
-            doc.text(15, limitY + 60, 'Distribución de eventos de reconocimiento en el periodo: ');
-            doc.autoTable({ startY: limitY + 65, theme: 'plain', html: '#tblRecoDisp' });
+            localTime = new Date();
+
+            console.log(localTime);
+
+            
+            
+             //en is language option, you may specify..
+            
+            // Cambiamos tipo de letra
+            doc.setFontType("normal");
+            doc.text(15, limitY + 5,  'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 15, 'Fecha de generación del reporte:' ); doc.text(100, limitY + 15,  localTime.toLocaleString('co')); 
+            doc.text(15, limitY + 25, 'Total de personas que han diligenciado el formulario de datos hasta la fecha de generación del reporte:'); doc.text(180, limitY + 25,  totalReg.toString() );
+            doc.text(15, limitY + 30, 'Total de personas enroladas correctamente hasta la fecha de generación del reporte:	'); doc.text(180, limitY + 30,  totalEnrol.toString() );
+            
+            doc.text(15, limitY + 40, 'Total de personas que diligenciaron el formulario de datos durante el período del reporte:');  doc.text(180, limitY + 40,  totalPeriodo.toString());
+            doc.text(15, limitY + 45, 'Total de personas enroladas con foto válida durante el período del reporte:' ); doc.text(180, limitY + 45,  (totalEnrolPeriodo ? totalEnrolPeriodo : "") );
+
+            doc.text(15, limitY + 55, 'Total Eventos de Reconocimiento durante el período del reporte: '); doc.text(180, limitY + 55,  totalRec.toString() );
+            doc.text(15, limitY + 60, 'Total personas diferentes reconocidas durante el período del reporte:'); doc.text(180, limitY + 60,  totalPerson.toString() );
+        
+            doc.text(15, limitY + 70, 'Total alertas de temperatura elevada durante período del reporte:' ); doc.text(180, limitY + 70,  alert.toString() ); 
+            
+            //doc.lastAutoTable.finalY;
+
+            doc.setFontType("bold");
+            doc.setFontSize(10); 
+            
+            doc.text(15, limitY + 80, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.setFontType("normal");
+            
+            doc.autoTable({ startY: limitY + 90, theme: 'plain', html: '#tblRecoDisp' });
+
+            doc.text(15, doc.lastAutoTable.finalY + 10, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por puerta');    
+            
+            doc.text(25, doc.lastAutoTable.finalY + 15, 'Una misma persona puede ser reconocida en más de una puerta.');      
 
             
             /*
@@ -922,11 +930,17 @@
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
+
+            $('#init').val(formatDate(today));
+
+
             var calendarEnd = new CalendarPopup('#end', {
                 format: 'YYYY-MM-DD HH:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
+
+            $('#end').val(formatDate(today));
 
             tblRecoDisp = $('#tblRecoDisp').DataTable({
                 "bPaginate": true,
@@ -1404,6 +1418,7 @@
             data = {
                 start_date: start,
                 end_date: end,
+                hasPhoto: null
             };
 
             if(hasPhoto != null) {
@@ -1444,6 +1459,9 @@
 
                         const result1 = data.data.filter(h => h.hasPhoto = true);
                         console.log(result1.length);
+                    } else {
+                        totalEnrolPeriodo = result.length();
+
                     }
                         
                 } 
@@ -1701,7 +1719,20 @@
 
         function getData(data) {
             // var t_min= $("#tmin").value();
-
+            $('#example thead tr').clone(true).appendTo( '#example thead' );
+            $('#example thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        
+            $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
             jQuery.ajax({
                 type: "GET",
@@ -1710,10 +1741,10 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-                    
+                    // href='" + String(value.imageUrl).substring(7) + "
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
-                        url = "<a href='" + String(value.imageUrl).substring(7) + "'  target='_blank' id='pop'> Ver imagen </a>";
+                        url = "<a  id='popImage'> <img width='50px' id='imageresource' src= '" + String(value.imageUrl).substring(7) + "'</img></a>";
                         tblEvents.row.add(
                             [
                             value.registerTime,
@@ -1737,8 +1768,8 @@
             });
         }
 
-        $("#pop").on("click", function(e) {
-            e.preventDefault();
+        $("#popImage").on("click", function() {
+            console.log("Openong modla image");
             $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
             $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
         });

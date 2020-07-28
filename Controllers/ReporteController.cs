@@ -439,8 +439,6 @@ namespace AspStudio.Controllers
             result = result.Where(c => c.Temperature <= Double.Parse(filter.tmax));
 
             
-            
-
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
             result = result.Where(c => c.RegisterTime >= DateTime.Parse(filter.start_date));

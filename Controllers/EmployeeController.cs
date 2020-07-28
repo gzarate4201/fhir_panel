@@ -302,7 +302,8 @@ namespace AspStudio.Controllers
                         {
                             IRow row = sheet.GetRow(rowIndex);
                             // IRow row2 = null;
-                            
+                            DateTime localDate = DateTime.Now; 
+
                             if(row != null && rowIndex > 0) {
                                 dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                                 var employeeDb = dbContext.Empleados.FirstOrDefault(p => p.Documento.Contains(row.Cells[6].ToString()));
@@ -315,9 +316,12 @@ namespace AspStudio.Controllers
                                     Status = row.Cells[5].ToString(),
                                     Documento = row.Cells[6].ToString(),
                                     Empresa = row.Cells[7].ToString(),
-                                    imageUrl = row.Cells[8].ToString(),
+                                    Nit = row.Cells[8].ToString(),
                                     StartTime = DateTime.Parse(row.Cells[9].ToString()),
-                                    EndTime = DateTime.Parse(row.Cells[10].ToString())
+                                    EndTime = DateTime.Parse(row.Cells[10].ToString()),
+                                    imageUrl = row.Cells[11].StringCellValue.ToString(),
+                                    Ciudad = row.Cells[12].ToString(),
+                                    Created = localDate
                                 };
 
                                 if (employeeDb != null)

@@ -105,6 +105,7 @@ gulp.task('js', function(){
         'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
         'node_modules/jquery-slimscroll/jquery.slimscroll.min.js',
         'node_modules/js-cookie/src/js.cookie.js',
+        'src/js/jquery.slimcontroll.js',
         'src/js/app.js',
     ])
     .pipe(sourcemaps.init())
