@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.IO;
 using System.Threading;
@@ -188,22 +190,32 @@ namespace AspStudio.Controllers
         [HttpGet]
         public JsonResult getRecoDia(getFilter filter) {
 
-            var result = from o in dbContext.RecoDia
-                select o;
 
-            if (filter.device_id != null)
-            result = result.Where(c => c.DevId == filter.device_id);
+            var proc_start_date  = new SqlParameter("@start_date", Convert.ToDateTime(filter.start_date));
+            var proc_end_date    = new SqlParameter("@end_date", Convert.ToDateTime(filter.end_date));
+            var proc_t_alarma    = new SqlParameter("@t_alarma", 37.3);
+
+            var result = dbContext.RecoDia
+                        .FromSqlRaw("EXEC DISTRIBUCION_EVENTOS @start_date, @end_date, @t_alarma ", proc_start_date, proc_end_date, proc_t_alarma)
+                        .ToList();
+
+
+            // var result = from o in dbContext.RecoDia
+            //     select o;
+
+            // if (filter.device_id != null)
+            // result = result.Where(c => c.DevId == filter.device_id);
             
-            if (filter.ciudad != null) 
-            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+            // if (filter.ciudad != null) 
+            // result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
 
-            // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
+            // // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
 
-            if (filter.start_date != null) 
-            result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
+            // if (filter.start_date != null) 
+            // result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
 
-            if (filter.end_date != null) 
-            result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
+            // if (filter.end_date != null) 
+            // result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
 
             var count = result.Count();
 
@@ -355,6 +367,19 @@ namespace AspStudio.Controllers
             var count = result.Count();
 
 
+            // var personas = result.Select(e=>new {e.DocId, e.DevId, e.Ciudad, e.Sitio}) 
+            //                      .Distinct()
+            //                      .ToList();
+
+            // List<SopoRecoDia> personas = result.GroupBy(e=>new{e.Ciudad, e.Sitio, e.DevId, e.DocId})
+            //                     .Select(e=>new {e.Key.Ciudad, e.Key.Sitio, e.Key.DevId, e.Key.DocId}) 
+            //                     .ToList();
+
+            // Console.WriteLine("Registros : " + count);
+            // Console.WriteLine("Personas");
+            // Console.WriteLine(personas);
+
+
             return new JsonResult ( new { Count = count, Data = result} );
 
         }
@@ -478,25 +503,25 @@ namespace AspStudio.Controllers
         public JsonResult SendEmail (EmailFormModel model) {
 
             var message = new MimeMessage ();
-			message.From.Add (new MailboxAddress ("Alejandro", "alejandromejia@qaingenieros.com"));
+			message.From.Add (new MailboxAddress ("QA Ingenieros Ltda", "reportes@qaingenieros.com"));
 			message.To.Add (new MailboxAddress (model.ToName, model.ToEmail));
 			message.Subject = model.Subject;
 
 			// message.Body = new TextPart ("plain") {
 			// 	Text = model.Message
 			// };
-
+            var filePath = "wwwroot/Reports/" + model.Attach;
             //Fetch the attachments from db
             //considering one or more attachments
             var builder = new BodyBuilder { TextBody = model.Message };
-            builder.Attachments.Add(@"wwwroot/Reports/reporte.pdf");
+            builder.Attachments.Add(filePath);
             message.Body = builder.ToMessageBody();
             
             using (var client = new SmtpClient ()){
                 client.Connect ("mail.qaingenieros.com", 587, false);
 
 				// Note: only needed if the SMTP server requires authentication
-				client.Authenticate ("alejandromejia@qaingenieros.com", "Al3j0@17");
+				client.Authenticate ("reportes@qaingenieros.com", "qa4673008");
 
 				client.Send (message);
 				client.Disconnect (true);
@@ -551,14 +576,14 @@ namespace AspStudio.Controllers
 			//System.IO.File.Delete(fileName);
 
 			//Return result to client
-			return Json(status ? new { result = "success" } : new { result = "failed" });
+			return Json(status ? new { result = "success", name = fileName } : new { result = "failed", name = "" });
 		}
 
         private static bool SendMail(string filePath, string recipient)
 		{
             var message = new MimeMessage ();
-			message.From.Add (new MailboxAddress ("Alejandro", "alejandromejia@qaingenieros.com"));
-			message.To.Add (new MailboxAddress ("Alejandro Mejia",recipient));
+			message.From.Add (new MailboxAddress ("QA Ingenieros Ltda", "reportes@qaingenieros.com"));
+			message.To.Add (new MailboxAddress ("QA Ingenieros Ltda",recipient));
 			message.Subject = "Informe diario";
 
             Console.WriteLine("Archivo: " + filePath);
@@ -569,10 +594,10 @@ namespace AspStudio.Controllers
             message.Body = builder.ToMessageBody();
             
             using (var client = new SmtpClient ()){
-                client.Connect ("mail.qaingenieros.com", 587, false);
+                client.Connect ("mail.eficiencia.co", 587, false);
 
 				// Note: only needed if the SMTP server requires authentication
-				client.Authenticate ("alejandromejia@qaingenieros.com", "Al3j0@17");
+				client.Authenticate ("reportes@qaingenieros.com", "qa4673008");
 
                 try
 				{
@@ -642,12 +667,6 @@ namespace AspStudio.Controllers
             var totalEventos = eventosRecon.Count();
             var totalAlarmas = alarmas.Count();
 
-            if (filter.start_date != null) 
-            result = result.Where(c => c.time >= DateTime.Parse(filter.start_date));
-
-            if (filter.end_date != null) 
-            result = result.Where(c => c.time <= DateTime.Parse(filter.end_date));
-
             result = result.OrderBy(c => c.Ciudad).ThenBy(c =>c.Sitio);
 
             var count = result.Count();
@@ -671,9 +690,9 @@ namespace AspStudio.Controllers
 
             foreach (var item in result)
             {
-                Console.WriteLine("{0} {1} {2} {3}\n", item.Fecha, item.time, 
+                Console.WriteLine("{0} {1} {2} {3}\n", item.Fecha, 
                     item.Sitio, item.Recos, item.Personas);
-                htmlTable += "<tr><td>" + item.time + "</td><td>" + item.Ciudad + "</td>" + "<td>" + item.Sitio + "</td>" + "<td class='numero'>" + item.Recos + "</td>" + "<td class='numero'>" + item.Personas + "</td>" + "<td class='numero'>" + item.Alertas + "</td></tr>";
+                htmlTable += "<tr><td>" + item.Ciudad + "</td>" + "<td>" + item.Sitio + "</td>" + "<td class='numero'>" + item.Recos + "</td>" + "<td class='numero'>" + item.Personas + "</td>" + "<td class='numero'>" + item.Alertas + "</td></tr>";
                 tEventos+= item.Recos;
                 tPersonas+= item.Personas;
                 tAlarmas+= item.Alertas;
@@ -703,7 +722,7 @@ namespace AspStudio.Controllers
             PDF.SaveAs(OutputPath);
 
             SendMail(OutputPath,"alejomejia1@gmail.com");
-            SendMail(OutputPath,"mauriciogaviria@qaingenieros.com");
+            // SendMail(OutputPath,"mauriciogaviria@qaingenieros.com");
             SendMail(OutputPath,"santiagouruena@qaingenieros.com");
             // This neat trick opens our PDF file so we can see the result in our default PDF viewer
             // System.Diagnostics.Process.Start(OutputPath);

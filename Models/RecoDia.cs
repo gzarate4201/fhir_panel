@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 namespace AspStudio.Models
 {
     
-    [Table("RECO_DIAS")]
+    [Table("DISTRIBUCION EVENTOS")]
     public class RecoDia
     {
         [Column("Fecha")]
         public String Fecha {get; set;}
-
-        [Column("time")]
-        public DateTime time {get; set;}
 
         [Column("device_id")]
         public String DevId {get; set;}
