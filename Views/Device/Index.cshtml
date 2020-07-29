@@ -212,12 +212,10 @@
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-title" style="  text-align: center;">BIND /UNBIND</h4>
                             <div class="input-group">
-                                <ul>
-                                    
-                                </ul>
+
                                 <div class="input-group-prepend"><span class="input-group-text">Device Id</span></div>
 
-                                <div class="dropdown">
+                                @* <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Dispositivos
                                     </button>
@@ -229,16 +227,18 @@
                             
                                         
                                     </div>
+                                </div> *@
+                                <div class="input-group">
+                                    <select id="bind_device_id_select">
+                                        <option value="" data-token=""> Seleccione </option>
+                                        
+                                        @foreach (dynamic device in ViewBag.Devices)
+                                        {
+                                            <option value="@device.dev_id">@device.tag</option>
+                                        }
+                                    </select> 
                                 </div>
-
-                                <select id="bind_device_id_select">
-                                    <option value="" data-token=""> Seleccione </option>
-                                    
-                                    @foreach (dynamic device in ViewBag.Devices)
-                                    {
-                                        <option value="@device.dev_id">@device.tag</option>
-                                    }
-                                </select> <div class="input-group-append"></div> <!-- <input autocomplete="off" type="text" class="form-control" id="bind_device_id" /> -->
+                                <div class="input-group-append"></div> <!-- <input autocomplete="off" type="text" class="form-control" id="bind_device_id" /> -->
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">Tag</span></div><input autocomplete="off" type="text" class="form-control" id="bind_tag" />

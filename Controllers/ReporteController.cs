@@ -194,9 +194,10 @@ namespace AspStudio.Controllers
             var proc_start_date  = new SqlParameter("@start_date", Convert.ToDateTime(filter.start_date));
             var proc_end_date    = new SqlParameter("@end_date", Convert.ToDateTime(filter.end_date));
             var proc_t_alarma    = new SqlParameter("@t_alarma", 37.3);
+            var proc_ex_company  = new SqlParameter("@ex_company", "indra");
 
             var result = dbContext.RecoDia
-                        .FromSqlRaw("EXEC DISTRIBUCION_EVENTOS @start_date, @end_date, @t_alarma ", proc_start_date, proc_end_date, proc_t_alarma)
+                        .FromSqlRaw("EXEC DISTRIBUCION_EVENTOS @start_date, @end_date, @t_alarma, @ex_company ", proc_start_date, proc_end_date, proc_t_alarma, proc_ex_company)
                         .ToList();
 
 
@@ -242,6 +243,9 @@ namespace AspStudio.Controllers
             if (filter.company != null) 
             result = result.Where(c => c.Empresa.Contains(filter.company));
 
+            if (filter.eXcompany != null) 
+            result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
+
             // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
 
             if (filter.start_date != null) 
@@ -267,6 +271,9 @@ namespace AspStudio.Controllers
 
             if (filter.company != null) 
             result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            if (filter.eXcompany != null) 
+            result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
 
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
@@ -335,6 +342,9 @@ namespace AspStudio.Controllers
             if (filter.company != null) 
             result = result.Where(c => c.Empresa.Contains(filter.company));
 
+            if (filter.eXcompany != null) 
+            result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
+
             if (filter.name != null) 
             result = result.Where(c => c.Name.Contains(filter.name));
             
@@ -397,6 +407,9 @@ namespace AspStudio.Controllers
 
             if (filter.company != null) 
             result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            if (filter.eXcompany != null) 
+            result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
 
             if (filter.name != null) 
             result = result.Where(c => c.Name.Contains(filter.name));
@@ -581,40 +594,48 @@ namespace AspStudio.Controllers
 
         private static bool SendMail(string filePath, string recipient)
 		{
-            var message = new MimeMessage ();
-			message.From.Add (new MailboxAddress ("QA Ingenieros Ltda", "reportes@qaingenieros.com"));
-			message.To.Add (new MailboxAddress ("QA Ingenieros Ltda",recipient));
-			message.Subject = "Informe diario";
 
-            Console.WriteLine("Archivo: " + filePath);
-            //Fetch the attachments from db
-            //considering one or more attachments
-            var builder = new BodyBuilder { TextBody = "PFA"};
-            builder.Attachments.Add(filePath);
-            message.Body = builder.ToMessageBody();
-            
-            using (var client = new SmtpClient ()){
-                client.Connect ("mail.eficiencia.co", 587, false);
+            if (recipient != null) 
+            {
+                var message = new MimeMessage ();
+                message.From.Add (new MailboxAddress ("QA Ingenieros Ltda", "reportes@qaingenieros.com"));
+                message.To.Add (new MailboxAddress ("QA Ingenieros Ltda",recipient));
+                message.Subject = "Informe diario";
 
-				// Note: only needed if the SMTP server requires authentication
-				client.Authenticate ("reportes@qaingenieros.com", "qa4673008");
+                Console.WriteLine("Archivo: " + filePath);
+                //Fetch the attachments from db
+                //considering one or more attachments
+                var builder = new BodyBuilder { TextBody = "PFA"};
+                builder.Attachments.Add(filePath);
+                message.Body = builder.ToMessageBody();
+                
+                using (var client = new SmtpClient ()){
+                    client.Connect ("mail.eficiencia.co", 587, false);
 
-                try
-				{
-					client.Send(message);
-					return true;
-				}
-				catch (Exception)
-				{
-					return false;
-				}
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate ("reportes@qaingenieros.com", "qa4673008");
+
+                    try
+                    {
+                        client.Send(message);
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
             }
+            
 
 		}
 
         public JsonResult dailyPdf() {
 
             var Renderer = new IronPdf.HtmlToPdf();
+            IronPdf.License.LicenseKey = "IRONPDF-899018AD4E-162958-D0D743-E5E35E6DCF-A6A2B1D8-UEx011F047486B48D8-COMMUNITY.TRIAL.EXPIRES.28.AUG.2020";
             Renderer.PrintOptions.MarginTop = 20;  //millimeters
             Renderer.PrintOptions.MarginBottom = 40;
             Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
@@ -649,9 +670,6 @@ namespace AspStudio.Controllers
             filter.start_date = yesterday.ToString("yyyy-MM-dd 12:00");
             filter.end_date = today.ToString("yyyy-MM-dd 12:00");
 
-            var result = from o in dbContext.RecoDia
-                select o;
-
             var enrolados = from e in dbContext.RepoEnrolamientos
                 select e;
 
@@ -667,7 +685,13 @@ namespace AspStudio.Controllers
             var totalEventos = eventosRecon.Count();
             var totalAlarmas = alarmas.Count();
 
-            result = result.OrderBy(c => c.Ciudad).ThenBy(c =>c.Sitio);
+            var proc_start_date  = new SqlParameter("@start_date", Convert.ToDateTime(filter.start_date));
+            var proc_end_date    = new SqlParameter("@end_date", Convert.ToDateTime(filter.end_date));
+            var proc_t_alarma    = new SqlParameter("@t_alarma", 37.3);
+
+            var result = dbContext.RecoDia
+                    .FromSqlRaw("EXEC DISTRIBUCION_EVENTOS @start_date, @end_date, @t_alarma ", proc_start_date, proc_end_date, proc_t_alarma)
+                    .ToList();
 
             var count = result.Count();
 
@@ -692,7 +716,7 @@ namespace AspStudio.Controllers
             {
                 Console.WriteLine("{0} {1} {2} {3}\n", item.Fecha, 
                     item.Sitio, item.Recos, item.Personas);
-                htmlTable += "<tr><td>" + item.Ciudad + "</td>" + "<td>" + item.Sitio + "</td>" + "<td class='numero'>" + item.Recos + "</td>" + "<td class='numero'>" + item.Personas + "</td>" + "<td class='numero'>" + item.Alertas + "</td></tr>";
+                htmlTable += "<tr><td>" + item.Fecha + "</td>" + "<td>" + item.Ciudad + "</td>" + "<td>" + item.Sitio + "</td>" + "<td class='numero'>" + item.Recos + "</td>" + "<td class='numero'>" + item.Personas + "</td>" + "<td class='numero'>" + item.Alertas + "</td></tr>";
                 tEventos+= item.Recos;
                 tPersonas+= item.Personas;
                 tAlarmas+= item.Alertas;
@@ -703,15 +727,15 @@ namespace AspStudio.Controllers
             
 
             // Cargar los datos
-            html = html.Replace("{{start_date}}", filter.start_date.ToString());
-            html = html.Replace("{{end_date}}"  , filter.end_date.ToString());
-            html = html.Replace("{{totalDatos}}"       , totalEnrolados.ToString());
-            html = html.Replace("{{totalEnrolados}}"   , okEnrolados.ToString());
-            html = html.Replace("{{nuevosEnrolados}}"  , newEnrolados.ToString());
-            html = html.Replace("{{tablaEventos}}"     , htmlTable);
-            html = html.Replace("{{totalEventos}}"     , totalEventos.ToString());
-            html = html.Replace("{{totalPersonas}}"    , totalPersonas.ToString());
-            html = html.Replace("{{totalAlertas}}"     , totalAlarmas.ToString());
+            html = html.Replace("{{start_date}}"        , filter.start_date.ToString());
+            html = html.Replace("{{end_date}}"          , filter.end_date.ToString());
+            html = html.Replace("{{totalDatos}}"        , totalEnrolados.ToString());
+            html = html.Replace("{{totalEnrolados}}"    , okEnrolados.ToString());
+            html = html.Replace("{{nuevosEnrolados}}"   , newEnrolados.ToString());
+            html = html.Replace("{{tablaEventos}}"      , htmlTable);
+            html = html.Replace("{{totalEventos}}"      , totalEventos.ToString());
+            html = html.Replace("{{totalPersonas}}"     , totalPersonas.ToString());
+            html = html.Replace("{{totalAlertas}}"      , totalAlarmas.ToString());
             html = html.Replace("{{totalEventosP}}"     , tEventos.ToString());
             html = html.Replace("{{totalPersonasP}}"    , tPersonas.ToString());
             html = html.Replace("{{totalAlertasP}}"     , tAlarmas.ToString());
@@ -722,7 +746,7 @@ namespace AspStudio.Controllers
             PDF.SaveAs(OutputPath);
 
             SendMail(OutputPath,"alejomejia1@gmail.com");
-            // SendMail(OutputPath,"mauriciogaviria@qaingenieros.com");
+            SendMail(OutputPath,"mauriciogaviria@qaingenieros.com");
             SendMail(OutputPath,"santiagouruena@qaingenieros.com");
             // This neat trick opens our PDF file so we can see the result in our default PDF viewer
             // System.Diagnostics.Process.Start(OutputPath);

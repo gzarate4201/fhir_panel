@@ -23,6 +23,9 @@ namespace AspStudio.Models
         [Column("sitio_registro")]
         public String Sitio {get; set;}
 
+        [Column("empresa")]
+        public String Empresa {get; set;}
+
         [Column("reconocimientosDia")]
         public int Recos {get; set;}
 
