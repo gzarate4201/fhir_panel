@@ -17,7 +17,7 @@
 
 <style>
     .stat-digit {
-        font-size: 32px;
+        font-size: 28px;
         font-weight: bold;
     }
 </style>
@@ -54,7 +54,7 @@
             <div class="card-body">
                 <div class="reporte view" id="reporte">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Enrolados</h4>
@@ -63,23 +63,28 @@
                                     <div class="stat-widget-one">
                                         <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="stat-content dib" style="text-align:center">
                                                     <div class="stat-text">Registros</div>
                                                     <div class="stat-digit" id="totalRegistros">  </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="stat-content dib" style="text-align:center">
                                                     <div class="stat-text">Enrolados</div>
                                                     <div class="stat-digit" id="totalEnrolados">  </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="stat-content dib" style="text-align:center">
-                                                    <div class="stat-text">En el Periodo</div>
+                                                    <div class="stat-text">Reg. Periodo</div>
                                                     <div class="stat-digit" id="totalEnroladosPeriodo">  </div>
-                                                    <div class="stat-digit" id="totalEnroladosOkPeriodo" hidden>  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Enrol. Periodo</div>
+                                                    <div class="stat-digit" id="totalEnroladosOkPeriodo">  </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,10 +93,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Eventos de Reconocimientos</h4>
+                                    <h4 class="card-title">Eventos de Reconocimiento</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="stat-widget-one">
@@ -103,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Personas reconocidas</h4>
@@ -120,7 +125,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Alertas de temperatura</h4>
@@ -187,19 +192,27 @@
                                         @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a> *@
                                     </div>
                                     <div class="card-body " style="height:450px;overflow:auto;width='100%';">
-                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
+                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display" >
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th nowrap>Regional</th>
+                                                    <th nowrap>Instalación</th>
                                                     <th>Puerta</th>
                                                     <th>Recon.</th>
-                                                    <th>Personas</th>
-                                                    <th>Alertas Temp</th>
+                                                    <th>Pers.</th>
+                                                    <th>Al.T.</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="distribReco">
                                             </tbody>
+                                            <tfoot>
+                                                <th> Totales </th>
+                                                <th colspan="3"></th>
+                                                <th id="tReco"></th>
+                                                <th id="tPerso"></th>
+                                                <th id="tAlert"></th>
+                                            </tfoot>
 
                                         </table>
 
@@ -228,9 +241,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Puerta</th>
-                                                    <th>Disp.</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
                                                     <th>Empresa</th>
@@ -270,7 +282,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
                                                     <th>Empresa</th>
@@ -308,7 +320,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Puerta</th>
                                                     <th>Disp.</th>
                                                     <th>Doc</th>
@@ -481,6 +493,7 @@
     
 
     <script src="~/js/datatables.js"></script>
+    <script src="~/js/DataTables-1.10.21/js/dataTables.rowGroup.min.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
     <script src="~/js/jspdf.js"></script>
@@ -572,6 +585,23 @@
             
             doc.text(15, limitY + 80, 'Distribución de eventos de reconocimiento en el periodo: ');
             doc.setFontType("normal");
+
+            var header = function(data) {
+                doc.setFontSize(12);
+                doc.setTextColor(40);
+                doc.setFontStyle('normal');
+                //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+                doc.text("Distribución de eventos de reconocimiento en el periodo", data.settings.margin.left, 50);
+            };
+            var options = {
+                beforePageContent: header,
+                margin: {
+                    top: 80
+                },
+
+                startY: doc.autoTableEndPosY() + 20
+            };
+            
             
             doc.autoTable({ startY: limitY + 90, theme: 'plain', html: '#tblRecoDisp' });
 
@@ -1025,7 +1055,88 @@
                     }
         
                 ],
-                
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+        
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+        
+                    // Total Recos over all pages
+                    tRecos = api
+                        .column( 4 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+                    
+                    // Total Perso over all pages
+                    tPerso = api
+                        .column( 5 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+
+                    // Total Alert over all pages
+                    tAlert = api
+                        .column( 6 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+        
+        
+                    // Update footer
+                    $( api.column( 4).footer() ).html(
+                        tRecos
+                    );
+                    $( api.column( 5).footer() ).html(
+                        tPerso
+                    );
+                    $( api.column( 6).footer() ).html(
+                        tAlert
+                    );
+                },
+                "order": [[ 1, "asc" ],[2,"asc"]],
+                rowGroup: {
+                    startRender: null,
+                    endRender: function ( rows, group ) {
+                        var stRecos = rows
+                            .data()
+                            .pluck(4)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0);
+                        //salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+        
+                        var stPerso = rows
+                            .data()
+                            .pluck(5)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0);
+                        
+                        var stAlarm = rows
+                            .data()
+                            .pluck(6)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0) ;
+        
+                        return $('<tr/>')
+                            .append( '<td colspan="4"><b>Totales para '+group+'</b></td>' )
+                            .append( '<td>'+stRecos+'</td>' )
+                            .append( '<td>'+stPerso+'</td>' )
+                            .append( '<td>'+stAlarm+'</td>' );
+                    },
+                    dataSrc: 2
+                }
 
             });
 
@@ -1518,8 +1629,8 @@
                             [
                             value.dateTime,
                             value.ciudad,
-                            value.sitio,
-                            value.devId,
+                            value.puerta,
+                            //value.devId,
                             value.docId,
                             value.name,
                             value.empresa,
@@ -1605,8 +1716,9 @@
                         tblRecoDisp.row.add(
                             [
                             value.fecha,
+                            value.regional,
                             value.ciudad,
-                            value.sitio,
+                            value.puerta,
                             value.recos,
                             value.personas,
                             value.alertas,
@@ -1683,6 +1795,7 @@
 
             let initDev = null;
             let initName = null;
+            let ecp_device_id = null;
             let initTempMin = null;
             let initTempMax = null;
             let initDate = null;
@@ -1731,15 +1844,40 @@
                 endDate = $('#end').val();
             }
 
+            // Dispositivo
+            if ($('#ecp_dev_id').val() != 0) {
+                console.log("El valor del dispositivo es: ")
+                console.log($('#ecp_dev_id').val());
+                ecp_device_id = $('#ecp_dev_id').val();
+            }
+
+            // Puerta
+            if ($('#ecp_puerta').val() != 0) {
+                console.log("El valor de la puerta es : ")
+                console.log($('#ecp_puerta').val());
+                endDate = $('#ecp_puerta').val();
+            }
+
+            // hasId
+            if ($('#rec_en').val() != 0) {
+                console.log("El valor de reconocido es : ")
+                console.log($('#rec_en').val());
+                if ($('#rec_en').val() == 1) {
+                    hasId = "true";
+                } else {
+                    hasId = null;
+                }
+                
+            }
+
 
             data={
-                    device_id: initDev,
+                    device_id: ecp_device_id,
                     name: initName,
                     tmin: initTempMin,
                     tmax: initTempMax,
                     start_date: initDate,
                     end_date: endDate,
-                    hasId: 1,
 
                 };
 

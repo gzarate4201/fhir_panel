@@ -17,11 +17,17 @@ namespace AspStudio.Models
         [Column("device_id")]
         public String DevId {get; set;}
 
+        [Column("regional")]
+        public String Regional {get; set;}
+
         [Column("ciudad_registro")]
         public String Ciudad {get; set;}
 
         [Column("sitio_registro")]
         public String Sitio {get; set;}
+
+        [Column("pta_lenel")]
+        public String Puerta {get; set;}
 
         [Column("empresa")]
         public String Empresa {get; set;}

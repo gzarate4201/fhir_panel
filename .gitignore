@@ -30,6 +30,7 @@ publish/
 Media/
 wwwroot/Uploads
 wwwroot/Registers
+wwwroot/Reports
 
 ###################
 # Web publish log #

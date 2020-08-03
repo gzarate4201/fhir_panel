@@ -147,6 +147,7 @@
         .Pageable(pager =>
             {
                 //pager.PageSizes = new DictionaryInt32, String> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 500, "500" } };
                 pager.ShowPageSizes = true;
                 pager.PagesToDisplay = 5;
                 pager.CurrentPage = 1;
