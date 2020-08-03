@@ -196,7 +196,7 @@ namespace AspStudio.Controllers
             var proc_start_date  = new SqlParameter("@start_date", Convert.ToDateTime(filter.start_date));
             var proc_end_date    = new SqlParameter("@end_date", Convert.ToDateTime(filter.end_date));
             var proc_t_alarma    = new SqlParameter("@t_alarma", 37.3);
-            var proc_ex_company  = new SqlParameter("@ex_company", "indra");
+            var proc_ex_company  = new SqlParameter("@ex_company", null);
 
             var result = dbContext.RecoDia
                         .FromSqlRaw("EXEC DISTRIBUCION_EVENTOS @start_date, @end_date, @t_alarma, @ex_company ", proc_start_date, proc_end_date, proc_t_alarma, proc_ex_company)

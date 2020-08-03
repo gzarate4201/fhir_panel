@@ -5,3 +5,4 @@
 wwwroot/Uploads/*
 !wwwroot/Uploads/avatar.png
 wwwroot/Registers/*
+wwwroot/Reports/*
