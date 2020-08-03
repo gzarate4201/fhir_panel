@@ -69,6 +69,8 @@ namespace AspStudio.Controllers
      public class getFilter {
         public string start_date {get; set;}
         public string end_date {get; set;}
+        public string start_update {get; set;}
+        public string end_update {get; set;}
         public string name {get; set;}
         public string company {get; set;}
         public string eXcompany {get; set;}
@@ -275,13 +277,23 @@ namespace AspStudio.Controllers
             if (filter.eXcompany != null) 
             result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
 
+            if (filter.ciudad != null) 
+            result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
             //Console.WriteLine("Start Time: {0}", DateTime.Parse(filter.start_date).ToString());
             if (filter.start_date != null) 
-            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
+            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date) );
 
             if (filter.end_date != null) 
-            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
+            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date)  );
 
+            if (filter.start_update != null) 
+            result = result.Where(c => c.Updated >= DateTime.Parse(filter.start_update) );
+
+            if (filter.end_update != null) 
+            result = result.Where(c => c.Updated <= DateTime.Parse(filter.end_update)  );
+
+            //|| 
             if (filter.hasPhoto != null) {
                 
                 var hasFoto = (filter.hasPhoto == "true") ? true : false;

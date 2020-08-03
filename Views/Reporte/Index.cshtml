@@ -77,16 +77,22 @@
                                                     <div class="stat-digit" id="totalEnrolados">  </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <div class="stat-content dib" style="text-align:center">
                                                     <div class="stat-text">Reg. Periodo</div>
                                                     <div class="stat-digit" id="totalEnroladosPeriodo">  </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <div class="stat-content dib" style="text-align:center">
                                                     <div class="stat-text">Enrol. Periodo</div>
                                                     <div class="stat-digit" id="totalEnroladosOkPeriodo">  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Actualización P.</div>
+                                                    <div class="stat-digit" id="totalUpdatedPeriodo">  </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -538,6 +544,7 @@
             var doc = new jsPDF();
             var totalEnrol = $('#totalEnrolados').html();
             var totalEnrolOkPeriodo = $('#totalEnroladosOkPeriodo').html();
+            var totalUpdatedPeriodo = $('#totalUpdatedPeriodo').html();
             var totalReg = $('#totalRegistros').html();          
             var totalPeriodo = $('#totalEnroladosPeriodo').html()
             var totalRec = $('#totalReconocimientos').html();
@@ -572,20 +579,21 @@
             doc.text(15, limitY + 25, 'Total de personas que han diligenciado el formulario de datos hasta la fecha de generación del reporte:'); doc.text(180, limitY + 25,  totalReg.toString() );
             doc.text(15, limitY + 30, 'Total de personas enroladas correctamente hasta la fecha de generación del reporte:	'); doc.text(180, limitY + 30,  totalEnrol.toString() );
             
-            doc.text(15, limitY + 40, 'Total de personas que diligenciaron el formulario de datos durante el período del reporte:');  doc.text(180, limitY + 40,  totalPeriodo.toString());
+            doc.text(15, limitY + 40, 'Total de personas nuevas que diligenciaron el formulario de datos durante el período del reporte:');  doc.text(180, limitY + 40,  totalPeriodo.toString());
             doc.text(15, limitY + 45, 'Total de personas enroladas con foto válida durante el período del reporte:' ); doc.text(180, limitY + 45,  (totalEnrolOkPeriodo ? totalEnrolOkPeriodo : "") );
+            doc.text(15, limitY + 55, 'Total de personas que actualizaron foto válida durante el período del reporte:' ); doc.text(180, limitY + 55,  ( totalUpdatedPeriodo ? totalUpdatedPeriodo : "") );
 
-            doc.text(15, limitY + 55, 'Total Eventos de Reconocimiento durante el período del reporte: '); doc.text(180, limitY + 55,  totalRec.toString() );
-            doc.text(15, limitY + 60, 'Total personas diferentes reconocidas durante el período del reporte:'); doc.text(180, limitY + 60,  totalPerson.toString() );
+            doc.text(15, limitY + 65, 'Total Eventos de Reconocimiento durante el período del reporte: '); doc.text(180, limitY + 65,  totalRec.toString() );
+            doc.text(15, limitY + 70, 'Total personas diferentes reconocidas durante el período del reporte:'); doc.text(180, limitY + 70,  totalPerson.toString() );
         
-            doc.text(15, limitY + 70, 'Total alertas de temperatura elevada durante período del reporte:' ); doc.text(180, limitY + 70,  alert.toString() ); 
+            doc.text(15, limitY + 80, 'Total alertas de temperatura elevada durante período del reporte:' ); doc.text(180, limitY + 80,  alert.toString() ); 
             
             //doc.lastAutoTable.finalY;
 
             doc.setFontType("bold");
             doc.setFontSize(10); 
             
-            doc.text(15, limitY + 80, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.text(15, limitY + 90, 'Distribución de eventos de reconocimiento en el periodo: ');
             doc.setFontType("normal");
 
             var header = function(data) {
@@ -676,7 +684,7 @@
             */
             
             
-            doc.autoTable({ startY: limitY + 90, theme: 'plain', html: '#tblRecoDisp', styles: { cellPadding: 0.5, fontSize: 9 }, theme: 'striped', });
+            doc.autoTable({ startY: limitY + 100, theme: 'plain', html: '#tblRecoDisp', styles: { cellPadding: 0.5, fontSize: 9 }, theme: 'striped', });
 
             doc.text(15, doc.lastAutoTable.finalY + 10, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por puerta');    
             
@@ -1575,10 +1583,16 @@
             getTotalRegistros("2020-07-13 00:00:00", end, true)
             getTotalEnroll(start, end, null)
             getTotalEnroll(start, end, true)
+            getTotalEnrollUpdate(start, end, null)
             getTotalReco(start, end)
             getTotalPersonas(start,end)
             getDistReco(start, end)
             getTotalAlertas(start, end)
+            getEnrollSec('2020-07-13 12:00', end);
+        }
+
+        function getEnrollSec(start, end) {
+
         }
 
         function getTotalRegistros(start, end, hasPhoto) {
@@ -1586,7 +1600,7 @@
                 start_date: start,
                 end_date: end,
                 hasPhoto: hasPhoto,
-                eXcompany: "indra"
+                //eXcompany: "indra"
             };
 
             jQuery.ajax({
@@ -1614,12 +1628,50 @@
 
         }
 
+
+        function getTotalEnrollUpdate(start, end, hasPhoto) {
+
+            data = {
+                start_update: start,
+                end_update: end,
+                //eXcompany:"indra"
+            };
+
+            if(hasPhoto != null) {
+                data.hasPhoto = hasPhoto
+            }
+            console.log("Consulta de actualizados del periodo");
+            console.log(data)
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRepoEnroll", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log("Datos de actualizados con hasPhoto en " + hasPhoto)
+                    console.log(data);
+                    result = data.data;
+                        
+                    console.log("Total actualizados en el periodo :" + totalEnrolPeriodo);
+                    $("#totalUpdatedPeriodo").empty();                    
+                    $("#totalUpdatedPeriodo").html(data.count);
+
+                }
+        
+            });
+
+        }
+
+
         function getTotalEnroll(start, end, hasPhoto) {
 
             data = {
                 start_date: start,
                 end_date: end,
-                eXcompany:"indra"
+                //eXcompany:"indra"
             };
 
             if(hasPhoto != null) {
@@ -1679,7 +1731,7 @@
             data = {
                 start_date: start,
                 end_date: end,
-                eXcompany: "Indra"
+                //eXcompany: "Indra"
             };
             console.log("get Total Reconocimiento")
             console.log(data)
@@ -1727,7 +1779,7 @@
             data = {
                 start_date: start,
                 end_date: end,
-                eXcompany: "indra"
+                //eXcompany: "indra"
             };
 
             console.log("get Total Personas")
@@ -1816,7 +1868,7 @@
                 start_date: start,
                 end_date: end,
                 tmin: 37.3,
-                eXcompany: "Indra"
+                //eXcompany: "Indra"
             };
 
             console.log("get Total Alertas")

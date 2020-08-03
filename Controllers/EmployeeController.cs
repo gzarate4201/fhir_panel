@@ -321,12 +321,15 @@ namespace AspStudio.Controllers
                                     EndTime = DateTime.Parse(row.Cells[10].ToString()),
                                     imageUrl = row.Cells[11].StringCellValue.ToString(),
                                     Ciudad = row.Cells[12].ToString(),
-                                    Created = localDate
+                                    Created = localDate,
+                                    Updated = null
                                 };
 
                                 if (employeeDb != null)
                                 {
                                     employee.Id = employeeDb.Id;
+                                    employee.Created = employeeDb.Created;
+                                    employee.Updated = localDate;
                                     dbContext.Empleados.Update(employee);
                                     dbContext.SaveChanges();
                                 } else {

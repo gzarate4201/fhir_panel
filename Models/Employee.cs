@@ -59,6 +59,9 @@ namespace AspStudio.Models
         [Column("created")]
         public DateTime? Created { get; set; }
 
+        [Column("updated")]
+        public DateTime? Updated { get; set; }
+
         [Column("ciudadEnroll")]
         public string Ciudad { get; set; }
         
