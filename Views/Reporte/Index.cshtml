@@ -20,6 +20,8 @@
         font-size: 28px;
         font-weight: bold;
     }
+
+    th.dt-center, td.dt-center { text-align: center; }
 </style>
 
 <div class="container-fluid">
@@ -593,17 +595,88 @@
                 //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
                 doc.text("Distribución de eventos de reconocimiento en el periodo", data.settings.margin.left, 50);
             };
+
+
+            var options = {
+                tableLineColor: [189, 195, 199],
+                tableLineWidth: 0.75,
+                styles: {
+                    font: 'Meta',
+                    lineColor: [44, 62, 80],
+                    lineWidth: 0.55
+                },
+                headerStyles: {
+                    fillColor: [0, 0, 0],
+                    fontSize: 11
+                },
+                bodyStyles: {
+                    fillColor: [216, 216, 216],
+                    textColor: 50
+                },
+                alternateRowStyles: {
+                    fillColor: [250, 250, 250]
+                },
+                startY: 100,
+                drawRow: function (row, data) {
+                    // Colspan
+                    doc.setFontStyle('bold');
+                    doc.setFontSize(10);
+                    if ($(row.raw[0]).hasClass("innerHeader")) {
+                        doc.setTextColor(200, 0, 0);
+                        doc.setFillColor(110,214,84);
+                        doc.rect(data.settings.margin.left, row.y, data.table.width, 20, 'F');
+                        doc.autoTableText("", data.settings.margin.left + data.table.width / 2, row.y + row.height / 2, {
+                            halign: 'center',
+                            valign: 'middle'
+                        });
+                    /*  data.cursor.y += 20; */
+                    };
+
+                    if (row.index % 5 === 0) {
+                        var posY = row.y + row.height * 6 + data.settings.margin.bottom;
+                        if (posY > doc.internal.pageSize.height) {
+                            data.addPage();
+                        }
+                    }
+                },
+                drawCell: function (cell, data) {
+                    // Rowspan
+                    console.log(cell);
+                    if ($(cell.raw).hasClass("innerHeader")) {
+                            doc.setTextColor(200, 0, 0);
+                            doc.autoTableText(cell.text + '', data.settings.margin.left + data.table.width / 2, data.row.y + data.row.height / 2, {
+                            halign: 'center',
+                            valign: 'middle'
+                        });
+                        
+                        return false;
+                    }
+                }
+            }
+
+            /*
             var options = {
                 beforePageContent: header,
                 margin: {
-                    top: 80
+                    top: 10
                 },
 
-                startY: doc.autoTableEndPosY() + 20
+                startY: doc.autoTableEndPosY() + 20,
+
+                createdCell: function(cell, opts) {
+                    //if (cell.text[0].indexOf('da')>-1) { // count startrs from 0
+                        // cell.raw contains the cell data
+                        cell.styles.fillColor = [216,78,75];     // random color
+                        cell.styles.textColor = [58,121,152];
+                        cell.styles.fontStyle = 'normal';
+                        cell.styles.fontSize = '9';
+                    //}
+                },
             };
+            */
             
             
-            doc.autoTable({ startY: limitY + 90, theme: 'plain', html: '#tblRecoDisp' });
+            doc.autoTable({ startY: limitY + 90, theme: 'plain', html: '#tblRecoDisp', styles: { cellPadding: 0.5, fontSize: 9 }, theme: 'striped', });
 
             doc.text(15, doc.lastAutoTable.finalY + 10, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por puerta');    
             
@@ -628,7 +701,7 @@
             // Save the PDF
             doc.save(pdfName);
 
-            return(serverName.name)
+            //return(serverName.name)
 
         }
         
@@ -994,6 +1067,9 @@
                     header: true,
                     footer: true
                 },
+                columnDefs: [
+                    {"className": "dt-center", "targets": "_all"}
+                ],
                 buttons: [
                     'copy', 
                     'excel', 
@@ -1129,11 +1205,11 @@
                                 return a + b;
                             }, 0) ;
         
-                        return $('<tr/>')
+                        return $('<tr style="text-weigth:bold"/>')
                             .append( '<td colspan="4"><b>Totales para '+group+'</b></td>' )
-                            .append( '<td>'+stRecos+'</td>' )
-                            .append( '<td>'+stPerso+'</td>' )
-                            .append( '<td>'+stAlarm+'</td>' );
+                            .append( '<td><b>'+stRecos+'</b></td>' )
+                            .append( '<td><b>'+stPerso+'</b></td>' )
+                            .append( '<td><b>'+stAlarm+'</b></td>' );
                     },
                     dataSrc: 2
                 }
