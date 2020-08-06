@@ -110,9 +110,9 @@ namespace AspStudio.Controllers
             var serverHostSettings = AppSettingsProvider.ServerHostSettings;
             // var serverIp = serverHostSettings.Host;
             // var serverPort = serverHostSettings.Port;
-            var serverIp = "192.168.0.5";
+            var serverIp = "10.11.34.94";
             var serverPort = 5050;
-            var imageServerIp = "192.168.0.5";
+            var imageServerIp = "10.11.34.94";
             // var imageServerIp = AppSettingsProvider.ImageServerIp;
             // var serverPort = AppSettingsProvider.ServerPort;
             var dispositivos = dbContext.Devices;

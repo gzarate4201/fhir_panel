@@ -542,6 +542,7 @@
             },
             async: false,
             success: function(data) {
+                console.log(data);
                 if(data.success == true)
                 {
                     console.log("Registro enviado");
@@ -622,7 +623,7 @@
             if( device_id ==  null || device_tkn == null) {
                 alert("Debe seleccionar un dispositivo de destino y este debe estar enlazado");
             } else {
-                sendAll("7101396770022","2302879601", "SendImages", "Test", 1)
+                sendAll(device_id, device_tkn, device_tag, "Ecopetrol", 1)
             }
         });
         
@@ -658,7 +659,7 @@
                 param:
                 {
                     lib_name: batch_name,
-                    lib_id: batch_id,
+                    lib_id: batch_id.toString(),
                     server_ip: address,
                     server_port: port,
                     pictures:[]
