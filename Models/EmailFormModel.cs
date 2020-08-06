@@ -8,7 +8,7 @@ namespace AspStudio.Models
     {
         [Required, Display(Name="Indra - Reports")]
         public string FromName { get; set; }
-        [Required, Display(Name = "alejandromejia@qaingenieros.com"), EmailAddress]
+        [Required, Display(Name = "reportes@qaingenieros.com"), EmailAddress]
         public string FromEmail { get; set; }
         [Required]
         public string Message { get; set; }

@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<!--https://stackoverflow.com/questions/1630819/google-chrome-printing-page-breaks-->
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Reporte Diario</title>
+    <style type="text/css" media="print">
+      div.page
+      {
+        page-break-after: always;
+        page-break-inside: avoid;
+      }
+    </style>
+
+    <style>
+      #enrolados {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #enrolados td, #enrolados th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #enrolados tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #enrolados tr:hover {background-color: #ddd;}
+      
+      #enrolados th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: lightseagreen;
+        color: white;
+        text-align: center;
+      }
+
+      .numero {
+        text-align: center;
+      }
+    </style>
+
+    <style>
+      #eventos {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #eventos td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #eventos tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #eventos tr:hover {background-color: #ddd;}
+      
+      #eventos th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: darkolivegreen;
+        color: white;
+      }
+    </style>
+
+    <style>
+      #estadisticas {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #estadisticas td, #estadisticas th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #estadisticas tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #estadisticas tr:hover {background-color: #ddd;}
+      
+      #estadisticas th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: lightseagreen;
+        color: white;
+      }
+    </style>
+
+  </head>
+  <body>
+      <div class="content">
+          <div class="row">
+              <img src="wwwroot/Assets/images/oncor.png" width="100px" alt="" class="">
+              
+          </div>
+          <div id="estadisticas">
+              <div class="row">
+                  <table id="enrolados">
+                      <thead>
+                      <th colspan="2" style="text-align: center;font-size:200%; font-weight: bold;"> Estadisticas generales </th>
+                      <br>
+                      <br>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Total de personas que han diligenciado el formulario de datos  hasta la fecha de generación del reporte: <br> <small> Corresponde a un reporte con imagen y reconocimiento enviado desde el dispositivo </small> </td>
+                              <td style="text-align: right;"> {{totalEventos}} </td>
+                          </tr>
+                          <!-- <tr>
+                          <td> Total de personas que el sistema ha reconocido desde el inicio<br> <small> Total de personas únicas independiente de la puerta por la que fue reconocido </small> </td>
+                          <td style="text-align: right;"> {{totalPersonas}} </td>
+                          </tr> -->
+                          <tr>
+                              <td> Total de personas enroladas correctamente hasta la fecha de generación del reporte: <br> <small> Número total de reportes de alerta de temperatura. El numero de alertas corresponde a lecturas con alta temperatura NO a personas</small> </td>
+                              <td style="text-align: right;"> {{totalAlertas}}</td>
+                          </tr>
+                          <tr>
+                              <td> Total de personas que diligenciaron el formulario de datos durante el período del reporte: <br> <small> Corresponde a un reporte con imagen y reconocimiento enviado desde el dispositivo </small> </td>
+                              <td style="text-align: right;"> {{totalEventosP}} </td>
+                          </tr>
+                          <tr>
+                              <td> Total de personas enroladas con foto válida durante el período del reporte: <br> <small> Total de personas únicas independiente de la puerta por la que fue reconocido </small> </td>
+                              <td style="text-align: right;"> {{totalPersonasP}} </td>
+                          </tr>
+                          <tr>
+                              <td>Total Eventos de Reconocimiento durante el período del reporte: <br> <small> Número total de reportes de alerta de temperatura. El numero de alertas corresponde a lecturas con alta temperatura NO a personas</small> </td>
+                              <td style="text-align: right;"> {{totalAlertasP}}</td>
+                          </tr>
+                          <tr>
+                              <td>Total personas diferentes reconocidas durante el período del reporte: <br> <small> Número total de reportes de alerta de temperatura. El numero de alertas corresponde a lecturas con alta temperatura NO a personas</small> </td>
+                              <td style="text-align: right;"> {{totalAlertasP}}</td>
+                          </tr>
+                          <tr>
+                              <td> Total alertas de temperatura elevada durante período del reporte: <br> <small> Número total de reportes de alerta de temperatura. El numero de alertas corresponde a lecturas con alta temperatura NO a personas</small> </td>
+                              <td style="text-align: right;"> {{totalAlertasP}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+              </div>
+          </div>
+          <br>
+          <br>
+
+          <div class="row">
+              <table id="enrolados">
+                  <thead>
+                  <th colspan="2" style="text-align: center;font-size:200%; font-weight: bold;"> Enrolamiento </th>
+                  <br>
+                  <br>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td> Periodo del reporte </td>
+                          <td style="text-align: right;"> Desde : <b>{{start_date}}</b><br> Hasta : <b>{{end_date}}</b> </td>
+                      </tr>
+                      <tr>
+                          <td>Total de personas que han enviado datos <br> <small> Desde que se inicio el piloto 2020-07-13 </small> </td>
+                          <td style="text-align: right;"> {{totalDatos}} </td>
+                      </tr>
+                      <tr>
+                          <td> Total de funcionarios enrolados correctamente <br> <small> Desde que se inicio el piloto 2020-07-13 </small> </td>
+                          <td style="text-align: right;"> {{totalEnrolados}} </td>
+                      </tr>
+                      <tr>
+                          <td> Total nuevas personas enroladas en el periodo </td>
+                          <td style="text-align: right;"> {{nuevosEnrolados}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+
+
+
+          <div style='page-break-after: always;'> </div>
+
+          <div class="row" id="eventos">
+              <table id="eventos">
+                  <thead>
+                      <tr>
+                          <th colspan="6" style="text-align: center;font-size:200%; font-weight: bold;"> Eventos de reconocimiento, Personas y Alarmas de Temperatura </th>
+                      </tr>
+                      <tr>
+                          <th> Fecha </th>
+                          <th> Ciudad </th>
+                          <th> Puerta </th>
+                          <th> Ev. Recon </th>
+                          <th> Personas </th>
+                          <th> Alertas Tº </th>
+                      </tr>
+                  </thead>
+                  <tbody id="eventosData">
+                      {{tablaEventos}}
+                  </tbody>
+                  <tfoot>
+                      <p> <b> ** ATENCION: </b> Una misma persona puede ser reconocida por dos dispositivos diferentes y sera reportada una vez por cada dispositivo  </p>
+                  </tfoot>
+              </table>
+          </div>
+      </div>
+  </body>
+</html>`

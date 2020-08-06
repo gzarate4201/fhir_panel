@@ -64,7 +64,7 @@
             <form action="/Employee/Upload" class="dropzone needsclick dz-clickable" id="uploader">
                 <div class="dz-message needsclick">
                     Suelte los archivos de imagenes aqui.<br>
-                    Las imagenes deben estar en formato JPG, con tamaño de imagen 640x640, fondo blanco y deben pesar menos de 240Kb <br>
+                    Las imagenes deben estar en formato JPG, con tamaño de imagen minimo de 640x800, fondo blanco. <br>
                 </div>
             </form>
         </div>
@@ -111,7 +111,7 @@
                 <h2>Administración de Empleados y Contratistas</h2>
             </div>
             <div class="col-md-6">
-                <a href="#" class="btn btn-secondary"><i class="material-icons" data-toggle="modal" data-target="#Add_user_modal">&#xE147;</i> <span>Add New User</span></a>
+                @* <a href="#" class="btn btn-secondary"><i class="material-icons" data-toggle="modal" data-target="#Add_user_modal">&#xE147;</i> <span>Add New User</span></a> *@
                 <button id="sendSelected"  class="btn btn-secondary"><i class="fa fa-send"></i> <span>Enviar Seleccionados</span></button>
             </div>
         </div>
@@ -147,6 +147,7 @@
         .Pageable(pager =>
             {
                 //pager.PageSizes = new DictionaryInt32, String> { { 0, "All" }, { 2, "2" }, { 4, "4" } };
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 50, "50" }, { 100, "100" }, { 200, "200" }, { 500, "500" } };
                 pager.ShowPageSizes = true;
                 pager.PagesToDisplay = 5;
                 pager.CurrentPage = 1;

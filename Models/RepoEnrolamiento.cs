@@ -14,6 +14,12 @@ namespace AspStudio.Models
         [Column("Fecha")]
         public DateTime Fecha {get; set;}
 
+        [Column("time")]
+        public DateTime Time {get; set;}
+
+        [Column("updated")]
+        public DateTime? Updated {get; set;}
+
         [Column("documento")]
         public String DocId {get; set;}
 
@@ -22,6 +28,9 @@ namespace AspStudio.Models
 
         [Column("empresa")]
         public String Empresa {get; set;}
+
+        [Column("ciudadEnroll")]
+        public String Ciudad {get; set;}
 
         [Column("hasPhoto")]
         public bool hasPhoto { get; set; }

@@ -8,6 +8,7 @@
 <!-- Calendar picker -->
 <link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/css/datatables.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/css/nprogress.css")" rel="stylesheet" type="text/css" />
 
 <!-- <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">HOME</a></li>
@@ -16,9 +17,11 @@
 
 <style>
     .stat-digit {
-        font-size: 32px;
+        font-size: 28px;
         font-weight: bold;
     }
+
+    th.dt-center, td.dt-center { text-align: center; }
 </style>
 
 <div class="container-fluid">
@@ -34,25 +37,26 @@
         <div class="card">
             <div class="card-header">
                 <form class="form-inline" action="">
+
+                        
                     <h2> Rango del Reporte </h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label for="repoInitTime">Fecha inicial: </label>
                     <input type="text" class="calendar" id="repoInitTime" name="repoInitTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label for="repoEndTime">Fecha final: </label>
                     <input type="text" class="calendar" id="repoEndTime" name="repoEndTime"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="btn btn-primary" id ="consultBtn"> Consultar </a>
-                    <a class="btn btn-secondary" id ="exportPDF"> Exportar PDF </a>
-
-                    <div class="">
-                        <label for="destinatario">Destinatario : </label>
-                        <input type="text" name="destinatario" id="destinatario">
-                        <a class="btn btn-primary" id ="sendEmail"> Enviar reporte por Email </a>
-                    </div>
+                    <a class="btn btn-primary" id ="consultBtn"> Consultar </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-secondary" id ="exportPDF"> Generar Reporte en PDF </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for="destinatario">Destinatario : </label>
+                    <input type="text" name="destinatario" id="destinatario"> &nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-primary" id ="sendEmail"> Generar y enviar reporte por Email </a>
+                    
                 </form>
+                
             </div>
             <div class="card-body">
                 <div class="reporte view" id="reporte">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Enrolados</h4>
@@ -60,19 +64,47 @@
                                 <div class="card-body">
                                     <div class="stat-widget-one">
                                         <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
-                                        <div class="stat-content dib" style="text-align:center">
-                                            <!-- <div class="stat-text">Total Asistencias Registradas</div> -->
-                                            <div class="stat-digit" id="totalEnrolados">  </div>
-                                            <div class="stat-digit" id="totalFallaEnrol">  </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Registros</div>
+                                                    <div class="stat-digit" id="totalRegistros">  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Enrolados</div>
+                                                    <div class="stat-digit" id="totalEnrolados">  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Reg. Periodo</div>
+                                                    <div class="stat-digit" id="totalEnroladosPeriodo">  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Enrol. Periodo</div>
+                                                    <div class="stat-digit" id="totalEnroladosOkPeriodo">  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="stat-content dib" style="text-align:center">
+                                                    <div class="stat-text">Actualización P.</div>
+                                                    <div class="stat-digit" id="totalUpdatedPeriodo">  </div>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Eventos de Reconocimientos</h4>
+                                    <h4 class="card-title">Eventos de Reconocimiento</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="stat-widget-one">
@@ -84,7 +116,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Personas reconocidas</h4>
@@ -101,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Alertas de temperatura</h4>
@@ -131,18 +163,19 @@
                                 <div class="card-header ">
                                     <h4 class="card-title">Soporte Enrolamiento</h4>
                                     <p class="card-category">Registro de enrolamiento del periodo</p>
-                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a>
+                                    @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoEnro"> Exportar a PDF </a> *@
                                 </div>
                                 <div class="card-body " style="height:450px;overflow:auto;">
                                     <!-- <div id="columnwrapper6" style="width:100%; margin-bottom: 20px;"></div>
                                     <?php //echo $this->Highcharts->render($chartName6); ?> -->
-                                    <table id="tblEnroll" class="table table-vcenter table-responsive table-condensed table-bordered display">
+                                    <table id="tblEnroll" class="table table-vcenter table-condensed table-bordered display">
                                         <thead>
                                             <tr>
                                                 <th>Fecha</th>
                                                 <th>Doc</th>
                                                 <th>Nombre</th>
                                                 <th>Empresa</th>
+                                                <th>Ciudad</th>
                                                 <th>Foto?</th>
                                             </tr>
                                         </thead>
@@ -165,22 +198,30 @@
                                     <div class="card-header ">
                                         <h4 class="card-title">Distribucion Reconocimientos</h4>
                                         <p class="card-category">Registro de reconocimientos del periodo</p>
-                                        <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a>
+                                        @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportDistriReco"> Exportar a PDF </a> *@
                                     </div>
-                                    <div class="card-body " style="height:450px;overflow:auto;width='100%';">
-                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display">
+                                    <div class="card-body " style="height:450px;overflow:auto;width:'100%';">
+                                        <table id="tblRecoDisp" class="table table-vcenter table-condensed table-bordered display" >
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th nowrap>Regional</th>
+                                                    <th nowrap>Instalación</th>
                                                     <th>Puerta</th>
                                                     <th>Recon.</th>
-                                                    <th>Personas</th>
-                                                    <th>Alertas Temp</th>
+                                                    <th>Pers.</th>
+                                                    <th>Al.T.</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="distribReco">
                                             </tbody>
+                                            <tfoot>
+                                                <th> Totales </th>
+                                                <th colspan="3"></th>
+                                                <th id="tReco"></th>
+                                                <th id="tPerso"></th>
+                                                <th id="tAlert"></th>
+                                            </tfoot>
 
                                         </table>
 
@@ -201,7 +242,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Eventos de Reconocimientos</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoReco"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -209,9 +250,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Puerta</th>
-                                                    <th>Disp.</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
                                                     <th>Empresa</th>
@@ -243,7 +283,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Personas Reconocidas</h4>
                                             <p class="card-category">Registro de personas reconocidas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoRecoPerso"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSopoRecoPerso"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -251,7 +291,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
                                                     <th>Empresa</th>
@@ -281,7 +321,7 @@
                                         <div class="card-header ">
                                             <h4 class="card-title">Soporte Alertas</h4>
                                             <p class="card-category">Registro de alertas por personas</p>
-                                            <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a>
+                                            @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-50px;" id="exportSoporAlert"> Exportar a PDF </a> *@
                                         </div>
                                         <div class="card-body " style="height:450px;overflow:auto;">
                                             <div id="columnwrapper" style="width:100%; margin-bottom: 20px;"></div>
@@ -289,7 +329,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
-                                                    <th>Ciudad</th>
+                                                    <th>Instalación</th>
                                                     <th>Puerta</th>
                                                     <th>Disp.</th>
                                                     <th>Doc</th>
@@ -351,6 +391,8 @@
                                         <input type="text" id="mask_en" name="msk"><br><br>
                                         <label for="rec">Reconocidos: </label>
                                         <input type="text" id="rec_en" name="rec"><br><br>
+                                    
+                                        <a type="text" id="imageresource" src=""> </a>
                                         <div class="input-group-append"><button class="btn btn-success" id="Query" style="width:165px;">Enviar</button></div>
                                     </div>
                                 </div>
@@ -360,7 +402,7 @@
                             <div class="card" style="max-height:600px;">
                                 <div class="card-header">
                                     <h4 class="card-title">Datos obtenidos</h4>
-                                    <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a>
+                                    @* <a class="btn btn-secondary float-right" style="display:block; margin-top:-35px;" id="exportDatos"> Exportar a PDF </a> *@
                                 </div>
                                 <div class="card-body" id="dynReport" style="min-height:550px;overflow:auto;">
                                     <table id="tblEvents" class="table table-vcenter table-condensed table-bordered display">
@@ -370,10 +412,10 @@
                                                     <th>Disp</th>
                                                     <th>Doc</th>
                                                     <th>Nombre</th>
-                                                    <th>Temp</th>
                                                     <th>Masc</th>
                                                     <th>Match</th>
                                                     <th>Similar</th>
+                                                    <th>Temp</th>
                                                     <th>imageUrl</th>
                                                 </tr>
                                             </thead>
@@ -458,29 +500,14 @@
     </div>
     </div>
     
-    <!-- Creates the bootstrap modal where the image will appear -->
-    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Image preview</h4>
-        </div>
-        <div class="modal-body">
-            <img src="" id="imagepreview" style="width: 400px; height: 600px;" >
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-    </div>
-    </div>
-
 
     <script src="~/js/datatables.js"></script>
+    <script src="~/js/DataTables-1.10.21/js/dataTables.rowGroup.min.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
     <script src="~/js/jspdf.js"></script>
+    <script src="~/js/nprogress.js"></script>
+    <script src="~/js/html2canvas.js"></script>
     <script src="~/js/jspdf.plugin.autotable.js"></script>
     <script>
 
@@ -488,6 +515,7 @@
         var device_tkn;
         var eventosDia, reconocimientosDia, personasDia;
         var tblRecoDisp, tblSopReco;
+        var totalEnrolOkPeriodo , totalEnrolPeriodo;
 
 
 
@@ -513,10 +541,13 @@
         $('#Query').on('click', reportQuery);
 
         // Exportación General del reporte
-
         function exportPDF() {
             var doc = new jsPDF();
             var totalEnrol = $('#totalEnrolados').html();
+            var totalEnrolOkPeriodo = $('#totalEnroladosOkPeriodo').html();
+            var totalUpdatedPeriodo = $('#totalUpdatedPeriodo').html();
+            var totalReg = $('#totalRegistros').html();          
+            var totalPeriodo = $('#totalEnroladosPeriodo').html()
             var totalRec = $('#totalReconocimientos').html();
             var totalPerson = $('#totalPersonas').html();
             var alert = $('#totalAlertas').html();
@@ -524,33 +555,165 @@
                 title: 'Reporte de datos'
             });
             // doc.addFont('ArialMS', 'Arial', 'normal');   
-            doc.setFontSize(10);        
+                   
             doc.setFontStyle('normal');           
             doc.setFontType("bold");
+            
+            doc.setFontSize(18); 
+            doc.text(80, 20, 'INFORME DIARIO');
+            doc.setFontSize(10); 
+            doc.text(15, 30, 'LUGAR : GENERAL'); 
             var limitY = 30;
-            doc.text(90, 20, 'INFORME');
-            doc.text(15, limitY + 5, 'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
 
-            doc.text(15, limitY +10, 'Total de personas que han enviado datos en el periodo: ' + totalEnrol);
-            doc.text(15, limitY + 15, 'Total Eventos de reconocimiento en el periodo: ' + totalRec);
-            doc.text(15, limitY + 20, 'Total personas reconocidas en el periodo: ' + totalPerson);
-            doc.text(15, limitY + 25, 'Total alertas de temperatura en el periodo: ' + alert);           
+            localTime = new Date();
 
-            //var finalY = doc.lastAutoTable.finalY;
+            console.log(localTime);
 
-            doc.text(15, limitY + 35, 'Distribución de eventos de reconocimiento en el periodo: ');
-            doc.autoTable({ startY: limitY + 40, theme: 'plain', html: '#tblRecoDisp' });
+            
+            
+             //en is language option, you may specify..
+            
+            // Cambiamos tipo de letra
+            doc.setFontType("normal");
+            doc.text(15, limitY + 5,  'Periodo: ' + "Del " + $('#repoInitTime').val() + " al " + $('#repoEndTime').val());
+            doc.text(15, limitY + 15, 'Fecha de generación del reporte:' ); doc.text(100, limitY + 15,  localTime.toLocaleString('co')); 
+            doc.text(15, limitY + 25, 'Total de personas que han diligenciado el formulario de datos hasta la fecha de generación del reporte:'); doc.text(180, limitY + 25,  totalReg.toString() );
+            doc.text(15, limitY + 30, 'Total de personas enroladas correctamente hasta la fecha de generación del reporte:	'); doc.text(180, limitY + 30,  totalEnrol.toString() );
+            
+            doc.text(15, limitY + 40, 'Total de personas nuevas que diligenciaron el formulario de datos durante el período del reporte:');  doc.text(180, limitY + 40,  totalPeriodo.toString());
+            doc.text(15, limitY + 45, 'Total de personas enroladas con foto válida durante el período del reporte:' ); doc.text(180, limitY + 45,  (totalEnrolOkPeriodo ? totalEnrolOkPeriodo : "") );
+            doc.text(15, limitY + 55, 'Total de personas que actualizaron foto válida durante el período del reporte:' ); doc.text(180, limitY + 55,  ( totalUpdatedPeriodo ? totalUpdatedPeriodo : "") );
 
-            //finalY = doc.lastAutoTable.finalY;          
+            doc.text(15, limitY + 65, 'Total Eventos de Reconocimiento durante el período del reporte: '); doc.text(180, limitY + 65,  totalRec.toString() );
+            doc.text(15, limitY + 70, 'Total personas diferentes reconocidas durante el período del reporte:'); doc.text(180, limitY + 70,  totalPerson.toString() );
+        
+            doc.text(15, limitY + 80, 'Total alertas de temperatura elevada durante período del reporte:' ); doc.text(180, limitY + 80,  alert.toString() ); 
+            
+            //doc.lastAutoTable.finalY;
+
+            doc.setFontType("bold");
+            doc.setFontSize(10); 
+            
+            doc.text(15, limitY + 90, 'Distribución de eventos de reconocimiento en el periodo: ');
+            doc.setFontType("normal");
+
+            var header = function(data) {
+                doc.setFontSize(12);
+                doc.setTextColor(40);
+                doc.setFontStyle('normal');
+                //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+                doc.text("Distribución de eventos de reconocimiento en el periodo", data.settings.margin.left, 50);
+            };
 
 
+            var options = {
+                tableLineColor: [189, 195, 199],
+                tableLineWidth: 0.75,
+                styles: {
+                    font: 'Meta',
+                    lineColor: [44, 62, 80],
+                    lineWidth: 0.55
+                },
+                headerStyles: {
+                    fillColor: [0, 0, 0],
+                    fontSize: 11
+                },
+                bodyStyles: {
+                    fillColor: [216, 216, 216],
+                    textColor: 50
+                },
+                alternateRowStyles: {
+                    fillColor: [250, 250, 250]
+                },
+                startY: 100,
+                drawRow: function (row, data) {
+                    // Colspan
+                    doc.setFontStyle('bold');
+                    doc.setFontSize(10);
+                    if ($(row.raw[0]).hasClass("innerHeader")) {
+                        doc.setTextColor(200, 0, 0);
+                        doc.setFillColor(110,214,84);
+                        doc.rect(data.settings.margin.left, row.y, data.table.width, 20, 'F');
+                        doc.autoTableText("", data.settings.margin.left + data.table.width / 2, row.y + row.height / 2, {
+                            halign: 'center',
+                            valign: 'middle'
+                        });
+                    /*  data.cursor.y += 20; */
+                    };
+
+                    if (row.index % 5 === 0) {
+                        var posY = row.y + row.height * 6 + data.settings.margin.bottom;
+                        if (posY > doc.internal.pageSize.height) {
+                            data.addPage();
+                        }
+                    }
+                },
+                drawCell: function (cell, data) {
+                    // Rowspan
+                    console.log(cell);
+                    if ($(cell.raw).hasClass("innerHeader")) {
+                            doc.setTextColor(200, 0, 0);
+                            doc.autoTableText(cell.text + '', data.settings.margin.left + data.table.width / 2, data.row.y + data.row.height / 2, {
+                            halign: 'center',
+                            valign: 'middle'
+                        });
+                        
+                        return false;
+                    }
+                }
+            }
+
+            /*
+            var options = {
+                beforePageContent: header,
+                margin: {
+                    top: 10
+                },
+
+                startY: doc.autoTableEndPosY() + 20,
+
+                createdCell: function(cell, opts) {
+                    //if (cell.text[0].indexOf('da')>-1) { // count startrs from 0
+                        // cell.raw contains the cell data
+                        cell.styles.fillColor = [216,78,75];     // random color
+                        cell.styles.textColor = [58,121,152];
+                        cell.styles.fontStyle = 'normal';
+                        cell.styles.fontSize = '9';
+                    //}
+                },
+            };
+            */
+            
+            
+            doc.autoTable({ startY: limitY + 100, theme: 'plain', html: '#tblRecoDisp', styles: { cellPadding: 0.5, fontSize: 9 }, theme: 'striped', });
+
+            doc.text(15, doc.lastAutoTable.finalY + 10, 'Nota: La suma total de personas de esta tabla corresponde a personas únicas reconocidas por puerta');    
+            
+            doc.text(25, doc.lastAutoTable.finalY + 15, 'Una misma persona puede ser reconocida en más de una puerta.');      
+
+            
+            /*
+            finalY = doc.lastAutoTable.finalY;    
+            doc.text(15, finalY + 10, 'Total Alertas de temperatura en el periodo: ');
+            doc.autoTable({ startY: finalY+ 20, theme: 'plain', html: '#tblAlertas' });
+            */
+
+            pdfName = 'Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf';
             // Add new page
             footerPDF(doc);
+            var binary = doc.output();
+
+            // Envia el pdf en Base 64 si existe
+            serverName = exportPdf(btoa(binary));
+            console.log("Name in server :" + serverName )
+            //saveLocal(pdfName, doc.output('datauristring'));
             // Save the PDF
-            doc.save('Reporte_' + $('#repoInitTime').val() + " - " + $('#repoEndTime').val() + '.pdf');
+            doc.save(pdfName);
+
+            //return(serverName.name)
 
         }
-
+        
         // Exportación del soporte de Enrrolamiento
         function SopoEnroPDF() {
             var doc = new jsPDF();
@@ -735,29 +898,116 @@
                 // Go to page i
                 doc.setPage(i);
                 //Print Page 1 of 4 for example
-                doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-20,297-30,null,null,"right");
+                doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-10,300-20,null,null,"right");
+                //doc.text('Page ' + String(i) + ' of ' + String(pageCount),210-20,297-30,null,null,"right");
             }
 
             return doc;
 
         };
 
-        function saveLocal(pdf) {
-            var binary = pdf;
-            var binario = binary ? btoa(binary) : "";
+        function emailHtml() {
+            let pdf = new jsPDF('p', 'pt', 'a3'); // a4: part of the page is cut off?
+            pdf.html(document.body, {
+                callback: function (pdf) {
+                    let obj = {};
+                    obj.pdfContent = pdf.output('datauristring');
+                    var jsonData = {
+                        pdfName:"generated.pdf",
+                        data:JSON.stringify(obj)
+                    };
+                    $.ajax({
+                        url:  '@Url.Action("ExportToPdf", "Reporte")',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: jsonData
+                    });
+                }
+            });
+        }
+
+        @* function saveLocal(pdfName, pdf) {
+            console.log("Enviando pdf a Server");
+            var formdata = new FormData(); //FormData object
+            formdata.append(pdfName, pdf);
+            
+            dataPdf = {
+                pdfName: pdfName,
+                data: pdf
+            }
+            
+            //console.log(dataPdf);
+
             $.ajax({
-                url: url,
-                data: JSON.stringify({ data: binario }),
-                dataType: "json",
+                url: '@Url.Action("ExportToPdf", "Reporte")',
+                data: jsonData,
                 type: "POST",
-                contentType: "application/json; charset=utf-8",
+                contentType: 'application/json',
+                       
+                //contentType: "application/json; charset=utf-8",
                 success: function () {
                     console.log("Se envió el archivo al servidor")
                 }
             });
 
-        }
+        } *@
 
+        function exportPdf(doc) {
+            //prevent the form from doing a submit
+			//e.preventDefault();
+			
+            // Verifica si hay datos
+			var pdfData = doc;
+			if (!pdfData)
+				return;
+
+			//Indicate progress
+			NProgress.start();
+
+
+			var reqData = {
+				to: $('#destinatario').val(),
+				attachment: pdfData
+			};
+
+            console.log(reqData);
+            console.log(JSON.stringify(reqData));
+
+			$.ajax({
+				url: '@Url.Action("Export", "Reporte")',
+				data: reqData,
+				//dataType: "json",
+				type: "POST",
+                //contentType: 'json',
+				//contentType: "application/json; charset=utf-8",
+
+                traditional: true,
+
+				success: function (response) {
+					//progress.done();
+
+					if (response.result === "success") {
+
+						mailMessage.val("");
+						mailTo.val("");
+
+						//alert("Mail send succesfully!");
+
+                        return response.name;
+					}
+					else {
+                        //alert("There seems to be a problem, Please try again!");
+                        return  null;
+                    }
+						
+
+				},
+				error: function () {
+					//progress.done();
+					alert("Error in communicating with server!");
+				}
+			});
+        }
 
         function formatDate(date) {
             var d = new Date(date),
@@ -803,11 +1053,17 @@
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
+
+            $('#init').val(formatDate(today));
+
+
             var calendarEnd = new CalendarPopup('#end', {
                 format: 'YYYY-MM-DD HH:mm:ss',
                 dayOfWeekStart: 1,
                 locale: 'es',
             });
+
+            $('#end').val(formatDate(today));
 
             tblRecoDisp = $('#tblRecoDisp').DataTable({
                 "bPaginate": true,
@@ -815,18 +1071,26 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 fixedHeader: {
                     header: true,
                     footer: true
                 },
+                columnDefs: [
+                    {"className": "dt-center", "targets": "_all"}
+                ],
                 buttons: [
                     'copy', 
                     'excel', 
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Distribucion_reconocimientos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
-                            doc.defaultStyle.fontSize = 7;
+                            //doc.defaultStyle.fontSize = 7;
                             doc.styles.tableHeader.fontSize = 7;
                             doc.styles.title.fontSize = 18;
                             // Remove spaces around page title
@@ -855,6 +1119,7 @@
                                     margin: [10, 0]
                                 }
                             });
+                            
                             // Styling the table: create style object
                             //var objLayout = {};
                             // Horizontal line thickness
@@ -875,7 +1140,88 @@
                     }
         
                 ],
-                
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+        
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+        
+                    // Total Recos over all pages
+                    tRecos = api
+                        .column( 4 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+                    
+                    // Total Perso over all pages
+                    tPerso = api
+                        .column( 5 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+
+                    // Total Alert over all pages
+                    tAlert = api
+                        .column( 6 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+        
+        
+                    // Update footer
+                    $( api.column( 4).footer() ).html(
+                        tRecos
+                    );
+                    $( api.column( 5).footer() ).html(
+                        tPerso
+                    );
+                    $( api.column( 6).footer() ).html(
+                        tAlert
+                    );
+                },
+                "order": [[ 1, "asc" ],[2,"asc"]],
+                rowGroup: {
+                    startRender: null,
+                    endRender: function ( rows, group ) {
+                        var stRecos = rows
+                            .data()
+                            .pluck(4)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0);
+                        //salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+        
+                        var stPerso = rows
+                            .data()
+                            .pluck(5)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0);
+                        
+                        var stAlarm = rows
+                            .data()
+                            .pluck(6)
+                            .reduce( function (a, b) {
+                                return a + b;
+                            }, 0) ;
+        
+                        return $('<tr style="text-weigth:bold"/>')
+                            .append( '<td colspan="4"><b>Sub Total para '+group+'</b></td>' )
+                            .append( '<td style="text-align:center"><b>'+stRecos+'</b></td>' )
+                            .append( '<td style="text-align:center"><b>'+stPerso+'</b></td>' )
+                            .append( '<td style="text-align:center"><b>'+stAlarm+'</b></td>' );
+                    },
+                    dataSrc: 2
+                }
 
             });
 
@@ -887,11 +1233,16 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 buttons: [
                     'copy', 
                     'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_reconocimientos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -936,11 +1287,16 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 buttons: [
                     'copy', 
                     'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_personas_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -986,10 +1342,15 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 buttons: [
                     'copy',  'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_alertas'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1034,10 +1395,15 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 buttons: [
                     'copy', 'excel',
                     {
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Soporte_enrolamiento_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1097,9 +1463,14 @@
                 "processing": true,
                 "sPaginationType": "full_numbers",
                 dom: 'Bfrtip',
+                paging: false,
                 buttons: [
                     'copy', 'csv', 'excel',{
                         extend: 'pdfHtml5',
+                        filename: function(){
+                                var d = new Date().toLocaleString();
+                                return 'Consulta_eventos_'+ d;
+                            },
                         customize: function (doc) {
                             //doc.pageMargins = [10,10,10,10];
                             doc.defaultStyle.fontSize = 7;
@@ -1179,20 +1550,58 @@
 
         });
 
+        function sendEmail() {
+            pdfName = exportPDF();
+            dest = $("#destinatario").val();
+            dataOut = {
+                FromEmail:"reportes@qaingenieros.com", 
+                FromName:"QA Ingenieros Ltda",
+                ToEmail:dest,
+                ToName:"",
+                Attach: pdfName,
+                Subject:"Reporte diario piloto Acceso por Temperatura y Reconocimiento",
+                Message:"Cordial Saludo, \n A continuacion encontrara la informacion del periodo"
+            }
+
+            jQuery.ajax({
+                type: "POST",
+                format: "json",
+                url: '@Url.Action("SendEmail", "Reporte")',
+                dataType: "json",
+                data: dataOut,
+                success: function (data) {
+
+                    console.log(data);
+                            
+
+                }
+            });
+
+        }
+
         function getReport(start, end) {
+            getTotalRegistros("2020-07-13 00:00:00", end, null)
+            getTotalRegistros("2020-07-13 00:00:00", end, true)
             getTotalEnroll(start, end, null)
-            getTotalEnroll(start, end, "false")
+            getTotalEnroll(start, end, true)
+            getTotalEnrollUpdate(start, end, null)
             getTotalReco(start, end)
             getTotalPersonas(start,end)
             getDistReco(start, end)
             getTotalAlertas(start, end)
+            getEnrollSec('2020-07-13 12:00', end);
         }
 
-        function getTotalEnroll(start, end, hasPhoto) {
+        function getEnrollSec(start, end) {
+
+        }
+
+        function getTotalRegistros(start, end, hasPhoto) {
             data = {
                 start_date: start,
                 end_date: end,
-                hasPhoto: hasPhoto
+                hasPhoto: hasPhoto,
+                //eXcompany: "indra"
             };
 
             jQuery.ajax({
@@ -1205,36 +1614,117 @@
 
                     console.log(data);
                     result = data.data;
+                    if (hasPhoto == null) {
+                        $("#totalRegistros").empty();                    
+                        $("#totalRegistros").html(data.count);
+                    } 
+                    if (hasPhoto == true) {
+                        $("#totalEnrolados").empty();                    
+                        $("#totalEnrolados").html(data.count);
+                    } 
+                    
+
+                }
+            });
+
+        }
+
+
+        function getTotalEnrollUpdate(start, end, hasPhoto) {
+
+            data = {
+                start_update: start,
+                end_update: end,
+                //eXcompany:"indra"
+            };
+
+            if(hasPhoto != null) {
+                data.hasPhoto = hasPhoto
+            }
+            console.log("Consulta de actualizados del periodo");
+            console.log(data)
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRepoEnroll", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log("Datos de actualizados con hasPhoto en " + hasPhoto)
+                    console.log(data);
+                    result = data.data;
+                        
+                    console.log("Total actualizados en el periodo :" + totalEnrolPeriodo);
+                    $("#totalUpdatedPeriodo").empty();                    
+                    $("#totalUpdatedPeriodo").html(data.count);
+
+                }
+        
+            });
+
+        }
+
+
+        function getTotalEnroll(start, end, hasPhoto) {
+
+            data = {
+                start_date: start,
+                end_date: end,
+                //eXcompany:"indra"
+            };
+
+            if(hasPhoto != null) {
+                data.hasPhoto = hasPhoto
+            }
+            console.log("Consulta de enrolados y enroladso con foto");
+            console.log(data)
+
+            jQuery.ajax({
+                type: "GET",
+                format: "json",
+                url: '@Url.Action("getRepoEnroll", "Reporte")',
+                dataType: "json",
+                data: data,
+                success: function (data) {
+
+                    console.log("Datos de enrolados con hasPhoto en " + hasPhoto)
+                    console.log(data);
+                    result = data.data;
                     
                     if (hasPhoto == null) {
                             // Se muestra el total
-                        $("#totalEnrolados").empty();                    
-                        $("#totalEnrolados").html(data.count);
+                        $("#totalEnroladosPeriodo").empty();                    
+                        $("#totalEnroladosPeriodo").html(data.count);
 
                         tblEnroll.clear();
                         $.each(data.data, function(key,value){
                             
                             tblEnroll.row.add(
                                 [
-                                value.fecha,
+                                value.time,
                                 value.docId,
                                 value.name,
-                                value.empresa,
+                                    value.empresa,
+                                value.ciudad,
                                 value.hasPhoto
                                 ]
                             )
                         })
                         tblEnroll.draw();
-                    } else {
-                        if (hasPhoto == false) {
-                            $("#totalFallaEnrol").empty();                    
-                            $("#totalFallaEnrol").html(data.count);
-                        }
-                    }
-                    
-        
+                    } 
+                    if (hasPhoto == true) {
+                        
+                        console.log("Total enrolados correctamente en el periodo :" + totalEnrolPeriodo);
+                        $("#totalEnroladosOkPeriodo").empty();                    
+                        $("#totalEnroladosOkPeriodo").html(data.count);
 
-                }
+                    }
+                        
+                } 
+                
+
             });
 
         }
@@ -1242,9 +1732,11 @@
         function getTotalReco(start, end) {
             data = {
                 start_date: start,
-                end_date: end
+                end_date: end,
+                //eXcompany: "Indra"
             };
-
+            console.log("get Total Reconocimiento")
+            console.log(data)
             jQuery.ajax({
                 type: "GET",
                 format: "json",
@@ -1267,8 +1759,8 @@
                             [
                             value.dateTime,
                             value.ciudad,
-                            value.sitio,
-                            value.devId,
+                            value.puerta,
+                            //value.devId,
                             value.docId,
                             value.name,
                             value.empresa,
@@ -1288,8 +1780,12 @@
         function getTotalPersonas(start, end) {
             data = {
                 start_date: start,
-                end_date: end
+                end_date: end,
+                //eXcompany: "indra"
             };
+
+            console.log("get Total Personas")
+            console.log(data)
 
             jQuery.ajax({
                 type: "GET",
@@ -1330,9 +1826,12 @@
         function getDistReco(start, end) {
             dataOut = {
                 start_date: start,
-                end_date: end
+                end_date: end,
+                hasId: 1,
             };
             
+            console.log("get Reconocimiento por Dispositivo")
+            console.log(data)
 
             jQuery.ajax({
                 type: "GET",
@@ -1347,8 +1846,9 @@
                         tblRecoDisp.row.add(
                             [
                             value.fecha,
+                            value.regional,
                             value.ciudad,
-                            value.sitio,
+                            value.puerta,
                             value.recos,
                             value.personas,
                             value.alertas,
@@ -1369,8 +1869,12 @@
             data = {
                 start_date: start,
                 end_date: end,
-                tmin: 37.3
+                tmin: 37.3,
+                //eXcompany: "Indra"
             };
+
+            console.log("get Total Alertas")
+            console.log(data)
 
             jQuery.ajax({
                 type: "GET",
@@ -1421,6 +1925,7 @@
 
             let initDev = null;
             let initName = null;
+            let ecp_device_id = null;
             let initTempMin = null;
             let initTempMax = null;
             let initDate = null;
@@ -1469,17 +1974,45 @@
                 endDate = $('#end').val();
             }
 
+            // Dispositivo
+            if ($('#ecp_dev_id').val() != 0) {
+                console.log("El valor del dispositivo es: ")
+                console.log($('#ecp_dev_id').val());
+                ecp_device_id = $('#ecp_dev_id').val();
+            }
+
+            // Puerta
+            if ($('#ecp_puerta').val() != 0) {
+                console.log("El valor de la puerta es : ")
+                console.log($('#ecp_puerta').val());
+                endDate = $('#ecp_puerta').val();
+            }
+
+            // hasId
+            if ($('#rec_en').val() != 0) {
+                console.log("El valor de reconocido es : ")
+                console.log($('#rec_en').val());
+                if ($('#rec_en').val() == 1) {
+                    hasId = "true";
+                } else {
+                    hasId = null;
+                }
+                
+            }
+
 
             data={
-                    device_id: initDev,
+                    device_id: ecp_device_id,
                     name: initName,
                     tmin: initTempMin,
                     tmax: initTempMax,
                     start_date: initDate,
                     end_date: endDate,
-                    hasId: 1,
 
                 };
+
+            console.log("get Data Eventos")
+            console.log(data)
 
             eventosDia = getData(data);
 
@@ -1487,7 +2020,20 @@
 
         function getData(data) {
             // var t_min= $("#tmin").value();
-
+            $('#example thead tr').clone(true).appendTo( '#example thead' );
+            $('#example thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        
+            $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
             jQuery.ajax({
                 type: "GET",
@@ -1496,10 +2042,10 @@
                 dataType: "json",
                 data: data,
                 success: function (data) {
-                    
+                    // href='" + String(value.imageUrl).substring(7) + "
                     tblEvents.clear();
                     $.each(data.data, function(key,value){
-                        url = String(value.imageUrl).substring(7);
+                        url = "<a  id='popImage' href='http://10.11.34.94:6050" + String(value.imageUrl).substring(7) + "' target='_blank'> <img width='50px' id='imageresource' src='http://10.11.34.94:6050" + String(value.imageUrl).substring(7) + "'</img></a>";
                         tblEvents.row.add(
                             [
                             value.registerTime,
@@ -1523,7 +2069,8 @@
             });
         }
 
-        $("#pop").on("click", function() {
+        $("#popImage").on("click", function() {
+            console.log("Openong modla image");
             $('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
             $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
         });

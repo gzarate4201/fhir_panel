@@ -35,6 +35,9 @@ namespace AspStudio.Models
         [Column("sitio_registro")]
         public String Sitio {get; set;}
 
+        [Column("pta_lenel")]
+        public String Puerta {get; set;}
+
         [Column("similar")]
         public Double Similar {get; set;}
 

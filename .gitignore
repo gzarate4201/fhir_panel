@@ -30,6 +30,7 @@ publish/
 Media/
 wwwroot/Uploads
 wwwroot/Registers
+wwwroot/Reports
 
 ###################
 # Web publish log #
@@ -81,4 +82,5 @@ _[Ss]cripts
 *.dot[Cc]over
 @Assiance
 appsettings.json
+.vs/AspStudio/DesignTimeBuild/.dtbcache.v2
 .vs/AspStudio/DesignTimeBuild/.dtbcache.v2

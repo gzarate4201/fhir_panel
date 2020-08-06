@@ -8,23 +8,29 @@ using System.Threading.Tasks;
 namespace AspStudio.Models
 {
     
-    [Table("RECO_DIAS")]
+    [Table("DISTRIBUCION EVENTOS")]
     public class RecoDia
     {
         [Column("Fecha")]
         public String Fecha {get; set;}
 
-        [Column("time")]
-        public DateTime time {get; set;}
-
         [Column("device_id")]
         public String DevId {get; set;}
+
+        [Column("regional")]
+        public String Regional {get; set;}
 
         [Column("ciudad_registro")]
         public String Ciudad {get; set;}
 
         [Column("sitio_registro")]
         public String Sitio {get; set;}
+
+        [Column("pta_lenel")]
+        public String Puerta {get; set;}
+
+        [Column("empresa")]
+        public String Empresa {get; set;}
 
         [Column("reconocimientosDia")]
         public int Recos {get; set;}
