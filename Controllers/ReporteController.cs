@@ -114,6 +114,12 @@ namespace AspStudio.Controllers
         public string data { get; set; }
     }
 
+    public class JSONData
+    {
+        public string device_id {get; set;}
+        public string jsonstring {get; set;}
+    }
+
     public class ReporteController : Controller
     {
         // Inyecta la instancia de MQTTnet (mqttClient) que fue creada como
@@ -764,6 +770,77 @@ namespace AspStudio.Controllers
             // System.Diagnostics.Process.Start(OutputPath);
             return new JsonResult ( new { Status = "Success"} );
         }
+
+
+        [HttpPost]
+        [HttpGet]
+        public JsonResult readJsonRepo(JSONData jsonData) {
+            Console.WriteLine("device_id:" + jsonData.device_id);
+            //Console.WriteLine("jsonString:" + jsonData.jsonstring);
+
+            JObject msg = JObject.Parse(jsonData.jsonstring);
+            //Console.WriteLine("msg:" + msg);
+
+            dynamic dynJson = JsonConvert.DeserializeObject(jsonData.jsonstring);
+            //Console.WriteLine("dynjson:" + dynJson);
+
+
+            foreach (var record in dynJson.records)
+            {
+                System.Console.WriteLine(record);
+                
+                var matched = (record.user_id != "") ? 1 : 0;
+                    // Se carga en el modelo Person los datos a almacenar en la DB
+                var userId = (record.user_id != "") ? (Int32)record.user_id : 0;
+                System.Console.WriteLine(record.user_id);
+
+                Console.WriteLine(UnixTimeStampToDateTime((double)record.time_stamp));
+
+                var persona = new Person()
+                {                            
+                    MsgType = (int)1,
+                    Similar = (float)0.6,
+                    UserId = userId,
+                    Name = record.user_name.ToString(),
+                    RegisterTime = UnixTimeStampToDateTime((double)record.time_stamp),
+                    Temperature = (float)record.temp,
+                    Matched = (Int32)matched,
+                    Mask = (Int32)record.mask,
+                    DevId = jsonData.device_id.ToString(),
+                    imageUrl = record.pic_id
+                };
+
+                // Registro en la base de datos
+                StorePerson(persona);
+                // System.Console.WriteLine(persona);
+            }
+
+
+            return new JsonResult ( new { Status = "Success"} );
+
+        }
+
+        public static DateTime UnixTimeStampToDateTime( double unixTimeStamp )
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970,1,1,0,0,0,0,System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds( unixTimeStamp ).ToLocalTime();
+            return dtDateTime;
+        }
+        
+        public void StorePerson(Person persona) {
+
+                
+                try {
+                    dbContext.Persons.Add(persona);
+                    dbContext.SaveChanges();
+                } catch (Exception e) {
+                    System.Console.WriteLine("Error Guardando Persona en la base de datos:" + e.Message + e.StackTrace);
+                }
+            
+            
+        }
+        
 	
     
     }
