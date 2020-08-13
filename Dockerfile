@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS final
 RUN apt-get update
 RUN apt-get install -y apt-utils
 RUN apt-get install -y libgdiplus
+RUN apt-get install -y nano
 WORKDIR /app
 COPY --from=build /app .
 ENV ALARM_REPORT=False
