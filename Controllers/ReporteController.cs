@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic.CompilerServices;
+using System.Reflection;
 //using System.Reflection.Metadata;
 using System.Security.AccessControl;
 using System.Net.Http;
@@ -88,6 +90,7 @@ namespace AspStudio.Controllers
         public string persons {get; set;}
         public string hasPhoto {get; set;}
         public string groupBy {get; set;}
+        public string regional {get; set;}
         public string ciudad {get; set;}
         public string sitio {get; set;}
 
@@ -237,10 +240,25 @@ namespace AspStudio.Controllers
         [HttpGet]
         public JsonResult getSopoRecoPersona(getFilter filter) {
 
-            var result = from o in dbContext.SopoRecoPersonas
+            var personas = dbContext.SopoRecoPersonas
+                            .Where(c => c.Time >= DateTime.Parse(filter.start_date))
+                            .Where(c => c.Time <= DateTime.Parse(filter.end_date));
+                            
+
+            var result = from o in personas
+                // where o.Time >= DateTime.Parse(filter.start_date) &&  o.Time <= DateTime.Parse(filter.end_date)
+                // group o by o.UserId into g
                 select o;
 
 
+                // select new {
+                //     UserId = g.Select(g=>g.UserId),
+                //     Name = g.Select(g=>g.Name),
+                //     Empresa = g.Select(g=>g.Empresa),
+                //     Time = g.Select(g=>g.Time),
+                //     Fecha = g.Select(g=>g.Fecha),
+                //     Ciudad = g.Select(g=>g.Ciudad),
+                // };
             
             if (filter.ciudad != null) 
             result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
@@ -256,18 +274,54 @@ namespace AspStudio.Controllers
 
             // Console.WriteLine("Start Time: {0} End Time : {1}", DateTime.Parse(filter.start_date).ToString(), DateTime.Parse(filter.end_date).ToString());
 
-            if (filter.start_date != null) 
-            result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
+            // if (filter.start_date != null) 
+            // result = result.Where(c => c.Time >= DateTime.Parse(filter.start_date));
 
-            if (filter.end_date != null) 
-            result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
+            // if (filter.end_date != null) 
+            // result = result.Where(c => c.Time <= DateTime.Parse(filter.end_date));
 
             var count = result.Count();
 
-
-            return new JsonResult ( new { Count = count, Data = result} );
+            return new JsonResult ( new { count = count,  Data = result} );
 
         }
+
+        [HttpPost]
+        [HttpGet]
+        public JsonResult getSopoRecoPersonaFecha(getFilter filter) {
+
+            var proc_start_date  = new SqlParameter("@start_date", Convert.ToDateTime(filter.start_date));
+            var proc_end_date    = new SqlParameter("@end_date", Convert.ToDateTime(filter.end_date));
+
+            var result = dbContext.SopoRecoPersonaFechas
+                        .FromSqlRaw("EXEC SOPO_RECO_PERSONA_FECHA @start_date, @end_date", proc_start_date, proc_end_date)
+                        .ToList();
+
+
+            // var result = from o in dbContext.SopoRecoPersonaFechas
+            //     select o;
+
+            // if (filter.ciudad != null) 
+            // result = result.Where(c => c.Ciudad.Contains(filter.ciudad));
+
+            // if (filter.regional != null) 
+            // result = result.Where(c => c.Regional.Contains(filter.regional));
+
+            // if (filter.name != null) 
+            // result = result.Where(c => c.Name.Contains(filter.name));
+
+            // if (filter.company != null) 
+            // result = result.Where(c => c.Empresa.Contains(filter.company));
+
+            // if (filter.eXcompany != null) 
+            // result = result.Where(c => !c.Empresa.Contains(filter.eXcompany));
+
+            var count = result.Count();
+
+            return new JsonResult ( new { count = count,  Data = result} );
+
+        }
+
 
         public JsonResult getRepoEnroll(getFilter filter) {
 

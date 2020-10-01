@@ -27,6 +27,7 @@ namespace AspStudio.Data
         public DbSet<RepoEnrolamiento> RepoEnrolamientos { get; set;}
         public DbSet<RepoEnrollDevice> RepoEnrollDevices { get; set;}
         public DbSet<SopoRecoPersona> SopoRecoPersonas { get; set;}
+        public DbSet<SopoRecoPersonaFecha> SopoRecoPersonaFechas { get; set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +39,7 @@ namespace AspStudio.Data
             builder.Entity<RepoEnrolamiento>().HasNoKey();
             builder.Entity<RepoEnrollDevice>().HasNoKey();
             builder.Entity<SopoRecoPersona>().HasNoKey();
+            builder.Entity<SopoRecoPersonaFecha>().HasNoKey();
             //builder.Entity<Person>().
             //    HasOne(p => p.Employee);
         }
