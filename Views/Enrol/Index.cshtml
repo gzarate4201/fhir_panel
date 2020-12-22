@@ -1,0 +1,257 @@
+﻿
+@{
+    ViewData["Title"] = "Enrolling";
+}
+
+@using AspStudio.Models;
+@model IQueryable<Empresa>
+
+<link href="@Url.Content("~/css/empresas.css")" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="@Url.Content("~/js/moment.js")"></script>
+
+
+<script type="text/javascript" src="@Url.Content("~/js/empresa.js")"></script>
+
+<script type="text/javascript" src="@Url.Content("~/js/calendar.min.js")"></script>
+<!-- Calendar picker -->
+<link href="@Url.Content("~/css/calendar.css")" rel="stylesheet" type="text/css" />
+
+
+
+<head>
+    <title>
+        <br>Ingreso a instalaciones de</br>
+        Ecopetrol S.A. y Grupo Empresarial
+    </title>
+
+    <style>
+
+        #ABC {
+            background-color: blue;
+            height: 10%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+    </style>
+
+</head>
+
+<div class="form-container">
+
+
+
+    <div class="row">
+
+
+
+
+        <div class="col-md-6">
+            <form method="post">
+                <h2 class="text-center">Datos personales.</h2>
+                <div class="form-group"><input class="form-control" type="text" name="idlenel" autocomplete="off" placeholder="Id" /></div>
+                <div class="form-group"><input class="form-control" type="text" name="name" autocomplete="off" placeholder="Nombre" /></div>
+                <div class="form-group"><input class="form-control" type="text" name="lastname" autocomplete="off" placeholder="Apellido" /></div>
+                <div class="form-group"><input class="form-control" type="text" name="documento" autocomplete="off" placeholder="Documento" /></div>
+
+                <!--
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Empresa </button>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" role="presentation" href="#">ECOPETROL</a>
+                        <a class="dropdown-item" role="presentation" href="#">INDRA</a>
+                        <a class="dropdown-item" role="presentation" href="#">QAIngenieros</a>
+                    </div>
+                </div>
+                -->
+                <!--<label for="cars">Empresa:</label>-->
+                <!--<select id="empresas">-->
+                <!--<option value="volvo">ECOPETROL</option>-->
+                <!--<option value="saab">INDRA</option>-->
+                <!--<option value="vw">QAIngenieros</option>-->
+                <!--<option value="audi" selected>Audi</option>-->
+                <!--</select>-->
+
+                <p style="font-size:5px">
+                    <br />
+                </p>
+
+                <div class="form-group"><input class="form-control" type="text" name="ciudad" autocomplete="off" placeholder="Ciudad" /></div>
+
+                <div class="form-group"><input class="form-control" type="text" name="correo" autocomplete="off" placeholder="EMail" /></div>
+
+                <p style="font-size:15px">
+                    ¿Usted se obliga a observar todas las recomendaciones de seguridad y bioseguridad que sean aplicables y a velar por su autocuidado y el de los demás?
+                </p>
+                <p style="font-size:10px">
+                    Tenga en cuenta que lo anterior incluye, mas no se limita al cumplimiento de los protocolos de bioseguridad adoptados por el Ministerio Salud y de Protección Social (Resoluciones 666 y 797 de 2020 o aquellas que las modifiquen, complementen o sustituyan), la Guía para el Retorno Paulatino y Responsable a las Actividades Laborales en las Instalaciones No Industriales de Ecopetrol S.A durante la Emergencia Sanitaria Covid-19 (HSE-G-089) y todas las obligaciones de HSE que sean aplicables al interior de las Instalaciones..
+                    <br />
+                </p>
+
+                <input type="radio" name="bioseguridad" value="Si"> Si
+                <input type="radio" name="bioseguridad" value="No"> No
+
+                <p style="font-size:15px">
+                    <br />
+                </p>
+
+                <p style="font-size:15px">
+                    ¿Usted se obliga a hacer uso responsable de las herramientas que Ecopetrol y/o su empleador han puesto a su disposición, las cuales deberán ser usadas solo para propósitos corporativos y de negocio de Ecopetrol S.A.?
+                </p>
+                <p style="font-size:10px">
+                    Tenga en cuenta que esto incluye todas las obligaciones que adquiere en materia de custodia y uso de los equipos y recursos materiales o inmateriales que le son asignados, las cuales aplican dentro y fuera de las Instalaciones. Igualmente, se refieren a los equipos y elementos cuyo uso se habilita a quienes están en las Instalaciones. Recuerde que, además del Código de Ética y Conducta de Ecopetrol S.A., existen lineamientos corporativos orientados al uso y protección de la información de la compañía, los cuales son de obligatorio cumplimiento. Esto incluye, por ejemplo, la Circular de Presidencia “Premisas y Lineamientos sobre propiedad, responsabilidad y protección de la información que se gestiona en Ecopetrol” (SSI-J-001), el Manual de Seguridad de la Información (SGY-M-002), la Guía de uso de herramientas corporativas y protección de información (SGY-J-001), el Manual de Tratamiento de Datos Personales (SGY-M-001), la Guía de Seguridad para Sistemas y Servicios Informáticos (SGY-G002), entre otros.
+                    <br />
+                </p>
+
+                <input type="radio" name="herramientas" value="Si"> Si
+                <input type="radio" name="herramientas" value="No"> No
+
+                <p style="font-size:15px">
+                    <br />
+                </p>
+
+                <p style="font-size:15px">
+                    ¿Usted autoriza el tratamiento de sus datos personales?
+                </p>
+
+                <p style="font-size:10px">
+                    6.1.	Ecopetrol actuará como responsable del tratamiento de sus datos y actuará en el marco de su Declaración de Tratamiento de la Información Personal, la cual está disponible acá.
+                    6.2.	Las finalidades del tratamiento incluyen las asociadas a identificación personal, control de acceso y circulación dentro de las Instalaciones, análisis epidemiológico y de prevención en salud (incluyendo el tratamiento de información asociada a signos y síntomas de salud), verificación de cumplimiento de las reglas HSE y propósitos asociados al contrato de trabajo. Las finalidades incluyen las descritas en las secciones “Empleados, pensionados y/o beneficiarios” y “Comunidad y sociedad y áreas de influencia”, de la referida Declaración de Tratamiento.
+                    6.3.	El tratamiento efectuado por Ecopetrol incluye la recolección, almacenamiento, uso, consulta, actualización, circulación (transmisión y/o transferencia) y supresión de la información personal. Esto incluye la posibilidad de solicitar a autoridades la transferencia de datos personales sensibles, por ejemplo, la que el Estado recolecte a través de la aplicación Coronapp (que es de responsabilidad exclusiva del Instituto Nacional de Salud y la Agencia Nacional Digital). Igualmente, la posibilidad de transmitir o transferir información a su empleador o autoridades competentes.
+                    6.4.	Ecopetrol requiere información personal catalogada como sensible de acuerdo con la normativa de salud. Esto puede incluir por ejemplo el género, datos biométricos que permiten determinar su identidad (por ejemplo su rostro, iris y demás), síntomas y signos de salud, datos demográficos, ubicación, geolocalización, factores de riesgo epidemiológico y otros. Tiene el derecho de abstenerse de responder las preguntas sobre datos sensibles.
+                    6.5.	Le asisten los derechos consagrados en el artículo 8 de la Ley 1581 de 2012: Conocimiento, actualización y rectificación. Prueba de autorización. Informe de uso. Presentar quejas ante la SIC. Revocar la autorización, salv
+                    <br />
+                </p>
+
+                <input type="radio" name="tratamiento" value="Si"> Si
+                <input type="radio" name="tratamiento" value="No"> No
+
+                <p style="font-size:15px">
+                    <br />
+                </p>
+
+                <p style="font-size:15px">
+                    Con el ánimo que pueda ingresar a través de mecanismo de reconocimiento facial y control térmico digital y sin contacto con nadie, por favor carga aquí la foto con las siguientes características:
+                    Nombrar la foto con su numero de registro o cedula.
+                </p>
+
+                <p style="font-size:12px">
+                    1.     En formato vertical, con buena iluminación, sin sombras ni flash activo<br />
+                    2.	A color con la máxima configuración de calidad de la cámara y sin retoques<br />
+                    3.	Fondo blanco sin objetos de fondo<br />
+                    4.	Mirar la cámara con los ojos abiertos sin accesorios (gorra, bufandas, gafas oscuras o reflectivas)<br />
+                    5.      No debe ser mayor a 1 año, si no tiene una disponible es muy fácil ubíquese en una pared blanca y pídale el favor a un familiar que se la tome teniendo en cuenta las recomendaciones del 1 al 4, en caso de que no tenga quien le tome la foto hágalo tipo selfie.<br />
+                    6.     El archivo no debe ser superior a 10MB ni inferior a 500KB.
+                </p>
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                <a href="#" id="select_logo">Cargar archivo</a> <input type="file" id="logo">
+
+                <p style="font-size:10px">
+                    Límite de número de archivos:1&nbsp;Límite de tamaño del archivo individual: 10MB&nbsp;Tipos de archivo permitidos: Imagen,Vídeo
+                </p>
+
+                <p style="font-size:15px">
+                    <br />
+                </p>
+
+
+                <!--<div class="form-group"><button class="btn btn-primary btn-block" id="btnClick" onclick="myFunction();">Registrar</button></div>-->
+                <div class="form-group"><button class="btn btn-primary btn-block" id="registrar" type="submit">Registrar</button></div>
+                <!--<div class="form-group"><input type="button" id="btnClick" onclick="myFunction();" value="Registrar" /></div>-->
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+            var result = [];
+
+            //$(function () {
+
+           // });
+
+            $('#registrar').on('click', myFunction);
+
+            function myFunction() {
+
+                alert('hello');
+                //console.log("Registrando");
+
+                //document.getElementById("demo").innerHTML = "Hello Dear Visitor!</br> We are happy that you've chosen our website to learn programming languages. We're sure you'll become one of the best programmers in your country. Good luck to you!";
+                //console.log("Registrando");
+
+            };
+
+            function addsUser() {
+                var batch_name = $('#batch_name').val();
+                var batch_id = $('#batch_id').val();
+                var address = $('#server_ip').val();
+                var port = parseInt($('#server_port').val());
+                var in_time = $('#active_time').val();
+                var out_time = $('#end_time').val();
+                var id_user = $('#user_id').val();
+                var name_user = $('#user_name').val();
+                var url = $('#picture').val();
+                var dev_id = $('#bind_device_id').val();
+                var tag = $('#bind_tag').val();
+
+                jsonMsg =
+                {
+                    mqtt_cmd: 1,
+                    mqtt_operate_id: 7,
+                    device_token: device_tkn,
+                    device_id:  device_id,
+                    tag: device_tag,
+                    piclib_manage: 0,
+                    param:
+                    {
+                        lib_name: batch_name,
+                        lib_id: batch_id,
+                        server_ip: address,
+                        server_port: port,
+                        pictures:
+                        [
+                        {
+                            active_time: in_time,
+                            user_id: id_user,
+                            user_name: name_user,
+                            end_time: out_time,
+                            p_id: null,
+                            picture: url
+                        }
+                        ]
+                    }
+                };
+                jsonMsg = JSON.stringify(jsonMsg);
+                console.log(jsonMsg);
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("publishMQTT", "Device")',
+                    dataType: "json",
+                    data:{
+                        topic: "SubscribeTest",
+                        msg: jsonMsg
+                    },
+                    async: false,
+                    success: function(data) {
+                        var jsonPretty = "<pre>" + jsonMsg + "</pre>";
+                        $('#mqtt_send').html(
+                            jsonPretty
+                        )
+                    },
+                    error: function() {
+                        console.log("Error adding new user");
+                    }
+                });
+            }
+
+</script>
+
